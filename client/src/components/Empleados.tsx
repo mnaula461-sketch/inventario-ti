@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import axios from 'axios';
+import api from '../api';
 
 interface Oficina {
   id: number;
@@ -28,13 +28,13 @@ function Empleados() {
   const [busqueda, setBusqueda] = useState('');
 
   const cargarEmpleados = () => {
-    axios.get('http://localhost:3000/empleados')
+    api.get('/empleados')
       .then((res) => setEmpleados(res.data))
       .catch((error) => console.error('Error al cargar empleados:', error));
   };
 
   const cargarOficinas = () => {
-    axios.get('http://localhost:3000/oficinas')
+    api.get('/oficinas')
       .then((res) => setOficinas(res.data))
       .catch((error) => console.error('Error al cargar oficinas:', error));
   };
@@ -48,9 +48,9 @@ function Empleados() {
     e.preventDefault();
     const data = { nombre, cargo, oficinaId: Number(oficinaId) };
     if (editandoId) {
-      await axios.put(`http://localhost:3000/empleados/${editandoId}`, data);
+      await api.put(`/empleados/${editandoId}`, data);
     } else {
-      await axios.post('http://localhost:3000/empleados', data);
+      await api.post('/empleados', data);
     }
     setNombre('');
     setCargo('');
@@ -80,7 +80,7 @@ function Empleados() {
   const eliminarEmpleado = async (id: number) => {
     const confirmar = window.confirm('¿Seguro que quieres eliminar este empleado?');
     if (!confirmar) return;
-    await axios.delete(`http://localhost:3000/empleados/${id}`);
+    await api.delete(`/empleados/${id}`);
     cargarEmpleados();
   };
 

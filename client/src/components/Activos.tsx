@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import axios from 'axios';
+import api from '../api';
 
 interface Oficina {
   id: number;
@@ -103,30 +103,28 @@ function Activos() {
   const [editandoId, setEditandoId] = useState<number | null>(null);
   const [mostrarFormulario, setMostrarFormulario] = useState(false);
 
-  // Filtros
   const [busquedaTexto, setBusquedaTexto] = useState('');
   const [filtroOficina, setFiltroOficina] = useState('');
   const [filtroEstado, setFiltroEstado] = useState('');
   const [busquedaAplicada, setBusquedaAplicada] = useState('');
 
-  // Paginación
   const [porPagina, setPorPagina] = useState(20);
   const [paginaActual, setPaginaActual] = useState(1);
 
   const cargarActivos = () => {
-    axios.get('http://localhost:3000/activos')
+    api.get('/activos')
       .then((res) => setActivos(res.data))
       .catch((error) => console.error('Error al cargar activos:', error));
   };
 
   const cargarOficinas = () => {
-    axios.get('http://localhost:3000/oficinas')
+    api.get('/oficinas')
       .then((res) => setOficinas(res.data))
       .catch((error) => console.error('Error al cargar oficinas:', error));
   };
 
   const cargarEmpleados = () => {
-    axios.get('http://localhost:3000/empleados')
+    api.get('/empleados')
       .then((res) => setEmpleados(res.data))
       .catch((error) => console.error('Error al cargar empleados:', error));
   };
@@ -155,9 +153,9 @@ function Activos() {
       responsableId: form.responsableId ? Number(form.responsableId) : null,
     };
     if (editandoId) {
-      await axios.put(`http://localhost:3000/activos/${editandoId}`, data);
+      await api.put(`/activos/${editandoId}`, data);
     } else {
-      await axios.post('http://localhost:3000/activos', data);
+      await api.post('/activos', data);
     }
     limpiarFormulario();
     cargarActivos();
@@ -207,7 +205,7 @@ function Activos() {
   const eliminarActivo = async (id: number) => {
     const confirmar = window.confirm('¿Seguro que quieres eliminar este activo?');
     if (!confirmar) return;
-    await axios.delete(`http://localhost:3000/activos/${id}`);
+    await api.delete(`/activos/${id}`);
     cargarActivos();
   };
 
@@ -219,7 +217,7 @@ function Activos() {
     formData.append('archivo', archivo);
 
     try {
-      const res = await axios.post('http://localhost:3000/activos/importar', formData);
+      const res = await api.post('/activos/importar', formData);
       alert(`Importación completa: ${res.data.creados} creados, ${res.data.saltados} saltados (oficina no encontrada).`);
       cargarActivos();
     } catch (error) {
@@ -234,7 +232,7 @@ function Activos() {
     if (!confirmar) return;
     const confirmarDeNuevo = window.confirm('Última confirmación: se borrarán TODOS los registros de activos. ¿Continuar?');
     if (!confirmarDeNuevo) return;
-    await axios.delete('http://localhost:3000/activos');
+    await api.delete('/activos');
     cargarActivos();
   };
 
@@ -265,7 +263,6 @@ function Activos() {
     return coincideTexto && coincideOficina && coincideEstado;
   });
 
-  // --- Paginación ---
   const totalPaginas = Math.max(1, Math.ceil(activosFiltrados.length / porPagina));
   const paginaSegura = Math.min(paginaActual, totalPaginas);
   const inicio = (paginaSegura - 1) * porPagina;
@@ -295,7 +292,6 @@ function Activos() {
         </button>
       </div>
 
-      {/* Panel de búsqueda */}
       <div style={{ border: '1px solid #e2e0f0', borderRadius: '10px', padding: '1rem', marginBottom: '1.5rem', backgroundColor: '#fafaff' }}>
         <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr auto auto', gap: '0.8rem', alignItems: 'end' }}>
           <div>
@@ -417,7 +413,6 @@ function Activos() {
         </form>
       )}
 
-      {/* Controles de paginación superiores */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.8rem' }}>
         <p style={{ margin: 0, color: '#555', fontSize: '0.9rem' }}>
           Mostrando {activosPagina.length ? inicio + 1 : 0}–{inicio + activosPagina.length} de {activosFiltrados.length} activos
@@ -473,7 +468,6 @@ function Activos() {
         </tbody>
       </table>
 
-      {/* Controles de paginación inferiores */}
       <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '0.5rem', marginTop: '1.2rem' }}>
         <button
           className="btn-outline"

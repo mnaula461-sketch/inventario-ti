@@ -68,3 +68,12 @@ model Activo {
   responsableId     Int?
   createdAt         DateTime  @default(now())
 }
+
+model Usuario {
+  id        Int      @id @default(autoincrement())
+  nombre    String
+  correo    String   @unique
+  password  String
+  rol       String   @default("usuario")
+  createdAt DateTime @default(now())
+}

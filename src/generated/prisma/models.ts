@@ -11,4 +11,5 @@
 export type * from './models/Oficina.js'
 export type * from './models/Empleado.js'
 export type * from './models/Activo.js'
+export type * from './models/Usuario.js'
 export type * from './commonInputTypes.js'

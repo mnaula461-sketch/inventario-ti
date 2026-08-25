@@ -7,8 +7,26 @@ import { PrismaPg } from '@prisma/adapter-pg';
 import { Pool } from 'pg';
 import multer from 'multer';
 import { parse } from 'csv-parse/sync';
+import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken';
+
 
 const upload = multer({ storage: multer.memoryStorage() });
+function verificarToken(req: express.Request, res: express.Response, next: express.NextFunction) {
+  const authHeader = req.headers.authorization;
+  if (!authHeader) {
+    res.status(401).json({ error: 'No autorizado, falta token' });
+    return;
+  }
+
+  const token = authHeader.split(' ')[1];
+  try {
+    jwt.verify(token, process.env.JWT_SECRET as string);
+    next();
+  } catch (error) {
+    res.status(401).json({ error: 'Token inválido o expirado' });
+  }
+}
 const pool = new Pool({ connectionString: process.env.DATABASE_URL });
 const adapter = new PrismaPg(pool);
 const prisma = new PrismaClient({ adapter });
@@ -25,7 +43,7 @@ app.get('/', (req, res) => {
 });
 
 // Crear una oficina
-app.post('/oficinas', async (req, res) => {
+app.post('/oficinas', verificarToken, async (req, res) => {
   const { nombre, direccion } = req.body;
   const oficina = await prisma.oficina.create({
     data: { nombre, direccion },
@@ -34,16 +52,59 @@ app.post('/oficinas', async (req, res) => {
 });
 
 // Listar todas las oficinas
-app.get('/oficinas', async (req, res) => {
+app.get('/oficinas', verificarToken, async (req, res) => {
   const oficinas = await prisma.oficina.findMany();
   res.json(oficinas);
+});
+
+// Registrar un nuevo usuario
+app.post('/auth/registro', async (req, res) => {
+  const { nombre, correo, password } = req.body;
+
+  const existente = await prisma.usuario.findUnique({ where: { correo } });
+  if (existente) {
+    res.status(400).json({ error: 'Ya existe un usuario con ese correo' });
+    return;
+  }
+
+  const passwordEncriptada = await bcrypt.hash(password, 10);
+  const usuario = await prisma.usuario.create({
+    data: { nombre, correo, password: passwordEncriptada },
+  });
+
+  res.json({ id: usuario.id, nombre: usuario.nombre, correo: usuario.correo });
+});
+
+// Iniciar sesión
+app.post('/auth/login', async (req, res) => {
+  const { correo, password } = req.body;
+
+  const usuario = await prisma.usuario.findUnique({ where: { correo } });
+  if (!usuario) {
+    res.status(401).json({ error: 'Correo o contraseña incorrectos' });
+    return;
+  }
+
+  const passwordValida = await bcrypt.compare(password, usuario.password);
+  if (!passwordValida) {
+    res.status(401).json({ error: 'Correo o contraseña incorrectos' });
+    return;
+  }
+
+  const token = jwt.sign(
+    { id: usuario.id, nombre: usuario.nombre, correo: usuario.correo },
+    process.env.JWT_SECRET as string,
+    { expiresIn: '8h' }
+  );
+
+  res.json({ token, usuario: { id: usuario.id, nombre: usuario.nombre, correo: usuario.correo } });
 });
 
 app.listen(PORT, () => {
   console.log(`Servidor corriendo en http://localhost:${PORT}`);
 });
 // Actualizar una oficina
-app.put('/oficinas/:id', async (req, res) => {
+app.put('/oficinas/:id', verificarToken, async (req, res) => {
   const { id } = req.params;
   const { nombre, direccion } = req.body;
   const oficina = await prisma.oficina.update({
@@ -54,7 +115,7 @@ app.put('/oficinas/:id', async (req, res) => {
 });
 
 // Eliminar una oficina
-app.delete('/oficinas/:id', async (req, res) => {
+app.delete('/oficinas/:id', verificarToken, async (req, res) => {
   const { id } = req.params;
   await prisma.oficina.delete({
     where: { id: Number(id) },
@@ -62,7 +123,7 @@ app.delete('/oficinas/:id', async (req, res) => {
   res.json({ mensaje: 'Oficina eliminada' });
 });
 // Crear un empleado
-app.post('/empleados', async (req, res) => {
+app.post('/empleados', verificarToken, async (req, res) => {
   const { nombre, cargo, oficinaId } = req.body;
   const empleado = await prisma.empleado.create({
     data: { nombre, cargo, oficinaId },
@@ -71,7 +132,7 @@ app.post('/empleados', async (req, res) => {
 });
 
 // Listar todos los empleados (incluyendo su oficina)
-app.get('/empleados', async (req, res) => {
+app.get('/empleados', verificarToken, async (req, res) => {
   const empleados = await prisma.empleado.findMany({
     include: { oficina: true },
   });
@@ -79,7 +140,7 @@ app.get('/empleados', async (req, res) => {
 });
 
 // Actualizar un empleado
-app.put('/empleados/:id', async (req, res) => {
+app.put('/empleados/:id', verificarToken, async (req, res) => {
   const { id } = req.params;
   const { nombre, cargo, oficinaId } = req.body;
   const empleado = await prisma.empleado.update({
@@ -90,7 +151,7 @@ app.put('/empleados/:id', async (req, res) => {
 });
 
 // Eliminar un empleado
-app.delete('/empleados/:id', async (req, res) => {
+app.delete('/empleados/:id', verificarToken, async (req, res) => {
   const { id } = req.params;
   await prisma.empleado.delete({
     where: { id: Number(id) },
@@ -99,7 +160,7 @@ app.delete('/empleados/:id', async (req, res) => {
 });
 
 // Crear un activo
-app.post('/activos', async (req, res) => {
+app.post('/activos', verificarToken, async (req, res) => {
   const {
     codigo, tipo, ip, macAddress, puertoRed, departamento, marca, claseEquipo,
     numeroSerie, monitor, serieMonitor, codigoContable, parlantes, placaMadre,
@@ -120,7 +181,7 @@ app.post('/activos', async (req, res) => {
 });
 
 // Listar todos los activos (con oficina y responsable incluidos)
-app.get('/activos', async (req, res) => {
+app.get('/activos', verificarToken, async (req, res) => {
   const activos = await prisma.activo.findMany({
     include: { oficina: true, responsable: true },
   });
@@ -128,7 +189,7 @@ app.get('/activos', async (req, res) => {
 });
 
 // Actualizar un activo
-app.put('/activos/:id', async (req, res) => {
+app.put('/activos/:id', verificarToken, async (req, res) => {
   const { id } = req.params;
   const {
     codigo, tipo, ip, macAddress, puertoRed, departamento, marca, claseEquipo,
@@ -151,7 +212,7 @@ app.put('/activos/:id', async (req, res) => {
 });
 
 // Eliminar un activo
-app.delete('/activos/:id', async (req, res) => {
+app.delete('/activos/:id', verificarToken, async (req, res) => {
   const { id } = req.params;
   await prisma.activo.delete({
     where: { id: Number(id) },
@@ -160,13 +221,13 @@ app.delete('/activos/:id', async (req, res) => {
 });
 
 // Eliminar TODOS los activos
-app.delete('/activos', async (req, res) => {
+app.delete('/activos', verificarToken, async (req, res) => {
   const resultado = await prisma.activo.deleteMany({});
   res.json({ mensaje: `${resultado.count} activos eliminados` });
 });
 
 // Importar activos desde un archivo CSV
-app.post('/activos/importar', upload.single('archivo'), async (req, res) => {
+app.post('/activos/importar', verificarToken, upload.single('archivo'), async (req, res) => {
   if (!req.file) {
     res.status(400).json({ error: 'No se recibió ningún archivo' });
     return;

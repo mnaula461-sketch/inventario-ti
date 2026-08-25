@@ -1,11 +1,41 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Oficinas from './components/Oficinas';
 import Empleados from './components/Empleados';
 import Activos from './components/Activos';
-import logo from './assets/logo-ganansol.png';
+import Login from './components/Login';
+import logo from './assets/logo.png';
 
 function App() {
   const [vista, setVista] = useState<'oficinas' | 'empleados' | 'activos'>('activos');
+  const [token, setToken] = useState<string | null>(null);
+  const [nombreUsuario, setNombreUsuario] = useState<string>('');
+
+  useEffect(() => {
+    const tokenGuardado = localStorage.getItem('token');
+    const nombreGuardado = localStorage.getItem('nombreUsuario');
+    if (tokenGuardado) {
+      setToken(tokenGuardado);
+      setNombreUsuario(nombreGuardado ?? '');
+    }
+  }, []);
+
+  const manejarLogin = (nuevoToken: string, nombre: string) => {
+    localStorage.setItem('token', nuevoToken);
+    localStorage.setItem('nombreUsuario', nombre);
+    setToken(nuevoToken);
+    setNombreUsuario(nombre);
+  };
+
+  const cerrarSesion = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('nombreUsuario');
+    setToken(null);
+    setNombreUsuario('');
+  };
+
+  if (!token) {
+    return <Login onLogin={manejarLogin} />;
+  }
 
   const tabStyle = (activa: boolean) => ({
     padding: '0.6rem 1.3rem',
@@ -26,12 +56,16 @@ function App() {
         boxShadow: '0 2px 8px rgba(0,0,0,0.15)',
       }}>
         <img src={logo} alt="Gañansol" style={{ height: '48px', borderRadius: '6px' }} />
-        <div>
+        <div style={{ flex: 1 }}>
           <h1 style={{ margin: 0, fontSize: '1.3rem', color: 'white' }}>Inventario TI</h1>
           <p style={{ margin: 0, fontSize: '0.8rem', color: '#d4a24c', fontWeight: 600, letterSpacing: '0.5px' }}>
             COOPERATIVA GAÑANSOL
           </p>
         </div>
+        <span style={{ color: 'white', fontSize: '0.85rem' }}>👤 {nombreUsuario}</span>
+        <button onClick={cerrarSesion} className="btn-outline" style={{ backgroundColor: 'transparent', color: 'white', borderColor: 'white' }}>
+          Cerrar sesión
+        </button>
       </header>
 
       <div style={{ maxWidth: '1150px', margin: '0 auto', padding: '1.5rem 2rem' }}>

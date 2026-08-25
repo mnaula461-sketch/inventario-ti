@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import axios from 'axios';
+import api from '../api';
 
 interface Oficina {
   id: number;
@@ -19,7 +19,7 @@ function Oficinas() {
   const [busqueda, setBusqueda] = useState('');
 
   const cargarOficinas = () => {
-    axios.get('http://localhost:3000/oficinas')
+    api.get('/oficinas')
       .then((res) => setOficinas(res.data))
       .catch((error) => console.error('Error al cargar oficinas:', error));
   };
@@ -31,9 +31,9 @@ function Oficinas() {
   const guardarOficina = async (e: React.FormEvent) => {
     e.preventDefault();
     if (editandoId) {
-      await axios.put(`http://localhost:3000/oficinas/${editandoId}`, { nombre, direccion });
+      await api.put(`/oficinas/${editandoId}`, { nombre, direccion });
     } else {
-      await axios.post('http://localhost:3000/oficinas', { nombre, direccion });
+      await api.post('/oficinas', { nombre, direccion });
     }
     setNombre('');
     setDireccion('');
@@ -60,7 +60,7 @@ function Oficinas() {
   const eliminarOficina = async (id: number) => {
     const confirmar = window.confirm('¿Seguro que quieres eliminar esta oficina?');
     if (!confirmar) return;
-    await axios.delete(`http://localhost:3000/oficinas/${id}`);
+    await api.delete(`/oficinas/${id}`);
     cargarOficinas();
   };
 

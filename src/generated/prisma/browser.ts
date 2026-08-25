@@ -32,3 +32,8 @@ export type Empleado = Prisma.EmpleadoModel
  * 
  */
 export type Activo = Prisma.ActivoModel
+/**
+ * Model Usuario
+ * 
+ */
+export type Usuario = Prisma.UsuarioModel
