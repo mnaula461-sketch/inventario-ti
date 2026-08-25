@@ -17,7 +17,7 @@ function Login({ onLogin }: LoginProps) {
     setError('');
     setCargando(true);
     try {
-      const res = await axios.post('http://localhost:3000/auth/login', { correo, password });
+                const res = await axios.post('http://localhost:3000/auth/login', { correo, password });
       onLogin(res.data.token, res.data.usuario.nombre);
     } catch (err) {
       setError('Correo o contraseña incorrectos');

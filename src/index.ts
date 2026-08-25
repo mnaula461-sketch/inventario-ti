@@ -100,7 +100,7 @@ app.post('/auth/login', async (req, res) => {
   res.json({ token, usuario: { id: usuario.id, nombre: usuario.nombre, correo: usuario.correo } });
 });
 
-app.listen(PORT, () => {
+app.listen(PORT, '0.0.0.0', () => {
   console.log(`Servidor corriendo en http://localhost:${PORT}`);
 });
 // Actualizar una oficina
