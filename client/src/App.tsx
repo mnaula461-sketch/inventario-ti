@@ -12,30 +12,62 @@ function App() {
   const [oficinas, setOficinas] = useState<Oficina[]>([]);
   const [nombre, setNombre] = useState('');
   const [direccion, setDireccion] = useState('');
+  const [editandoId, setEditandoId] = useState<number | null>(null);
 
   const cargarOficinas = () => {
-    axios.get('http://localhost:3000/oficinas').then((res) => {
+  axios.get('http://localhost:3000/oficinas')
+    .then((res) => {
+      console.log('Datos recibidos:', res.data);
       setOficinas(res.data);
+    })
+    .catch((error) => {
+      console.error('Error al cargar oficinas:', error);
     });
-  };
+};
 
   useEffect(() => {
     cargarOficinas();
   }, []);
 
-  const crearOficina = async (e: React.FormEvent) => {
+  const guardarOficina = async (e: React.FormEvent) => {
     e.preventDefault();
-    await axios.post('http://localhost:3000/oficinas', { nombre, direccion });
+    if (editandoId) {
+      // Estamos editando una oficina existente
+      await axios.put(`http://localhost:3000/oficinas/${editandoId}`, { nombre, direccion });
+    } else {
+      // Estamos creando una oficina nueva
+      await axios.post('http://localhost:3000/oficinas', { nombre, direccion });
+    }
     setNombre('');
     setDireccion('');
+    setEditandoId(null);
+    cargarOficinas();
+  };
+
+  const empezarEdicion = (oficina: Oficina) => {
+    setEditandoId(oficina.id);
+    setNombre(oficina.nombre);
+    setDireccion(oficina.direccion ?? '');
+  };
+
+  const cancelarEdicion = () => {
+    setEditandoId(null);
+    setNombre('');
+    setDireccion('');
+  };
+
+  const eliminarOficina = async (id: number) => {
+    const confirmar = window.confirm('¿Seguro que quieres eliminar esta oficina?');
+    if (!confirmar) return;
+    await axios.delete(`http://localhost:3000/oficinas/${id}`);
     cargarOficinas();
   };
 
   return (
-    <div style={{ padding: '2rem', maxWidth: '500px', margin: '0 auto' }}>
+    <div style={{ padding: '2rem', maxWidth: '700px', margin: '0 auto' }}>
       <h1>Inventario TI - Oficinas</h1>
 
-      <form onSubmit={crearOficina} style={{ marginBottom: '2rem' }}>
+      <form onSubmit={guardarOficina} style={{ marginBottom: '2rem' }}>
         <div style={{ marginBottom: '0.5rem' }}>
           <input
             type="text"
@@ -55,18 +87,39 @@ function App() {
             style={{ width: '100%', padding: '0.5rem' }}
           />
         </div>
-        <button type="submit" style={{ padding: '0.5rem 1rem' }}>
-          Agregar oficina
+        <button type="submit" style={{ padding: '0.5rem 1rem', marginRight: '0.5rem' }}>
+          {editandoId ? 'Guardar cambios' : 'Agregar oficina'}
         </button>
+        {editandoId && (
+          <button type="button" onClick={cancelarEdicion} style={{ padding: '0.5rem 1rem' }}>
+            Cancelar
+          </button>
+        )}
       </form>
 
-      <ul>
-        {oficinas.map((oficina) => (
-          <li key={oficina.id}>
-            <strong>{oficina.nombre}</strong> — {oficina.direccion}
-          </li>
-        ))}
-      </ul>
+      <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+        <thead>
+          <tr>
+            <th style={{ textAlign: 'left', borderBottom: '1px solid #ccc', padding: '0.5rem' }}>Nombre</th>
+            <th style={{ textAlign: 'left', borderBottom: '1px solid #ccc', padding: '0.5rem' }}>Dirección</th>
+            <th style={{ borderBottom: '1px solid #ccc', padding: '0.5rem' }}>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          {oficinas.map((oficina) => (
+            <tr key={oficina.id}>
+              <td style={{ padding: '0.5rem', borderBottom: '1px solid #eee' }}>{oficina.nombre}</td>
+              <td style={{ padding: '0.5rem', borderBottom: '1px solid #eee' }}>{oficina.direccion}</td>
+              <td style={{ padding: '0.5rem', borderBottom: '1px solid #eee', textAlign: 'center' }}>
+                <button onClick={() => empezarEdicion(oficina)} style={{ marginRight: '0.5rem' }}>
+                  Editar
+                </button>
+                <button onClick={() => eliminarOficina(oficina.id)}>Eliminar</button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 }
