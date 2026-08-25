@@ -78,6 +78,23 @@ function Campo({ label, valor, onChange }: { label: string; valor: string; onCha
   );
 }
 
+function BadgeEstado({ estado }: { estado: string }) {
+  const config: Record<string, { bg: string; color: string; texto: string }> = {
+    activo: { bg: '#e7f6ee', color: '#1e8e5a', texto: 'Activo' },
+    mantenimiento: { bg: '#fff4e0', color: '#b8790a', texto: 'Mantenimiento' },
+    baja: { bg: '#fdeaea', color: '#dc3545', texto: 'Dado de baja' },
+  };
+  const c = config[estado] ?? { bg: '#eee', color: '#555', texto: estado };
+  return (
+    <span style={{
+      backgroundColor: c.bg, color: c.color, padding: '0.25rem 0.6rem',
+      borderRadius: '20px', fontSize: '0.78rem', fontWeight: 600,
+    }}>
+      {c.texto}
+    </span>
+  );
+}
+
 function Activos() {
   const [activos, setActivos] = useState<Activo[]>([]);
   const [oficinas, setOficinas] = useState<Oficina[]>([]);
@@ -86,11 +103,15 @@ function Activos() {
   const [editandoId, setEditandoId] = useState<number | null>(null);
   const [mostrarFormulario, setMostrarFormulario] = useState(false);
 
-  // --- Filtros de búsqueda ---
+  // Filtros
   const [busquedaTexto, setBusquedaTexto] = useState('');
   const [filtroOficina, setFiltroOficina] = useState('');
   const [filtroEstado, setFiltroEstado] = useState('');
   const [busquedaAplicada, setBusquedaAplicada] = useState('');
+
+  // Paginación
+  const [porPagina, setPorPagina] = useState(20);
+  const [paginaActual, setPaginaActual] = useState(1);
 
   const cargarActivos = () => {
     axios.get('http://localhost:3000/activos')
@@ -217,9 +238,9 @@ function Activos() {
     cargarActivos();
   };
 
-  // --- Lógica de filtrado ---
   const buscar = () => {
     setBusquedaAplicada(busquedaTexto.toLowerCase());
+    setPaginaActual(1);
   };
 
   const limpiarFiltros = () => {
@@ -227,6 +248,7 @@ function Activos() {
     setBusquedaAplicada('');
     setFiltroOficina('');
     setFiltroEstado('');
+    setPaginaActual(1);
   };
 
   const activosFiltrados = activos.filter((activo) => {
@@ -240,32 +262,42 @@ function Activos() {
     );
     const coincideOficina = !filtroOficina || activo.oficinaId === Number(filtroOficina);
     const coincideEstado = !filtroEstado || activo.estado === filtroEstado;
-
     return coincideTexto && coincideOficina && coincideEstado;
   });
 
+  // --- Paginación ---
+  const totalPaginas = Math.max(1, Math.ceil(activosFiltrados.length / porPagina));
+  const paginaSegura = Math.min(paginaActual, totalPaginas);
+  const inicio = (paginaSegura - 1) * porPagina;
+  const activosPagina = activosFiltrados.slice(inicio, inicio + porPagina);
+
+  const cambiarPorPagina = (valor: number) => {
+    setPorPagina(valor);
+    setPaginaActual(1);
+  };
+
   return (
     <div>
-      <h2>Activos</h2>
+      <h2 style={{ color: '#2c2560' }}>Activos</h2>
 
-      <div style={{ marginBottom: '1.5rem', display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
+      <div style={{ marginBottom: '1.2rem', display: 'flex', gap: '0.6rem', alignItems: 'center' }}>
         {!mostrarFormulario && (
-          <button onClick={() => setMostrarFormulario(true)} style={{ padding: '0.5rem 1rem' }}>
+          <button className="btn-primary" onClick={() => setMostrarFormulario(true)}>
             + Agregar activo
           </button>
         )}
-        <label style={{ padding: '0.5rem 1rem', border: '1px solid #ccc', borderRadius: '4px', cursor: 'pointer' }}>
-          Cargar Excel/CSV
+        <label className="btn-outline" style={{ display: 'inline-block' }}>
+          📤 Cargar Excel/CSV
           <input type="file" accept=".csv" onChange={importarArchivo} style={{ display: 'none' }} />
         </label>
-        <button onClick={eliminarTodos} style={{ padding: '0.5rem 1rem', color: 'red' }}>
-          Eliminar todos
+        <button className="btn-delete" onClick={eliminarTodos} style={{ marginLeft: 'auto' }}>
+          🗑️ Eliminar todos
         </button>
       </div>
 
-      {/* --- Panel de búsqueda --- */}
-      <div style={{ border: '1px solid #ddd', borderRadius: '4px', padding: '1rem', marginBottom: '1.5rem' }}>
-        <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr auto auto', gap: '1rem', alignItems: 'end' }}>
+      {/* Panel de búsqueda */}
+      <div style={{ border: '1px solid #e2e0f0', borderRadius: '10px', padding: '1rem', marginBottom: '1.5rem', backgroundColor: '#fafaff' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr auto auto', gap: '0.8rem', alignItems: 'end' }}>
           <div>
             <label style={labelStyle}>Buscar</label>
             <input
@@ -293,17 +325,14 @@ function Activos() {
               <option value="baja">Dado de baja</option>
             </select>
           </div>
-          <button onClick={buscar} style={{ padding: '0.5rem 1.2rem' }}>Buscar</button>
-          <button onClick={limpiarFiltros} style={{ padding: '0.5rem 1.2rem' }}>Limpiar</button>
+          <button className="btn-primary" onClick={buscar}>Buscar</button>
+          <button className="btn-outline" onClick={limpiarFiltros}>Limpiar</button>
         </div>
-        <p style={{ marginTop: '0.8rem', marginBottom: 0, color: '#555', fontSize: '0.9rem' }}>
-          Registros encontrados: {activosFiltrados.length}
-        </p>
       </div>
 
       {mostrarFormulario && (
-        <form onSubmit={guardarActivo} style={{ marginBottom: '2rem', border: '1px solid #ddd', padding: '1rem', borderRadius: '4px' }}>
-          <h3>Datos básicos</h3>
+        <form onSubmit={guardarActivo} style={{ marginBottom: '2rem', border: '1px solid #e2e0f0', padding: '1.2rem', borderRadius: '10px', backgroundColor: '#fafaff' }}>
+          <h3 style={{ color: '#2c2560' }}>Datos básicos</h3>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '0.8rem' }}>
             <div style={campoStyle}>
               <label style={labelStyle}>Código *</label>
@@ -334,7 +363,7 @@ function Activos() {
             </div>
           </div>
 
-          <h3>Red</h3>
+          <h3 style={{ color: '#2c2560' }}>Red</h3>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '0.8rem' }}>
             <Campo label="IP" valor={form.ip} onChange={(v) => actualizarCampo('ip', v)} />
             <Campo label="MAC Address" valor={form.macAddress} onChange={(v) => actualizarCampo('macAddress', v)} />
@@ -342,7 +371,7 @@ function Activos() {
             <Campo label="AnyDesk" valor={form.anydesk} onChange={(v) => actualizarCampo('anydesk', v)} />
           </div>
 
-          <h3>Hardware</h3>
+          <h3 style={{ color: '#2c2560' }}>Hardware</h3>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '0.8rem' }}>
             <Campo label="Monitor" valor={form.monitor} onChange={(v) => actualizarCampo('monitor', v)} />
             <Campo label="Serie monitor" valor={form.serieMonitor} onChange={(v) => actualizarCampo('serieMonitor', v)} />
@@ -354,7 +383,7 @@ function Activos() {
             <Campo label="Sistema operativo" valor={form.sistemaOperativo} onChange={(v) => actualizarCampo('sistemaOperativo', v)} />
           </div>
 
-          <h3>Estado y mantenimiento</h3>
+          <h3 style={{ color: '#2c2560' }}>Estado y mantenimiento</h3>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '0.8rem' }}>
             <Campo label="Estado mouse" valor={form.estadoRaton} onChange={(v) => actualizarCampo('estadoRaton', v)} />
             <Campo label="Estado teclado" valor={form.estadoTeclado} onChange={(v) => actualizarCampo('estadoTeclado', v)} />
@@ -377,46 +406,95 @@ function Activos() {
             <Campo label="Criterio" valor={form.criterio} onChange={(v) => actualizarCampo('criterio', v)} />
           </div>
 
-          <div style={{ marginTop: '1rem' }}>
-            <button type="submit" style={{ padding: '0.5rem 1rem', marginRight: '0.5rem' }}>
+          <div style={{ marginTop: '1.2rem' }}>
+            <button type="submit" className="btn-primary" style={{ marginRight: '0.5rem' }}>
               {editandoId ? 'Guardar cambios' : 'Agregar activo'}
             </button>
-            <button type="button" onClick={limpiarFormulario} style={{ padding: '0.5rem 1rem' }}>
+            <button type="button" className="btn-outline" onClick={limpiarFormulario}>
               Cancelar
             </button>
           </div>
         </form>
       )}
 
-      <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.9rem' }}>
+      {/* Controles de paginación superiores */}
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.8rem' }}>
+        <p style={{ margin: 0, color: '#555', fontSize: '0.9rem' }}>
+          Mostrando {activosPagina.length ? inicio + 1 : 0}–{inicio + activosPagina.length} de {activosFiltrados.length} activos
+        </p>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+          <span style={{ fontSize: '0.85rem', color: '#555' }}>Mostrar:</span>
+          {[10, 20, 30, 50].map((n) => (
+            <button
+              key={n}
+              onClick={() => cambiarPorPagina(n)}
+              className={porPagina === n ? 'btn-primary' : 'btn-outline'}
+              style={{ padding: '0.35rem 0.7rem', fontSize: '0.8rem' }}
+            >
+              {n}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.9rem', boxShadow: '0 1px 3px rgba(0,0,0,0.06)' }}>
         <thead>
           <tr>
-            <th style={{ textAlign: 'left', borderBottom: '1px solid #ccc', padding: '0.5rem' }}>Código</th>
-            <th style={{ textAlign: 'left', borderBottom: '1px solid #ccc', padding: '0.5rem' }}>Tipo</th>
-            <th style={{ textAlign: 'left', borderBottom: '1px solid #ccc', padding: '0.5rem' }}>Marca</th>
-            <th style={{ textAlign: 'left', borderBottom: '1px solid #ccc', padding: '0.5rem' }}>Oficina</th>
-            <th style={{ textAlign: 'left', borderBottom: '1px solid #ccc', padding: '0.5rem' }}>Responsable</th>
-            <th style={{ textAlign: 'left', borderBottom: '1px solid #ccc', padding: '0.5rem' }}>Estado</th>
-            <th style={{ borderBottom: '1px solid #ccc', padding: '0.5rem' }}>Acciones</th>
+            <th style={{ textAlign: 'left', padding: '0.5rem' }}>Código</th>
+            <th style={{ textAlign: 'left', padding: '0.5rem' }}>Tipo</th>
+            <th style={{ textAlign: 'left', padding: '0.5rem' }}>Marca</th>
+            <th style={{ textAlign: 'left', padding: '0.5rem' }}>Oficina</th>
+            <th style={{ textAlign: 'left', padding: '0.5rem' }}>Responsable</th>
+            <th style={{ textAlign: 'left', padding: '0.5rem' }}>Estado</th>
+            <th style={{ padding: '0.5rem' }}>Acciones</th>
           </tr>
         </thead>
         <tbody>
-          {activosFiltrados.map((activo) => (
+          {activosPagina.map((activo) => (
             <tr key={activo.id}>
-              <td style={{ padding: '0.5rem', borderBottom: '1px solid #eee' }}>{activo.codigo}</td>
-              <td style={{ padding: '0.5rem', borderBottom: '1px solid #eee' }}>{activo.tipo}</td>
-              <td style={{ padding: '0.5rem', borderBottom: '1px solid #eee' }}>{activo.marca}</td>
-              <td style={{ padding: '0.5rem', borderBottom: '1px solid #eee' }}>{activo.oficina?.nombre}</td>
-              <td style={{ padding: '0.5rem', borderBottom: '1px solid #eee' }}>{activo.responsable?.nombre ?? '—'}</td>
-              <td style={{ padding: '0.5rem', borderBottom: '1px solid #eee' }}>{activo.estado}</td>
-              <td style={{ padding: '0.5rem', borderBottom: '1px solid #eee', textAlign: 'center' }}>
-                <button onClick={() => empezarEdicion(activo)} style={{ marginRight: '0.5rem' }}>Editar</button>
-                <button onClick={() => eliminarActivo(activo.id)}>Eliminar</button>
+              <td style={{ padding: '0.6rem 0.5rem', borderBottom: '1px solid #eee' }}>{activo.codigo}</td>
+              <td style={{ padding: '0.6rem 0.5rem', borderBottom: '1px solid #eee' }}>{activo.tipo}</td>
+              <td style={{ padding: '0.6rem 0.5rem', borderBottom: '1px solid #eee' }}>{activo.marca}</td>
+              <td style={{ padding: '0.6rem 0.5rem', borderBottom: '1px solid #eee' }}>{activo.oficina?.nombre}</td>
+              <td style={{ padding: '0.6rem 0.5rem', borderBottom: '1px solid #eee' }}>{activo.responsable?.nombre ?? '—'}</td>
+              <td style={{ padding: '0.6rem 0.5rem', borderBottom: '1px solid #eee' }}>
+                <BadgeEstado estado={activo.estado} />
+              </td>
+              <td style={{ padding: '0.6rem 0.5rem', borderBottom: '1px solid #eee', textAlign: 'center' }}>
+                <button className="btn-edit" onClick={() => empezarEdicion(activo)} style={{ marginRight: '0.4rem' }}>
+                  ✏️ Editar
+                </button>
+                <button className="btn-delete" onClick={() => eliminarActivo(activo.id)}>
+                  🗑️ Eliminar
+                </button>
               </td>
             </tr>
           ))}
         </tbody>
       </table>
+
+      {/* Controles de paginación inferiores */}
+      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '0.5rem', marginTop: '1.2rem' }}>
+        <button
+          className="btn-outline"
+          disabled={paginaSegura === 1}
+          onClick={() => setPaginaActual(paginaSegura - 1)}
+          style={{ opacity: paginaSegura === 1 ? 0.4 : 1 }}
+        >
+          ← Anterior
+        </button>
+        <span style={{ fontSize: '0.9rem', color: '#444' }}>
+          Página {paginaSegura} de {totalPaginas}
+        </span>
+        <button
+          className="btn-outline"
+          disabled={paginaSegura === totalPaginas}
+          onClick={() => setPaginaActual(paginaSegura + 1)}
+          style={{ opacity: paginaSegura === totalPaginas ? 0.4 : 1 }}
+        >
+          Siguiente →
+        </button>
+      </div>
     </div>
   );
 }

@@ -1,0 +1,115 @@
+* {
+  box-sizing: border-box;
+}
+
+:root {
+  --color-primary: #2c2560;
+  --color-primary-dark: #1c1740;
+  --color-accent: #d4a24c;
+  --color-accent-light: #e8c77e;
+  --color-bg: #f5f4fa;
+  --color-danger: #dc3545;
+  --color-danger-light: #fdeaea;
+  --color-success: #1e8e5a;
+  --color-success-light: #e7f6ee;
+  --color-border: #e2e0f0;
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background-color: var(--color-bg);
+  color: #1a1a1a;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  transition: all 0.15s;
+}
+
+input, select {
+  font-family: inherit;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  outline: none;
+  padding: 0.5rem;
+}
+
+input:focus, select:focus {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(44, 37, 96, 0.1);
+}
+
+table {
+  background: white;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+th {
+  background-color: var(--color-primary);
+  color: white;
+  font-weight: 600;
+  padding: 0.7rem 0.5rem !important;
+}
+
+tr:hover td {
+  background-color: #faf9fd;
+}
+
+/* Botones reutilizables */
+.btn-primary {
+  background-color: var(--color-primary);
+  color: white;
+  padding: 0.55rem 1.1rem;
+}
+.btn-primary:hover {
+  background-color: var(--color-primary-dark);
+}
+
+.btn-accent {
+  background-color: var(--color-accent);
+  color: white;
+  padding: 0.55rem 1.1rem;
+}
+.btn-accent:hover {
+  background-color: #c08f38;
+}
+
+.btn-edit {
+  background-color: var(--color-success-light);
+  color: var(--color-success);
+  padding: 0.4rem 0.8rem;
+  font-size: 0.82rem;
+}
+.btn-edit:hover {
+  background-color: var(--color-success);
+  color: white;
+}
+
+.btn-delete {
+  background-color: var(--color-danger-light);
+  color: var(--color-danger);
+  padding: 0.4rem 0.8rem;
+  font-size: 0.82rem;
+}
+.btn-delete:hover {
+  background-color: var(--color-danger);
+  color: white;
+}
+
+.btn-outline {
+  background-color: white;
+  color: var(--color-primary);
+  border: 1.5px solid var(--color-primary) !important;
+  padding: 0.5rem 1rem;
+}
+.btn-outline:hover {
+  background-color: var(--color-primary);
+  color: white;
+}
