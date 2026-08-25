@@ -86,6 +86,12 @@ function Activos() {
   const [editandoId, setEditandoId] = useState<number | null>(null);
   const [mostrarFormulario, setMostrarFormulario] = useState(false);
 
+  // --- Filtros de búsqueda ---
+  const [busquedaTexto, setBusquedaTexto] = useState('');
+  const [filtroOficina, setFiltroOficina] = useState('');
+  const [filtroEstado, setFiltroEstado] = useState('');
+  const [busquedaAplicada, setBusquedaAplicada] = useState('');
+
   const cargarActivos = () => {
     axios.get('http://localhost:3000/activos')
       .then((res) => setActivos(res.data))
@@ -174,7 +180,7 @@ function Activos() {
       oficinaId: String(activo.oficinaId),
       responsableId: activo.responsableId ? String(activo.responsableId) : '',
     });
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const eliminarActivo = async (id: number) => {
@@ -183,7 +189,8 @@ function Activos() {
     await axios.delete(`http://localhost:3000/activos/${id}`);
     cargarActivos();
   };
-    const importarArchivo = async (e: React.ChangeEvent<HTMLInputElement>) => {
+
+  const importarArchivo = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const archivo = e.target.files?.[0];
     if (!archivo) return;
 
@@ -210,12 +217,38 @@ function Activos() {
     cargarActivos();
   };
 
+  // --- Lógica de filtrado ---
+  const buscar = () => {
+    setBusquedaAplicada(busquedaTexto.toLowerCase());
+  };
+
+  const limpiarFiltros = () => {
+    setBusquedaTexto('');
+    setBusquedaAplicada('');
+    setFiltroOficina('');
+    setFiltroEstado('');
+  };
+
+  const activosFiltrados = activos.filter((activo) => {
+    const coincideTexto = !busquedaAplicada || (
+      activo.codigo.toLowerCase().includes(busquedaAplicada) ||
+      activo.tipo.toLowerCase().includes(busquedaAplicada) ||
+      (activo.marca ?? '').toLowerCase().includes(busquedaAplicada) ||
+      (activo.responsable?.nombre ?? '').toLowerCase().includes(busquedaAplicada) ||
+      (activo.departamento ?? '').toLowerCase().includes(busquedaAplicada) ||
+      (activo.numeroSerie ?? '').toLowerCase().includes(busquedaAplicada)
+    );
+    const coincideOficina = !filtroOficina || activo.oficinaId === Number(filtroOficina);
+    const coincideEstado = !filtroEstado || activo.estado === filtroEstado;
+
+    return coincideTexto && coincideOficina && coincideEstado;
+  });
+
   return (
     <div>
       <h2>Activos</h2>
-      
 
-            <div style={{ marginBottom: '1.5rem', display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
+      <div style={{ marginBottom: '1.5rem', display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
         {!mostrarFormulario && (
           <button onClick={() => setMostrarFormulario(true)} style={{ padding: '0.5rem 1rem' }}>
             + Agregar activo
@@ -228,6 +261,44 @@ function Activos() {
         <button onClick={eliminarTodos} style={{ padding: '0.5rem 1rem', color: 'red' }}>
           Eliminar todos
         </button>
+      </div>
+
+      {/* --- Panel de búsqueda --- */}
+      <div style={{ border: '1px solid #ddd', borderRadius: '4px', padding: '1rem', marginBottom: '1.5rem' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr auto auto', gap: '1rem', alignItems: 'end' }}>
+          <div>
+            <label style={labelStyle}>Buscar</label>
+            <input
+              type="text"
+              placeholder="Código, tipo, marca, responsable, departamento o serie"
+              value={busquedaTexto}
+              onChange={(e) => setBusquedaTexto(e.target.value)}
+              onKeyDown={(e) => e.key === 'Enter' && buscar()}
+              style={inputStyle}
+            />
+          </div>
+          <div>
+            <label style={labelStyle}>Oficina</label>
+            <select value={filtroOficina} onChange={(e) => setFiltroOficina(e.target.value)} style={inputStyle}>
+              <option value="">Todas</option>
+              {oficinas.map((o) => <option key={o.id} value={o.id}>{o.nombre}</option>)}
+            </select>
+          </div>
+          <div>
+            <label style={labelStyle}>Estado</label>
+            <select value={filtroEstado} onChange={(e) => setFiltroEstado(e.target.value)} style={inputStyle}>
+              <option value="">Todos</option>
+              <option value="activo">Activo</option>
+              <option value="mantenimiento">En mantenimiento</option>
+              <option value="baja">Dado de baja</option>
+            </select>
+          </div>
+          <button onClick={buscar} style={{ padding: '0.5rem 1.2rem' }}>Buscar</button>
+          <button onClick={limpiarFiltros} style={{ padding: '0.5rem 1.2rem' }}>Limpiar</button>
+        </div>
+        <p style={{ marginTop: '0.8rem', marginBottom: 0, color: '#555', fontSize: '0.9rem' }}>
+          Registros encontrados: {activosFiltrados.length}
+        </p>
       </div>
 
       {mostrarFormulario && (
@@ -330,7 +401,7 @@ function Activos() {
           </tr>
         </thead>
         <tbody>
-          {activos.map((activo) => (
+          {activosFiltrados.map((activo) => (
             <tr key={activo.id}>
               <td style={{ padding: '0.5rem', borderBottom: '1px solid #eee' }}>{activo.codigo}</td>
               <td style={{ padding: '0.5rem', borderBottom: '1px solid #eee' }}>{activo.tipo}</td>
