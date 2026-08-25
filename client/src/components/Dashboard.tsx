@@ -1,0 +1,132 @@
+import { useState, useEffect } from 'react';
+import api from '../api';
+
+interface DashboardProps {
+  nombreUsuario: string;
+  onNavegar: (vista: 'oficinas' | 'empleados' | 'activos') => void;
+}
+
+function Dashboard({ nombreUsuario, onNavegar }: DashboardProps) {
+  const [totalOficinas, setTotalOficinas] = useState(0);
+  const [totalEmpleados, setTotalEmpleados] = useState(0);
+  const [totalActivos, setTotalActivos] = useState(0);
+  const [pendientes, setPendientes] = useState(0);
+
+  useEffect(() => {
+    api.get('/oficinas').then((res) => setTotalOficinas(res.data.length)).catch(() => {});
+    api.get('/empleados').then((res) => setTotalEmpleados(res.data.length)).catch(() => {});
+    api.get('/activos').then((res) => {
+      setTotalActivos(res.data.length);
+      setPendientes(res.data.filter((a: any) => !a.responsableId).length);
+    }).catch(() => {});
+  }, []);
+
+  const modulos = [
+    {
+      id: 'oficinas' as const,
+      icono: '🏢',
+      titulo: 'Oficinas',
+      descripcion: 'Agencias y sucursales de la cooperativa',
+      contador: totalOficinas,
+      etiqueta: totalOficinas === 1 ? 'oficina' : 'oficinas',
+      color: '#2c2560',
+      fondoIcono: '#eceafc',
+    },
+    {
+      id: 'empleados' as const,
+      icono: '👥',
+      titulo: 'Empleados',
+      descripcion: 'Personal registrado por oficina',
+      contador: totalEmpleados,
+      etiqueta: totalEmpleados === 1 ? 'empleado' : 'empleados',
+      color: '#d4a24c',
+      fondoIcono: '#fdf3e2',
+    },
+    {
+      id: 'activos' as const,
+      icono: '🖥️',
+      titulo: 'Activos',
+      descripcion: 'Equipos tecnológicos y su estado',
+      contador: totalActivos,
+      etiqueta: totalActivos === 1 ? 'activo' : 'activos',
+      color: '#1e8e5a',
+      fondoIcono: '#e7f6ee',
+    },
+  ];
+
+  return (
+    <div>
+      <div style={{ marginBottom: '2rem' }}>
+        <h2 style={{ fontSize: '1.6rem', color: '#2c2560', marginBottom: '0.4rem' }}>
+          Bienvenido, {nombreUsuario.split(' ')[0]} 👋
+        </h2>
+        <p style={{ color: '#666', fontSize: '0.95rem', maxWidth: '640px', lineHeight: 1.5 }}>
+          Este es el sistema de gestión de inventario de activos de información de la
+          Cooperativa de Ahorro y Crédito Gañansol. Aquí puedes administrar las oficinas,
+          el personal y los equipos tecnológicos de toda la cooperativa de forma
+          centralizada y segura.
+        </p>
+      </div>
+
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '1rem', marginBottom: '2.5rem' }}>
+        <div style={{ background: 'white', borderRadius: '12px', padding: '1.2rem', boxShadow: '0 1px 4px rgba(0,0,0,0.06)', borderLeft: '4px solid #d4a24c' }}>
+          <div style={{ fontSize: '1.6rem', fontWeight: 700, color: '#2c2560' }}>{totalActivos}</div>
+          <div style={{ fontSize: '0.78rem', color: '#888', marginTop: '0.2rem' }}>Equipos registrados</div>
+        </div>
+        <div style={{ background: 'white', borderRadius: '12px', padding: '1.2rem', boxShadow: '0 1px 4px rgba(0,0,0,0.06)', borderLeft: '4px solid #d4a24c' }}>
+          <div style={{ fontSize: '1.6rem', fontWeight: 700, color: '#2c2560' }}>{totalOficinas}</div>
+          <div style={{ fontSize: '0.78rem', color: '#888', marginTop: '0.2rem' }}>Oficinas activas</div>
+        </div>
+        <div style={{ background: 'white', borderRadius: '12px', padding: '1.2rem', boxShadow: '0 1px 4px rgba(0,0,0,0.06)', borderLeft: '4px solid #d4a24c' }}>
+          <div style={{ fontSize: '1.6rem', fontWeight: 700, color: '#2c2560' }}>{totalEmpleados}</div>
+          <div style={{ fontSize: '0.78rem', color: '#888', marginTop: '0.2rem' }}>Empleados registrados</div>
+        </div>
+        <div style={{ background: 'white', borderRadius: '12px', padding: '1.2rem', boxShadow: '0 1px 4px rgba(0,0,0,0.06)', borderLeft: '4px solid #d4a24c' }}>
+          <div style={{ fontSize: '1.6rem', fontWeight: 700, color: '#2c2560' }}>{pendientes}</div>
+          <div style={{ fontSize: '0.78rem', color: '#888', marginTop: '0.2rem' }}>Sin responsable asignado</div>
+        </div>
+      </div>
+
+      <div style={{ fontSize: '1rem', color: '#444', marginBottom: '1rem', fontWeight: 600 }}>
+        Accede a un módulo
+      </div>
+
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1.5rem' }}>
+        {modulos.map((m) => (
+          <div
+            key={m.id}
+            onClick={() => onNavegar(m.id)}
+            style={{
+              background: 'white',
+              borderRadius: '16px',
+              padding: '1.8rem',
+              boxShadow: '0 2px 10px rgba(0,0,0,0.08)',
+              cursor: 'pointer',
+              borderTop: `5px solid ${m.color}`,
+              position: 'relative',
+              transition: 'transform 0.15s',
+            }}
+            onMouseEnter={(e) => (e.currentTarget.style.transform = 'translateY(-4px)')}
+            onMouseLeave={(e) => (e.currentTarget.style.transform = 'translateY(0)')}
+          >
+            <div style={{
+              width: '54px', height: '54px', borderRadius: '12px',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              fontSize: '1.6rem', marginBottom: '1rem', backgroundColor: m.fondoIcono,
+            }}>
+              {m.icono}
+            </div>
+            <h3 style={{ color: '#2c2560', fontSize: '1.15rem', marginBottom: '0.4rem' }}>{m.titulo}</h3>
+            <p style={{ color: '#888', fontSize: '0.85rem', marginBottom: '1rem' }}>{m.descripcion}</p>
+            <div style={{ fontSize: '1.4rem', fontWeight: 700, color: '#333' }}>
+              {m.contador} {m.etiqueta}
+            </div>
+            <div style={{ position: 'absolute', right: '1.5rem', bottom: '1.5rem', color: '#ccc', fontSize: '1.3rem' }}>→</div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+export default Dashboard;

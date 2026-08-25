@@ -1,12 +1,15 @@
 import { useState, useEffect } from 'react';
+import Dashboard from './components/Dashboard';
 import Oficinas from './components/Oficinas';
 import Empleados from './components/Empleados';
 import Activos from './components/Activos';
 import Login from './components/Login';
 import logo from './assets/logo.png';
 
+type Vista = 'dashboard' | 'oficinas' | 'empleados' | 'activos';
+
 function App() {
-  const [vista, setVista] = useState<'oficinas' | 'empleados' | 'activos'>('activos');
+  const [vista, setVista] = useState<Vista>('dashboard');
   const [token, setToken] = useState<string | null>(null);
   const [nombreUsuario, setNombreUsuario] = useState<string>('');
 
@@ -24,6 +27,7 @@ function App() {
     localStorage.setItem('nombreUsuario', nombre);
     setToken(nuevoToken);
     setNombreUsuario(nombre);
+    setVista('dashboard');
   };
 
   const cerrarSesion = () => {
@@ -55,8 +59,13 @@ function App() {
         gap: '1rem',
         boxShadow: '0 2px 8px rgba(0,0,0,0.15)',
       }}>
-        <img src={logo} alt="Gañansol" style={{ height: '48px', borderRadius: '6px' }} />
-        <div style={{ flex: 1 }}>
+        <img
+          src={logo}
+          alt="Gañansol"
+          style={{ height: '48px', borderRadius: '6px', cursor: 'pointer' }}
+          onClick={() => setVista('dashboard')}
+        />
+        <div style={{ flex: 1, cursor: 'pointer' }} onClick={() => setVista('dashboard')}>
           <h1 style={{ margin: 0, fontSize: '1.3rem', color: 'white' }}>Inventario TI</h1>
           <p style={{ margin: 0, fontSize: '0.8rem', color: '#d4a24c', fontWeight: 600, letterSpacing: '0.5px' }}>
             COOPERATIVA GAÑANSOL
@@ -70,6 +79,9 @@ function App() {
 
       <div style={{ maxWidth: '1150px', margin: '0 auto', padding: '1.5rem 2rem' }}>
         <nav style={{ marginBottom: '1.5rem', display: 'flex' }}>
+          <button style={tabStyle(vista === 'dashboard')} onClick={() => setVista('dashboard')}>
+            🏠 Inicio
+          </button>
           <button style={tabStyle(vista === 'oficinas')} onClick={() => setVista('oficinas')}>
             Oficinas
           </button>
@@ -81,7 +93,8 @@ function App() {
           </button>
         </nav>
 
-        <div style={{ backgroundColor: 'white', borderRadius: '12px', padding: '1.5rem', boxShadow: '0 1px 4px rgba(0,0,0,0.08)' }}>
+        <div style={{ backgroundColor: vista === 'dashboard' ? 'transparent' : 'white', borderRadius: '12px', padding: vista === 'dashboard' ? '0' : '1.5rem', boxShadow: vista === 'dashboard' ? 'none' : '0 1px 4px rgba(0,0,0,0.08)' }}>
+          {vista === 'dashboard' && <Dashboard nombreUsuario={nombreUsuario} onNavegar={setVista} />}
           {vista === 'oficinas' && <Oficinas />}
           {vista === 'empleados' && <Empleados />}
           {vista === 'activos' && <Activos />}
