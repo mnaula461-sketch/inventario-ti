@@ -28,14 +28,12 @@ export type AggregateActivo = {
 
 export type ActivoAvgAggregateOutputType = {
   id: number | null
-  costo: number | null
   oficinaId: number | null
   responsableId: number | null
 }
 
 export type ActivoSumAggregateOutputType = {
   id: number | null
-  costo: number | null
   oficinaId: number | null
   responsableId: number | null
 }
@@ -44,12 +42,35 @@ export type ActivoMinAggregateOutputType = {
   id: number | null
   codigo: string | null
   tipo: string | null
+  ip: string | null
+  macAddress: string | null
+  puertoRed: string | null
+  departamento: string | null
   marca: string | null
-  modelo: string | null
+  claseEquipo: string | null
   numeroSerie: string | null
-  fechaCompra: Date | null
-  costo: number | null
+  monitor: string | null
+  serieMonitor: string | null
+  codigoContable: string | null
+  parlantes: string | null
+  placaMadre: string | null
+  procesador: string | null
+  ram: string | null
+  disco: string | null
+  estadoRaton: string | null
+  estadoTeclado: string | null
+  estadoDisco: string | null
+  sistemaOperativo: string | null
+  mantenimiento: string | null
+  actualizable: string | null
+  anydesk: string | null
+  upgrade: string | null
+  recomendacion: string | null
+  saleA: string | null
+  entraA: string | null
   estado: string | null
+  antivirus: string | null
+  criterio: string | null
   oficinaId: number | null
   responsableId: number | null
   createdAt: Date | null
@@ -59,12 +80,35 @@ export type ActivoMaxAggregateOutputType = {
   id: number | null
   codigo: string | null
   tipo: string | null
+  ip: string | null
+  macAddress: string | null
+  puertoRed: string | null
+  departamento: string | null
   marca: string | null
-  modelo: string | null
+  claseEquipo: string | null
   numeroSerie: string | null
-  fechaCompra: Date | null
-  costo: number | null
+  monitor: string | null
+  serieMonitor: string | null
+  codigoContable: string | null
+  parlantes: string | null
+  placaMadre: string | null
+  procesador: string | null
+  ram: string | null
+  disco: string | null
+  estadoRaton: string | null
+  estadoTeclado: string | null
+  estadoDisco: string | null
+  sistemaOperativo: string | null
+  mantenimiento: string | null
+  actualizable: string | null
+  anydesk: string | null
+  upgrade: string | null
+  recomendacion: string | null
+  saleA: string | null
+  entraA: string | null
   estado: string | null
+  antivirus: string | null
+  criterio: string | null
   oficinaId: number | null
   responsableId: number | null
   createdAt: Date | null
@@ -74,12 +118,35 @@ export type ActivoCountAggregateOutputType = {
   id: number
   codigo: number
   tipo: number
+  ip: number
+  macAddress: number
+  puertoRed: number
+  departamento: number
   marca: number
-  modelo: number
+  claseEquipo: number
   numeroSerie: number
-  fechaCompra: number
-  costo: number
+  monitor: number
+  serieMonitor: number
+  codigoContable: number
+  parlantes: number
+  placaMadre: number
+  procesador: number
+  ram: number
+  disco: number
+  estadoRaton: number
+  estadoTeclado: number
+  estadoDisco: number
+  sistemaOperativo: number
+  mantenimiento: number
+  actualizable: number
+  anydesk: number
+  upgrade: number
+  recomendacion: number
+  saleA: number
+  entraA: number
   estado: number
+  antivirus: number
+  criterio: number
   oficinaId: number
   responsableId: number
   createdAt: number
@@ -89,14 +156,12 @@ export type ActivoCountAggregateOutputType = {
 
 export type ActivoAvgAggregateInputType = {
   id?: true
-  costo?: true
   oficinaId?: true
   responsableId?: true
 }
 
 export type ActivoSumAggregateInputType = {
   id?: true
-  costo?: true
   oficinaId?: true
   responsableId?: true
 }
@@ -105,12 +170,35 @@ export type ActivoMinAggregateInputType = {
   id?: true
   codigo?: true
   tipo?: true
+  ip?: true
+  macAddress?: true
+  puertoRed?: true
+  departamento?: true
   marca?: true
-  modelo?: true
+  claseEquipo?: true
   numeroSerie?: true
-  fechaCompra?: true
-  costo?: true
+  monitor?: true
+  serieMonitor?: true
+  codigoContable?: true
+  parlantes?: true
+  placaMadre?: true
+  procesador?: true
+  ram?: true
+  disco?: true
+  estadoRaton?: true
+  estadoTeclado?: true
+  estadoDisco?: true
+  sistemaOperativo?: true
+  mantenimiento?: true
+  actualizable?: true
+  anydesk?: true
+  upgrade?: true
+  recomendacion?: true
+  saleA?: true
+  entraA?: true
   estado?: true
+  antivirus?: true
+  criterio?: true
   oficinaId?: true
   responsableId?: true
   createdAt?: true
@@ -120,12 +208,35 @@ export type ActivoMaxAggregateInputType = {
   id?: true
   codigo?: true
   tipo?: true
+  ip?: true
+  macAddress?: true
+  puertoRed?: true
+  departamento?: true
   marca?: true
-  modelo?: true
+  claseEquipo?: true
   numeroSerie?: true
-  fechaCompra?: true
-  costo?: true
+  monitor?: true
+  serieMonitor?: true
+  codigoContable?: true
+  parlantes?: true
+  placaMadre?: true
+  procesador?: true
+  ram?: true
+  disco?: true
+  estadoRaton?: true
+  estadoTeclado?: true
+  estadoDisco?: true
+  sistemaOperativo?: true
+  mantenimiento?: true
+  actualizable?: true
+  anydesk?: true
+  upgrade?: true
+  recomendacion?: true
+  saleA?: true
+  entraA?: true
   estado?: true
+  antivirus?: true
+  criterio?: true
   oficinaId?: true
   responsableId?: true
   createdAt?: true
@@ -135,12 +246,35 @@ export type ActivoCountAggregateInputType = {
   id?: true
   codigo?: true
   tipo?: true
+  ip?: true
+  macAddress?: true
+  puertoRed?: true
+  departamento?: true
   marca?: true
-  modelo?: true
+  claseEquipo?: true
   numeroSerie?: true
-  fechaCompra?: true
-  costo?: true
+  monitor?: true
+  serieMonitor?: true
+  codigoContable?: true
+  parlantes?: true
+  placaMadre?: true
+  procesador?: true
+  ram?: true
+  disco?: true
+  estadoRaton?: true
+  estadoTeclado?: true
+  estadoDisco?: true
+  sistemaOperativo?: true
+  mantenimiento?: true
+  actualizable?: true
+  anydesk?: true
+  upgrade?: true
+  recomendacion?: true
+  saleA?: true
+  entraA?: true
   estado?: true
+  antivirus?: true
+  criterio?: true
   oficinaId?: true
   responsableId?: true
   createdAt?: true
@@ -237,12 +371,35 @@ export type ActivoGroupByOutputType = {
   id: number
   codigo: string
   tipo: string
+  ip: string | null
+  macAddress: string | null
+  puertoRed: string | null
+  departamento: string | null
   marca: string | null
-  modelo: string | null
+  claseEquipo: string | null
   numeroSerie: string | null
-  fechaCompra: Date | null
-  costo: number | null
+  monitor: string | null
+  serieMonitor: string | null
+  codigoContable: string | null
+  parlantes: string | null
+  placaMadre: string | null
+  procesador: string | null
+  ram: string | null
+  disco: string | null
+  estadoRaton: string | null
+  estadoTeclado: string | null
+  estadoDisco: string | null
+  sistemaOperativo: string | null
+  mantenimiento: string | null
+  actualizable: string | null
+  anydesk: string | null
+  upgrade: string | null
+  recomendacion: string | null
+  saleA: string | null
+  entraA: string | null
   estado: string
+  antivirus: string | null
+  criterio: string | null
   oficinaId: number
   responsableId: number | null
   createdAt: Date
@@ -275,12 +432,35 @@ export type ActivoWhereInput = {
   id?: Prisma.IntFilter<"Activo"> | number
   codigo?: Prisma.StringFilter<"Activo"> | string
   tipo?: Prisma.StringFilter<"Activo"> | string
+  ip?: Prisma.StringNullableFilter<"Activo"> | string | null
+  macAddress?: Prisma.StringNullableFilter<"Activo"> | string | null
+  puertoRed?: Prisma.StringNullableFilter<"Activo"> | string | null
+  departamento?: Prisma.StringNullableFilter<"Activo"> | string | null
   marca?: Prisma.StringNullableFilter<"Activo"> | string | null
-  modelo?: Prisma.StringNullableFilter<"Activo"> | string | null
+  claseEquipo?: Prisma.StringNullableFilter<"Activo"> | string | null
   numeroSerie?: Prisma.StringNullableFilter<"Activo"> | string | null
-  fechaCompra?: Prisma.DateTimeNullableFilter<"Activo"> | Date | string | null
-  costo?: Prisma.FloatNullableFilter<"Activo"> | number | null
+  monitor?: Prisma.StringNullableFilter<"Activo"> | string | null
+  serieMonitor?: Prisma.StringNullableFilter<"Activo"> | string | null
+  codigoContable?: Prisma.StringNullableFilter<"Activo"> | string | null
+  parlantes?: Prisma.StringNullableFilter<"Activo"> | string | null
+  placaMadre?: Prisma.StringNullableFilter<"Activo"> | string | null
+  procesador?: Prisma.StringNullableFilter<"Activo"> | string | null
+  ram?: Prisma.StringNullableFilter<"Activo"> | string | null
+  disco?: Prisma.StringNullableFilter<"Activo"> | string | null
+  estadoRaton?: Prisma.StringNullableFilter<"Activo"> | string | null
+  estadoTeclado?: Prisma.StringNullableFilter<"Activo"> | string | null
+  estadoDisco?: Prisma.StringNullableFilter<"Activo"> | string | null
+  sistemaOperativo?: Prisma.StringNullableFilter<"Activo"> | string | null
+  mantenimiento?: Prisma.StringNullableFilter<"Activo"> | string | null
+  actualizable?: Prisma.StringNullableFilter<"Activo"> | string | null
+  anydesk?: Prisma.StringNullableFilter<"Activo"> | string | null
+  upgrade?: Prisma.StringNullableFilter<"Activo"> | string | null
+  recomendacion?: Prisma.StringNullableFilter<"Activo"> | string | null
+  saleA?: Prisma.StringNullableFilter<"Activo"> | string | null
+  entraA?: Prisma.StringNullableFilter<"Activo"> | string | null
   estado?: Prisma.StringFilter<"Activo"> | string
+  antivirus?: Prisma.StringNullableFilter<"Activo"> | string | null
+  criterio?: Prisma.StringNullableFilter<"Activo"> | string | null
   oficinaId?: Prisma.IntFilter<"Activo"> | number
   responsableId?: Prisma.IntNullableFilter<"Activo"> | number | null
   createdAt?: Prisma.DateTimeFilter<"Activo"> | Date | string
@@ -292,12 +472,35 @@ export type ActivoOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   codigo?: Prisma.SortOrder
   tipo?: Prisma.SortOrder
+  ip?: Prisma.SortOrderInput | Prisma.SortOrder
+  macAddress?: Prisma.SortOrderInput | Prisma.SortOrder
+  puertoRed?: Prisma.SortOrderInput | Prisma.SortOrder
+  departamento?: Prisma.SortOrderInput | Prisma.SortOrder
   marca?: Prisma.SortOrderInput | Prisma.SortOrder
-  modelo?: Prisma.SortOrderInput | Prisma.SortOrder
+  claseEquipo?: Prisma.SortOrderInput | Prisma.SortOrder
   numeroSerie?: Prisma.SortOrderInput | Prisma.SortOrder
-  fechaCompra?: Prisma.SortOrderInput | Prisma.SortOrder
-  costo?: Prisma.SortOrderInput | Prisma.SortOrder
+  monitor?: Prisma.SortOrderInput | Prisma.SortOrder
+  serieMonitor?: Prisma.SortOrderInput | Prisma.SortOrder
+  codigoContable?: Prisma.SortOrderInput | Prisma.SortOrder
+  parlantes?: Prisma.SortOrderInput | Prisma.SortOrder
+  placaMadre?: Prisma.SortOrderInput | Prisma.SortOrder
+  procesador?: Prisma.SortOrderInput | Prisma.SortOrder
+  ram?: Prisma.SortOrderInput | Prisma.SortOrder
+  disco?: Prisma.SortOrderInput | Prisma.SortOrder
+  estadoRaton?: Prisma.SortOrderInput | Prisma.SortOrder
+  estadoTeclado?: Prisma.SortOrderInput | Prisma.SortOrder
+  estadoDisco?: Prisma.SortOrderInput | Prisma.SortOrder
+  sistemaOperativo?: Prisma.SortOrderInput | Prisma.SortOrder
+  mantenimiento?: Prisma.SortOrderInput | Prisma.SortOrder
+  actualizable?: Prisma.SortOrderInput | Prisma.SortOrder
+  anydesk?: Prisma.SortOrderInput | Prisma.SortOrder
+  upgrade?: Prisma.SortOrderInput | Prisma.SortOrder
+  recomendacion?: Prisma.SortOrderInput | Prisma.SortOrder
+  saleA?: Prisma.SortOrderInput | Prisma.SortOrder
+  entraA?: Prisma.SortOrderInput | Prisma.SortOrder
   estado?: Prisma.SortOrder
+  antivirus?: Prisma.SortOrderInput | Prisma.SortOrder
+  criterio?: Prisma.SortOrderInput | Prisma.SortOrder
   oficinaId?: Prisma.SortOrder
   responsableId?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -312,12 +515,35 @@ export type ActivoWhereUniqueInput = Prisma.AtLeast<{
   OR?: Prisma.ActivoWhereInput[]
   NOT?: Prisma.ActivoWhereInput | Prisma.ActivoWhereInput[]
   tipo?: Prisma.StringFilter<"Activo"> | string
+  ip?: Prisma.StringNullableFilter<"Activo"> | string | null
+  macAddress?: Prisma.StringNullableFilter<"Activo"> | string | null
+  puertoRed?: Prisma.StringNullableFilter<"Activo"> | string | null
+  departamento?: Prisma.StringNullableFilter<"Activo"> | string | null
   marca?: Prisma.StringNullableFilter<"Activo"> | string | null
-  modelo?: Prisma.StringNullableFilter<"Activo"> | string | null
+  claseEquipo?: Prisma.StringNullableFilter<"Activo"> | string | null
   numeroSerie?: Prisma.StringNullableFilter<"Activo"> | string | null
-  fechaCompra?: Prisma.DateTimeNullableFilter<"Activo"> | Date | string | null
-  costo?: Prisma.FloatNullableFilter<"Activo"> | number | null
+  monitor?: Prisma.StringNullableFilter<"Activo"> | string | null
+  serieMonitor?: Prisma.StringNullableFilter<"Activo"> | string | null
+  codigoContable?: Prisma.StringNullableFilter<"Activo"> | string | null
+  parlantes?: Prisma.StringNullableFilter<"Activo"> | string | null
+  placaMadre?: Prisma.StringNullableFilter<"Activo"> | string | null
+  procesador?: Prisma.StringNullableFilter<"Activo"> | string | null
+  ram?: Prisma.StringNullableFilter<"Activo"> | string | null
+  disco?: Prisma.StringNullableFilter<"Activo"> | string | null
+  estadoRaton?: Prisma.StringNullableFilter<"Activo"> | string | null
+  estadoTeclado?: Prisma.StringNullableFilter<"Activo"> | string | null
+  estadoDisco?: Prisma.StringNullableFilter<"Activo"> | string | null
+  sistemaOperativo?: Prisma.StringNullableFilter<"Activo"> | string | null
+  mantenimiento?: Prisma.StringNullableFilter<"Activo"> | string | null
+  actualizable?: Prisma.StringNullableFilter<"Activo"> | string | null
+  anydesk?: Prisma.StringNullableFilter<"Activo"> | string | null
+  upgrade?: Prisma.StringNullableFilter<"Activo"> | string | null
+  recomendacion?: Prisma.StringNullableFilter<"Activo"> | string | null
+  saleA?: Prisma.StringNullableFilter<"Activo"> | string | null
+  entraA?: Prisma.StringNullableFilter<"Activo"> | string | null
   estado?: Prisma.StringFilter<"Activo"> | string
+  antivirus?: Prisma.StringNullableFilter<"Activo"> | string | null
+  criterio?: Prisma.StringNullableFilter<"Activo"> | string | null
   oficinaId?: Prisma.IntFilter<"Activo"> | number
   responsableId?: Prisma.IntNullableFilter<"Activo"> | number | null
   createdAt?: Prisma.DateTimeFilter<"Activo"> | Date | string
@@ -329,12 +555,35 @@ export type ActivoOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   codigo?: Prisma.SortOrder
   tipo?: Prisma.SortOrder
+  ip?: Prisma.SortOrderInput | Prisma.SortOrder
+  macAddress?: Prisma.SortOrderInput | Prisma.SortOrder
+  puertoRed?: Prisma.SortOrderInput | Prisma.SortOrder
+  departamento?: Prisma.SortOrderInput | Prisma.SortOrder
   marca?: Prisma.SortOrderInput | Prisma.SortOrder
-  modelo?: Prisma.SortOrderInput | Prisma.SortOrder
+  claseEquipo?: Prisma.SortOrderInput | Prisma.SortOrder
   numeroSerie?: Prisma.SortOrderInput | Prisma.SortOrder
-  fechaCompra?: Prisma.SortOrderInput | Prisma.SortOrder
-  costo?: Prisma.SortOrderInput | Prisma.SortOrder
+  monitor?: Prisma.SortOrderInput | Prisma.SortOrder
+  serieMonitor?: Prisma.SortOrderInput | Prisma.SortOrder
+  codigoContable?: Prisma.SortOrderInput | Prisma.SortOrder
+  parlantes?: Prisma.SortOrderInput | Prisma.SortOrder
+  placaMadre?: Prisma.SortOrderInput | Prisma.SortOrder
+  procesador?: Prisma.SortOrderInput | Prisma.SortOrder
+  ram?: Prisma.SortOrderInput | Prisma.SortOrder
+  disco?: Prisma.SortOrderInput | Prisma.SortOrder
+  estadoRaton?: Prisma.SortOrderInput | Prisma.SortOrder
+  estadoTeclado?: Prisma.SortOrderInput | Prisma.SortOrder
+  estadoDisco?: Prisma.SortOrderInput | Prisma.SortOrder
+  sistemaOperativo?: Prisma.SortOrderInput | Prisma.SortOrder
+  mantenimiento?: Prisma.SortOrderInput | Prisma.SortOrder
+  actualizable?: Prisma.SortOrderInput | Prisma.SortOrder
+  anydesk?: Prisma.SortOrderInput | Prisma.SortOrder
+  upgrade?: Prisma.SortOrderInput | Prisma.SortOrder
+  recomendacion?: Prisma.SortOrderInput | Prisma.SortOrder
+  saleA?: Prisma.SortOrderInput | Prisma.SortOrder
+  entraA?: Prisma.SortOrderInput | Prisma.SortOrder
   estado?: Prisma.SortOrder
+  antivirus?: Prisma.SortOrderInput | Prisma.SortOrder
+  criterio?: Prisma.SortOrderInput | Prisma.SortOrder
   oficinaId?: Prisma.SortOrder
   responsableId?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -352,12 +601,35 @@ export type ActivoScalarWhereWithAggregatesInput = {
   id?: Prisma.IntWithAggregatesFilter<"Activo"> | number
   codigo?: Prisma.StringWithAggregatesFilter<"Activo"> | string
   tipo?: Prisma.StringWithAggregatesFilter<"Activo"> | string
+  ip?: Prisma.StringNullableWithAggregatesFilter<"Activo"> | string | null
+  macAddress?: Prisma.StringNullableWithAggregatesFilter<"Activo"> | string | null
+  puertoRed?: Prisma.StringNullableWithAggregatesFilter<"Activo"> | string | null
+  departamento?: Prisma.StringNullableWithAggregatesFilter<"Activo"> | string | null
   marca?: Prisma.StringNullableWithAggregatesFilter<"Activo"> | string | null
-  modelo?: Prisma.StringNullableWithAggregatesFilter<"Activo"> | string | null
+  claseEquipo?: Prisma.StringNullableWithAggregatesFilter<"Activo"> | string | null
   numeroSerie?: Prisma.StringNullableWithAggregatesFilter<"Activo"> | string | null
-  fechaCompra?: Prisma.DateTimeNullableWithAggregatesFilter<"Activo"> | Date | string | null
-  costo?: Prisma.FloatNullableWithAggregatesFilter<"Activo"> | number | null
+  monitor?: Prisma.StringNullableWithAggregatesFilter<"Activo"> | string | null
+  serieMonitor?: Prisma.StringNullableWithAggregatesFilter<"Activo"> | string | null
+  codigoContable?: Prisma.StringNullableWithAggregatesFilter<"Activo"> | string | null
+  parlantes?: Prisma.StringNullableWithAggregatesFilter<"Activo"> | string | null
+  placaMadre?: Prisma.StringNullableWithAggregatesFilter<"Activo"> | string | null
+  procesador?: Prisma.StringNullableWithAggregatesFilter<"Activo"> | string | null
+  ram?: Prisma.StringNullableWithAggregatesFilter<"Activo"> | string | null
+  disco?: Prisma.StringNullableWithAggregatesFilter<"Activo"> | string | null
+  estadoRaton?: Prisma.StringNullableWithAggregatesFilter<"Activo"> | string | null
+  estadoTeclado?: Prisma.StringNullableWithAggregatesFilter<"Activo"> | string | null
+  estadoDisco?: Prisma.StringNullableWithAggregatesFilter<"Activo"> | string | null
+  sistemaOperativo?: Prisma.StringNullableWithAggregatesFilter<"Activo"> | string | null
+  mantenimiento?: Prisma.StringNullableWithAggregatesFilter<"Activo"> | string | null
+  actualizable?: Prisma.StringNullableWithAggregatesFilter<"Activo"> | string | null
+  anydesk?: Prisma.StringNullableWithAggregatesFilter<"Activo"> | string | null
+  upgrade?: Prisma.StringNullableWithAggregatesFilter<"Activo"> | string | null
+  recomendacion?: Prisma.StringNullableWithAggregatesFilter<"Activo"> | string | null
+  saleA?: Prisma.StringNullableWithAggregatesFilter<"Activo"> | string | null
+  entraA?: Prisma.StringNullableWithAggregatesFilter<"Activo"> | string | null
   estado?: Prisma.StringWithAggregatesFilter<"Activo"> | string
+  antivirus?: Prisma.StringNullableWithAggregatesFilter<"Activo"> | string | null
+  criterio?: Prisma.StringNullableWithAggregatesFilter<"Activo"> | string | null
   oficinaId?: Prisma.IntWithAggregatesFilter<"Activo"> | number
   responsableId?: Prisma.IntNullableWithAggregatesFilter<"Activo"> | number | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Activo"> | Date | string
@@ -366,12 +638,35 @@ export type ActivoScalarWhereWithAggregatesInput = {
 export type ActivoCreateInput = {
   codigo: string
   tipo: string
+  ip?: string | null
+  macAddress?: string | null
+  puertoRed?: string | null
+  departamento?: string | null
   marca?: string | null
-  modelo?: string | null
+  claseEquipo?: string | null
   numeroSerie?: string | null
-  fechaCompra?: Date | string | null
-  costo?: number | null
+  monitor?: string | null
+  serieMonitor?: string | null
+  codigoContable?: string | null
+  parlantes?: string | null
+  placaMadre?: string | null
+  procesador?: string | null
+  ram?: string | null
+  disco?: string | null
+  estadoRaton?: string | null
+  estadoTeclado?: string | null
+  estadoDisco?: string | null
+  sistemaOperativo?: string | null
+  mantenimiento?: string | null
+  actualizable?: string | null
+  anydesk?: string | null
+  upgrade?: string | null
+  recomendacion?: string | null
+  saleA?: string | null
+  entraA?: string | null
   estado?: string
+  antivirus?: string | null
+  criterio?: string | null
   createdAt?: Date | string
   oficina: Prisma.OficinaCreateNestedOneWithoutActivosInput
   responsable?: Prisma.EmpleadoCreateNestedOneWithoutActivosInput
@@ -381,12 +676,35 @@ export type ActivoUncheckedCreateInput = {
   id?: number
   codigo: string
   tipo: string
+  ip?: string | null
+  macAddress?: string | null
+  puertoRed?: string | null
+  departamento?: string | null
   marca?: string | null
-  modelo?: string | null
+  claseEquipo?: string | null
   numeroSerie?: string | null
-  fechaCompra?: Date | string | null
-  costo?: number | null
+  monitor?: string | null
+  serieMonitor?: string | null
+  codigoContable?: string | null
+  parlantes?: string | null
+  placaMadre?: string | null
+  procesador?: string | null
+  ram?: string | null
+  disco?: string | null
+  estadoRaton?: string | null
+  estadoTeclado?: string | null
+  estadoDisco?: string | null
+  sistemaOperativo?: string | null
+  mantenimiento?: string | null
+  actualizable?: string | null
+  anydesk?: string | null
+  upgrade?: string | null
+  recomendacion?: string | null
+  saleA?: string | null
+  entraA?: string | null
   estado?: string
+  antivirus?: string | null
+  criterio?: string | null
   oficinaId: number
   responsableId?: number | null
   createdAt?: Date | string
@@ -395,12 +713,35 @@ export type ActivoUncheckedCreateInput = {
 export type ActivoUpdateInput = {
   codigo?: Prisma.StringFieldUpdateOperationsInput | string
   tipo?: Prisma.StringFieldUpdateOperationsInput | string
+  ip?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  macAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  puertoRed?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  departamento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   marca?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  modelo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  claseEquipo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   numeroSerie?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  fechaCompra?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  costo?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  monitor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  serieMonitor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  codigoContable?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  parlantes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  placaMadre?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  procesador?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ram?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  disco?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  estadoRaton?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  estadoTeclado?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  estadoDisco?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sistemaOperativo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  mantenimiento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  actualizable?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  anydesk?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  upgrade?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  recomendacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  saleA?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  entraA?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   estado?: Prisma.StringFieldUpdateOperationsInput | string
+  antivirus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  criterio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   oficina?: Prisma.OficinaUpdateOneRequiredWithoutActivosNestedInput
   responsable?: Prisma.EmpleadoUpdateOneWithoutActivosNestedInput
@@ -410,12 +751,35 @@ export type ActivoUncheckedUpdateInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   codigo?: Prisma.StringFieldUpdateOperationsInput | string
   tipo?: Prisma.StringFieldUpdateOperationsInput | string
+  ip?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  macAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  puertoRed?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  departamento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   marca?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  modelo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  claseEquipo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   numeroSerie?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  fechaCompra?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  costo?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  monitor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  serieMonitor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  codigoContable?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  parlantes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  placaMadre?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  procesador?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ram?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  disco?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  estadoRaton?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  estadoTeclado?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  estadoDisco?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sistemaOperativo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  mantenimiento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  actualizable?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  anydesk?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  upgrade?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  recomendacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  saleA?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  entraA?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   estado?: Prisma.StringFieldUpdateOperationsInput | string
+  antivirus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  criterio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   oficinaId?: Prisma.IntFieldUpdateOperationsInput | number
   responsableId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -425,12 +789,35 @@ export type ActivoCreateManyInput = {
   id?: number
   codigo: string
   tipo: string
+  ip?: string | null
+  macAddress?: string | null
+  puertoRed?: string | null
+  departamento?: string | null
   marca?: string | null
-  modelo?: string | null
+  claseEquipo?: string | null
   numeroSerie?: string | null
-  fechaCompra?: Date | string | null
-  costo?: number | null
+  monitor?: string | null
+  serieMonitor?: string | null
+  codigoContable?: string | null
+  parlantes?: string | null
+  placaMadre?: string | null
+  procesador?: string | null
+  ram?: string | null
+  disco?: string | null
+  estadoRaton?: string | null
+  estadoTeclado?: string | null
+  estadoDisco?: string | null
+  sistemaOperativo?: string | null
+  mantenimiento?: string | null
+  actualizable?: string | null
+  anydesk?: string | null
+  upgrade?: string | null
+  recomendacion?: string | null
+  saleA?: string | null
+  entraA?: string | null
   estado?: string
+  antivirus?: string | null
+  criterio?: string | null
   oficinaId: number
   responsableId?: number | null
   createdAt?: Date | string
@@ -439,12 +826,35 @@ export type ActivoCreateManyInput = {
 export type ActivoUpdateManyMutationInput = {
   codigo?: Prisma.StringFieldUpdateOperationsInput | string
   tipo?: Prisma.StringFieldUpdateOperationsInput | string
+  ip?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  macAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  puertoRed?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  departamento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   marca?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  modelo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  claseEquipo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   numeroSerie?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  fechaCompra?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  costo?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  monitor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  serieMonitor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  codigoContable?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  parlantes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  placaMadre?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  procesador?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ram?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  disco?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  estadoRaton?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  estadoTeclado?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  estadoDisco?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sistemaOperativo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  mantenimiento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  actualizable?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  anydesk?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  upgrade?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  recomendacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  saleA?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  entraA?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   estado?: Prisma.StringFieldUpdateOperationsInput | string
+  antivirus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  criterio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -452,12 +862,35 @@ export type ActivoUncheckedUpdateManyInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   codigo?: Prisma.StringFieldUpdateOperationsInput | string
   tipo?: Prisma.StringFieldUpdateOperationsInput | string
+  ip?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  macAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  puertoRed?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  departamento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   marca?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  modelo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  claseEquipo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   numeroSerie?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  fechaCompra?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  costo?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  monitor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  serieMonitor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  codigoContable?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  parlantes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  placaMadre?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  procesador?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ram?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  disco?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  estadoRaton?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  estadoTeclado?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  estadoDisco?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sistemaOperativo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  mantenimiento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  actualizable?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  anydesk?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  upgrade?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  recomendacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  saleA?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  entraA?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   estado?: Prisma.StringFieldUpdateOperationsInput | string
+  antivirus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  criterio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   oficinaId?: Prisma.IntFieldUpdateOperationsInput | number
   responsableId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -477,12 +910,35 @@ export type ActivoCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   codigo?: Prisma.SortOrder
   tipo?: Prisma.SortOrder
+  ip?: Prisma.SortOrder
+  macAddress?: Prisma.SortOrder
+  puertoRed?: Prisma.SortOrder
+  departamento?: Prisma.SortOrder
   marca?: Prisma.SortOrder
-  modelo?: Prisma.SortOrder
+  claseEquipo?: Prisma.SortOrder
   numeroSerie?: Prisma.SortOrder
-  fechaCompra?: Prisma.SortOrder
-  costo?: Prisma.SortOrder
+  monitor?: Prisma.SortOrder
+  serieMonitor?: Prisma.SortOrder
+  codigoContable?: Prisma.SortOrder
+  parlantes?: Prisma.SortOrder
+  placaMadre?: Prisma.SortOrder
+  procesador?: Prisma.SortOrder
+  ram?: Prisma.SortOrder
+  disco?: Prisma.SortOrder
+  estadoRaton?: Prisma.SortOrder
+  estadoTeclado?: Prisma.SortOrder
+  estadoDisco?: Prisma.SortOrder
+  sistemaOperativo?: Prisma.SortOrder
+  mantenimiento?: Prisma.SortOrder
+  actualizable?: Prisma.SortOrder
+  anydesk?: Prisma.SortOrder
+  upgrade?: Prisma.SortOrder
+  recomendacion?: Prisma.SortOrder
+  saleA?: Prisma.SortOrder
+  entraA?: Prisma.SortOrder
   estado?: Prisma.SortOrder
+  antivirus?: Prisma.SortOrder
+  criterio?: Prisma.SortOrder
   oficinaId?: Prisma.SortOrder
   responsableId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -490,7 +946,6 @@ export type ActivoCountOrderByAggregateInput = {
 
 export type ActivoAvgOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  costo?: Prisma.SortOrder
   oficinaId?: Prisma.SortOrder
   responsableId?: Prisma.SortOrder
 }
@@ -499,12 +954,35 @@ export type ActivoMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   codigo?: Prisma.SortOrder
   tipo?: Prisma.SortOrder
+  ip?: Prisma.SortOrder
+  macAddress?: Prisma.SortOrder
+  puertoRed?: Prisma.SortOrder
+  departamento?: Prisma.SortOrder
   marca?: Prisma.SortOrder
-  modelo?: Prisma.SortOrder
+  claseEquipo?: Prisma.SortOrder
   numeroSerie?: Prisma.SortOrder
-  fechaCompra?: Prisma.SortOrder
-  costo?: Prisma.SortOrder
+  monitor?: Prisma.SortOrder
+  serieMonitor?: Prisma.SortOrder
+  codigoContable?: Prisma.SortOrder
+  parlantes?: Prisma.SortOrder
+  placaMadre?: Prisma.SortOrder
+  procesador?: Prisma.SortOrder
+  ram?: Prisma.SortOrder
+  disco?: Prisma.SortOrder
+  estadoRaton?: Prisma.SortOrder
+  estadoTeclado?: Prisma.SortOrder
+  estadoDisco?: Prisma.SortOrder
+  sistemaOperativo?: Prisma.SortOrder
+  mantenimiento?: Prisma.SortOrder
+  actualizable?: Prisma.SortOrder
+  anydesk?: Prisma.SortOrder
+  upgrade?: Prisma.SortOrder
+  recomendacion?: Prisma.SortOrder
+  saleA?: Prisma.SortOrder
+  entraA?: Prisma.SortOrder
   estado?: Prisma.SortOrder
+  antivirus?: Prisma.SortOrder
+  criterio?: Prisma.SortOrder
   oficinaId?: Prisma.SortOrder
   responsableId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -514,12 +992,35 @@ export type ActivoMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   codigo?: Prisma.SortOrder
   tipo?: Prisma.SortOrder
+  ip?: Prisma.SortOrder
+  macAddress?: Prisma.SortOrder
+  puertoRed?: Prisma.SortOrder
+  departamento?: Prisma.SortOrder
   marca?: Prisma.SortOrder
-  modelo?: Prisma.SortOrder
+  claseEquipo?: Prisma.SortOrder
   numeroSerie?: Prisma.SortOrder
-  fechaCompra?: Prisma.SortOrder
-  costo?: Prisma.SortOrder
+  monitor?: Prisma.SortOrder
+  serieMonitor?: Prisma.SortOrder
+  codigoContable?: Prisma.SortOrder
+  parlantes?: Prisma.SortOrder
+  placaMadre?: Prisma.SortOrder
+  procesador?: Prisma.SortOrder
+  ram?: Prisma.SortOrder
+  disco?: Prisma.SortOrder
+  estadoRaton?: Prisma.SortOrder
+  estadoTeclado?: Prisma.SortOrder
+  estadoDisco?: Prisma.SortOrder
+  sistemaOperativo?: Prisma.SortOrder
+  mantenimiento?: Prisma.SortOrder
+  actualizable?: Prisma.SortOrder
+  anydesk?: Prisma.SortOrder
+  upgrade?: Prisma.SortOrder
+  recomendacion?: Prisma.SortOrder
+  saleA?: Prisma.SortOrder
+  entraA?: Prisma.SortOrder
   estado?: Prisma.SortOrder
+  antivirus?: Prisma.SortOrder
+  criterio?: Prisma.SortOrder
   oficinaId?: Prisma.SortOrder
   responsableId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
@@ -527,7 +1028,6 @@ export type ActivoMinOrderByAggregateInput = {
 
 export type ActivoSumOrderByAggregateInput = {
   id?: Prisma.SortOrder
-  costo?: Prisma.SortOrder
   oficinaId?: Prisma.SortOrder
   responsableId?: Prisma.SortOrder
 }
@@ -616,18 +1116,6 @@ export type ActivoUncheckedUpdateManyWithoutResponsableNestedInput = {
   deleteMany?: Prisma.ActivoScalarWhereInput | Prisma.ActivoScalarWhereInput[]
 }
 
-export type NullableDateTimeFieldUpdateOperationsInput = {
-  set?: Date | string | null
-}
-
-export type NullableFloatFieldUpdateOperationsInput = {
-  set?: number | null
-  increment?: number
-  decrement?: number
-  multiply?: number
-  divide?: number
-}
-
 export type DateTimeFieldUpdateOperationsInput = {
   set?: Date | string
 }
@@ -643,12 +1131,35 @@ export type NullableIntFieldUpdateOperationsInput = {
 export type ActivoCreateWithoutOficinaInput = {
   codigo: string
   tipo: string
+  ip?: string | null
+  macAddress?: string | null
+  puertoRed?: string | null
+  departamento?: string | null
   marca?: string | null
-  modelo?: string | null
+  claseEquipo?: string | null
   numeroSerie?: string | null
-  fechaCompra?: Date | string | null
-  costo?: number | null
+  monitor?: string | null
+  serieMonitor?: string | null
+  codigoContable?: string | null
+  parlantes?: string | null
+  placaMadre?: string | null
+  procesador?: string | null
+  ram?: string | null
+  disco?: string | null
+  estadoRaton?: string | null
+  estadoTeclado?: string | null
+  estadoDisco?: string | null
+  sistemaOperativo?: string | null
+  mantenimiento?: string | null
+  actualizable?: string | null
+  anydesk?: string | null
+  upgrade?: string | null
+  recomendacion?: string | null
+  saleA?: string | null
+  entraA?: string | null
   estado?: string
+  antivirus?: string | null
+  criterio?: string | null
   createdAt?: Date | string
   responsable?: Prisma.EmpleadoCreateNestedOneWithoutActivosInput
 }
@@ -657,12 +1168,35 @@ export type ActivoUncheckedCreateWithoutOficinaInput = {
   id?: number
   codigo: string
   tipo: string
+  ip?: string | null
+  macAddress?: string | null
+  puertoRed?: string | null
+  departamento?: string | null
   marca?: string | null
-  modelo?: string | null
+  claseEquipo?: string | null
   numeroSerie?: string | null
-  fechaCompra?: Date | string | null
-  costo?: number | null
+  monitor?: string | null
+  serieMonitor?: string | null
+  codigoContable?: string | null
+  parlantes?: string | null
+  placaMadre?: string | null
+  procesador?: string | null
+  ram?: string | null
+  disco?: string | null
+  estadoRaton?: string | null
+  estadoTeclado?: string | null
+  estadoDisco?: string | null
+  sistemaOperativo?: string | null
+  mantenimiento?: string | null
+  actualizable?: string | null
+  anydesk?: string | null
+  upgrade?: string | null
+  recomendacion?: string | null
+  saleA?: string | null
+  entraA?: string | null
   estado?: string
+  antivirus?: string | null
+  criterio?: string | null
   responsableId?: number | null
   createdAt?: Date | string
 }
@@ -700,12 +1234,35 @@ export type ActivoScalarWhereInput = {
   id?: Prisma.IntFilter<"Activo"> | number
   codigo?: Prisma.StringFilter<"Activo"> | string
   tipo?: Prisma.StringFilter<"Activo"> | string
+  ip?: Prisma.StringNullableFilter<"Activo"> | string | null
+  macAddress?: Prisma.StringNullableFilter<"Activo"> | string | null
+  puertoRed?: Prisma.StringNullableFilter<"Activo"> | string | null
+  departamento?: Prisma.StringNullableFilter<"Activo"> | string | null
   marca?: Prisma.StringNullableFilter<"Activo"> | string | null
-  modelo?: Prisma.StringNullableFilter<"Activo"> | string | null
+  claseEquipo?: Prisma.StringNullableFilter<"Activo"> | string | null
   numeroSerie?: Prisma.StringNullableFilter<"Activo"> | string | null
-  fechaCompra?: Prisma.DateTimeNullableFilter<"Activo"> | Date | string | null
-  costo?: Prisma.FloatNullableFilter<"Activo"> | number | null
+  monitor?: Prisma.StringNullableFilter<"Activo"> | string | null
+  serieMonitor?: Prisma.StringNullableFilter<"Activo"> | string | null
+  codigoContable?: Prisma.StringNullableFilter<"Activo"> | string | null
+  parlantes?: Prisma.StringNullableFilter<"Activo"> | string | null
+  placaMadre?: Prisma.StringNullableFilter<"Activo"> | string | null
+  procesador?: Prisma.StringNullableFilter<"Activo"> | string | null
+  ram?: Prisma.StringNullableFilter<"Activo"> | string | null
+  disco?: Prisma.StringNullableFilter<"Activo"> | string | null
+  estadoRaton?: Prisma.StringNullableFilter<"Activo"> | string | null
+  estadoTeclado?: Prisma.StringNullableFilter<"Activo"> | string | null
+  estadoDisco?: Prisma.StringNullableFilter<"Activo"> | string | null
+  sistemaOperativo?: Prisma.StringNullableFilter<"Activo"> | string | null
+  mantenimiento?: Prisma.StringNullableFilter<"Activo"> | string | null
+  actualizable?: Prisma.StringNullableFilter<"Activo"> | string | null
+  anydesk?: Prisma.StringNullableFilter<"Activo"> | string | null
+  upgrade?: Prisma.StringNullableFilter<"Activo"> | string | null
+  recomendacion?: Prisma.StringNullableFilter<"Activo"> | string | null
+  saleA?: Prisma.StringNullableFilter<"Activo"> | string | null
+  entraA?: Prisma.StringNullableFilter<"Activo"> | string | null
   estado?: Prisma.StringFilter<"Activo"> | string
+  antivirus?: Prisma.StringNullableFilter<"Activo"> | string | null
+  criterio?: Prisma.StringNullableFilter<"Activo"> | string | null
   oficinaId?: Prisma.IntFilter<"Activo"> | number
   responsableId?: Prisma.IntNullableFilter<"Activo"> | number | null
   createdAt?: Prisma.DateTimeFilter<"Activo"> | Date | string
@@ -714,12 +1271,35 @@ export type ActivoScalarWhereInput = {
 export type ActivoCreateWithoutResponsableInput = {
   codigo: string
   tipo: string
+  ip?: string | null
+  macAddress?: string | null
+  puertoRed?: string | null
+  departamento?: string | null
   marca?: string | null
-  modelo?: string | null
+  claseEquipo?: string | null
   numeroSerie?: string | null
-  fechaCompra?: Date | string | null
-  costo?: number | null
+  monitor?: string | null
+  serieMonitor?: string | null
+  codigoContable?: string | null
+  parlantes?: string | null
+  placaMadre?: string | null
+  procesador?: string | null
+  ram?: string | null
+  disco?: string | null
+  estadoRaton?: string | null
+  estadoTeclado?: string | null
+  estadoDisco?: string | null
+  sistemaOperativo?: string | null
+  mantenimiento?: string | null
+  actualizable?: string | null
+  anydesk?: string | null
+  upgrade?: string | null
+  recomendacion?: string | null
+  saleA?: string | null
+  entraA?: string | null
   estado?: string
+  antivirus?: string | null
+  criterio?: string | null
   createdAt?: Date | string
   oficina: Prisma.OficinaCreateNestedOneWithoutActivosInput
 }
@@ -728,12 +1308,35 @@ export type ActivoUncheckedCreateWithoutResponsableInput = {
   id?: number
   codigo: string
   tipo: string
+  ip?: string | null
+  macAddress?: string | null
+  puertoRed?: string | null
+  departamento?: string | null
   marca?: string | null
-  modelo?: string | null
+  claseEquipo?: string | null
   numeroSerie?: string | null
-  fechaCompra?: Date | string | null
-  costo?: number | null
+  monitor?: string | null
+  serieMonitor?: string | null
+  codigoContable?: string | null
+  parlantes?: string | null
+  placaMadre?: string | null
+  procesador?: string | null
+  ram?: string | null
+  disco?: string | null
+  estadoRaton?: string | null
+  estadoTeclado?: string | null
+  estadoDisco?: string | null
+  sistemaOperativo?: string | null
+  mantenimiento?: string | null
+  actualizable?: string | null
+  anydesk?: string | null
+  upgrade?: string | null
+  recomendacion?: string | null
+  saleA?: string | null
+  entraA?: string | null
   estado?: string
+  antivirus?: string | null
+  criterio?: string | null
   oficinaId: number
   createdAt?: Date | string
 }
@@ -768,12 +1371,35 @@ export type ActivoCreateManyOficinaInput = {
   id?: number
   codigo: string
   tipo: string
+  ip?: string | null
+  macAddress?: string | null
+  puertoRed?: string | null
+  departamento?: string | null
   marca?: string | null
-  modelo?: string | null
+  claseEquipo?: string | null
   numeroSerie?: string | null
-  fechaCompra?: Date | string | null
-  costo?: number | null
+  monitor?: string | null
+  serieMonitor?: string | null
+  codigoContable?: string | null
+  parlantes?: string | null
+  placaMadre?: string | null
+  procesador?: string | null
+  ram?: string | null
+  disco?: string | null
+  estadoRaton?: string | null
+  estadoTeclado?: string | null
+  estadoDisco?: string | null
+  sistemaOperativo?: string | null
+  mantenimiento?: string | null
+  actualizable?: string | null
+  anydesk?: string | null
+  upgrade?: string | null
+  recomendacion?: string | null
+  saleA?: string | null
+  entraA?: string | null
   estado?: string
+  antivirus?: string | null
+  criterio?: string | null
   responsableId?: number | null
   createdAt?: Date | string
 }
@@ -781,12 +1407,35 @@ export type ActivoCreateManyOficinaInput = {
 export type ActivoUpdateWithoutOficinaInput = {
   codigo?: Prisma.StringFieldUpdateOperationsInput | string
   tipo?: Prisma.StringFieldUpdateOperationsInput | string
+  ip?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  macAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  puertoRed?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  departamento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   marca?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  modelo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  claseEquipo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   numeroSerie?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  fechaCompra?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  costo?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  monitor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  serieMonitor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  codigoContable?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  parlantes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  placaMadre?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  procesador?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ram?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  disco?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  estadoRaton?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  estadoTeclado?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  estadoDisco?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sistemaOperativo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  mantenimiento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  actualizable?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  anydesk?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  upgrade?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  recomendacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  saleA?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  entraA?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   estado?: Prisma.StringFieldUpdateOperationsInput | string
+  antivirus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  criterio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   responsable?: Prisma.EmpleadoUpdateOneWithoutActivosNestedInput
 }
@@ -795,12 +1444,35 @@ export type ActivoUncheckedUpdateWithoutOficinaInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   codigo?: Prisma.StringFieldUpdateOperationsInput | string
   tipo?: Prisma.StringFieldUpdateOperationsInput | string
+  ip?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  macAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  puertoRed?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  departamento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   marca?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  modelo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  claseEquipo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   numeroSerie?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  fechaCompra?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  costo?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  monitor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  serieMonitor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  codigoContable?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  parlantes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  placaMadre?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  procesador?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ram?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  disco?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  estadoRaton?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  estadoTeclado?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  estadoDisco?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sistemaOperativo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  mantenimiento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  actualizable?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  anydesk?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  upgrade?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  recomendacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  saleA?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  entraA?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   estado?: Prisma.StringFieldUpdateOperationsInput | string
+  antivirus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  criterio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   responsableId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -809,12 +1481,35 @@ export type ActivoUncheckedUpdateManyWithoutOficinaInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   codigo?: Prisma.StringFieldUpdateOperationsInput | string
   tipo?: Prisma.StringFieldUpdateOperationsInput | string
+  ip?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  macAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  puertoRed?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  departamento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   marca?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  modelo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  claseEquipo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   numeroSerie?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  fechaCompra?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  costo?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  monitor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  serieMonitor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  codigoContable?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  parlantes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  placaMadre?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  procesador?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ram?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  disco?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  estadoRaton?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  estadoTeclado?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  estadoDisco?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sistemaOperativo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  mantenimiento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  actualizable?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  anydesk?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  upgrade?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  recomendacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  saleA?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  entraA?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   estado?: Prisma.StringFieldUpdateOperationsInput | string
+  antivirus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  criterio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   responsableId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -823,12 +1518,35 @@ export type ActivoCreateManyResponsableInput = {
   id?: number
   codigo: string
   tipo: string
+  ip?: string | null
+  macAddress?: string | null
+  puertoRed?: string | null
+  departamento?: string | null
   marca?: string | null
-  modelo?: string | null
+  claseEquipo?: string | null
   numeroSerie?: string | null
-  fechaCompra?: Date | string | null
-  costo?: number | null
+  monitor?: string | null
+  serieMonitor?: string | null
+  codigoContable?: string | null
+  parlantes?: string | null
+  placaMadre?: string | null
+  procesador?: string | null
+  ram?: string | null
+  disco?: string | null
+  estadoRaton?: string | null
+  estadoTeclado?: string | null
+  estadoDisco?: string | null
+  sistemaOperativo?: string | null
+  mantenimiento?: string | null
+  actualizable?: string | null
+  anydesk?: string | null
+  upgrade?: string | null
+  recomendacion?: string | null
+  saleA?: string | null
+  entraA?: string | null
   estado?: string
+  antivirus?: string | null
+  criterio?: string | null
   oficinaId: number
   createdAt?: Date | string
 }
@@ -836,12 +1554,35 @@ export type ActivoCreateManyResponsableInput = {
 export type ActivoUpdateWithoutResponsableInput = {
   codigo?: Prisma.StringFieldUpdateOperationsInput | string
   tipo?: Prisma.StringFieldUpdateOperationsInput | string
+  ip?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  macAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  puertoRed?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  departamento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   marca?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  modelo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  claseEquipo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   numeroSerie?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  fechaCompra?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  costo?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  monitor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  serieMonitor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  codigoContable?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  parlantes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  placaMadre?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  procesador?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ram?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  disco?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  estadoRaton?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  estadoTeclado?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  estadoDisco?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sistemaOperativo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  mantenimiento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  actualizable?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  anydesk?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  upgrade?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  recomendacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  saleA?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  entraA?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   estado?: Prisma.StringFieldUpdateOperationsInput | string
+  antivirus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  criterio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   oficina?: Prisma.OficinaUpdateOneRequiredWithoutActivosNestedInput
 }
@@ -850,12 +1591,35 @@ export type ActivoUncheckedUpdateWithoutResponsableInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   codigo?: Prisma.StringFieldUpdateOperationsInput | string
   tipo?: Prisma.StringFieldUpdateOperationsInput | string
+  ip?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  macAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  puertoRed?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  departamento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   marca?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  modelo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  claseEquipo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   numeroSerie?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  fechaCompra?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  costo?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  monitor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  serieMonitor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  codigoContable?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  parlantes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  placaMadre?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  procesador?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ram?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  disco?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  estadoRaton?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  estadoTeclado?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  estadoDisco?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sistemaOperativo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  mantenimiento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  actualizable?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  anydesk?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  upgrade?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  recomendacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  saleA?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  entraA?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   estado?: Prisma.StringFieldUpdateOperationsInput | string
+  antivirus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  criterio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   oficinaId?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -864,12 +1628,35 @@ export type ActivoUncheckedUpdateManyWithoutResponsableInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   codigo?: Prisma.StringFieldUpdateOperationsInput | string
   tipo?: Prisma.StringFieldUpdateOperationsInput | string
+  ip?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  macAddress?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  puertoRed?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  departamento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   marca?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  modelo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  claseEquipo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   numeroSerie?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  fechaCompra?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  costo?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  monitor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  serieMonitor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  codigoContable?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  parlantes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  placaMadre?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  procesador?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ram?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  disco?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  estadoRaton?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  estadoTeclado?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  estadoDisco?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sistemaOperativo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  mantenimiento?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  actualizable?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  anydesk?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  upgrade?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  recomendacion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  saleA?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  entraA?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   estado?: Prisma.StringFieldUpdateOperationsInput | string
+  antivirus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  criterio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   oficinaId?: Prisma.IntFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -880,12 +1667,35 @@ export type ActivoSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   id?: boolean
   codigo?: boolean
   tipo?: boolean
+  ip?: boolean
+  macAddress?: boolean
+  puertoRed?: boolean
+  departamento?: boolean
   marca?: boolean
-  modelo?: boolean
+  claseEquipo?: boolean
   numeroSerie?: boolean
-  fechaCompra?: boolean
-  costo?: boolean
+  monitor?: boolean
+  serieMonitor?: boolean
+  codigoContable?: boolean
+  parlantes?: boolean
+  placaMadre?: boolean
+  procesador?: boolean
+  ram?: boolean
+  disco?: boolean
+  estadoRaton?: boolean
+  estadoTeclado?: boolean
+  estadoDisco?: boolean
+  sistemaOperativo?: boolean
+  mantenimiento?: boolean
+  actualizable?: boolean
+  anydesk?: boolean
+  upgrade?: boolean
+  recomendacion?: boolean
+  saleA?: boolean
+  entraA?: boolean
   estado?: boolean
+  antivirus?: boolean
+  criterio?: boolean
   oficinaId?: boolean
   responsableId?: boolean
   createdAt?: boolean
@@ -897,12 +1707,35 @@ export type ActivoSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extens
   id?: boolean
   codigo?: boolean
   tipo?: boolean
+  ip?: boolean
+  macAddress?: boolean
+  puertoRed?: boolean
+  departamento?: boolean
   marca?: boolean
-  modelo?: boolean
+  claseEquipo?: boolean
   numeroSerie?: boolean
-  fechaCompra?: boolean
-  costo?: boolean
+  monitor?: boolean
+  serieMonitor?: boolean
+  codigoContable?: boolean
+  parlantes?: boolean
+  placaMadre?: boolean
+  procesador?: boolean
+  ram?: boolean
+  disco?: boolean
+  estadoRaton?: boolean
+  estadoTeclado?: boolean
+  estadoDisco?: boolean
+  sistemaOperativo?: boolean
+  mantenimiento?: boolean
+  actualizable?: boolean
+  anydesk?: boolean
+  upgrade?: boolean
+  recomendacion?: boolean
+  saleA?: boolean
+  entraA?: boolean
   estado?: boolean
+  antivirus?: boolean
+  criterio?: boolean
   oficinaId?: boolean
   responsableId?: boolean
   createdAt?: boolean
@@ -914,12 +1747,35 @@ export type ActivoSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extens
   id?: boolean
   codigo?: boolean
   tipo?: boolean
+  ip?: boolean
+  macAddress?: boolean
+  puertoRed?: boolean
+  departamento?: boolean
   marca?: boolean
-  modelo?: boolean
+  claseEquipo?: boolean
   numeroSerie?: boolean
-  fechaCompra?: boolean
-  costo?: boolean
+  monitor?: boolean
+  serieMonitor?: boolean
+  codigoContable?: boolean
+  parlantes?: boolean
+  placaMadre?: boolean
+  procesador?: boolean
+  ram?: boolean
+  disco?: boolean
+  estadoRaton?: boolean
+  estadoTeclado?: boolean
+  estadoDisco?: boolean
+  sistemaOperativo?: boolean
+  mantenimiento?: boolean
+  actualizable?: boolean
+  anydesk?: boolean
+  upgrade?: boolean
+  recomendacion?: boolean
+  saleA?: boolean
+  entraA?: boolean
   estado?: boolean
+  antivirus?: boolean
+  criterio?: boolean
   oficinaId?: boolean
   responsableId?: boolean
   createdAt?: boolean
@@ -931,18 +1787,41 @@ export type ActivoSelectScalar = {
   id?: boolean
   codigo?: boolean
   tipo?: boolean
+  ip?: boolean
+  macAddress?: boolean
+  puertoRed?: boolean
+  departamento?: boolean
   marca?: boolean
-  modelo?: boolean
+  claseEquipo?: boolean
   numeroSerie?: boolean
-  fechaCompra?: boolean
-  costo?: boolean
+  monitor?: boolean
+  serieMonitor?: boolean
+  codigoContable?: boolean
+  parlantes?: boolean
+  placaMadre?: boolean
+  procesador?: boolean
+  ram?: boolean
+  disco?: boolean
+  estadoRaton?: boolean
+  estadoTeclado?: boolean
+  estadoDisco?: boolean
+  sistemaOperativo?: boolean
+  mantenimiento?: boolean
+  actualizable?: boolean
+  anydesk?: boolean
+  upgrade?: boolean
+  recomendacion?: boolean
+  saleA?: boolean
+  entraA?: boolean
   estado?: boolean
+  antivirus?: boolean
+  criterio?: boolean
   oficinaId?: boolean
   responsableId?: boolean
   createdAt?: boolean
 }
 
-export type ActivoOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "codigo" | "tipo" | "marca" | "modelo" | "numeroSerie" | "fechaCompra" | "costo" | "estado" | "oficinaId" | "responsableId" | "createdAt", ExtArgs["result"]["activo"]>
+export type ActivoOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "codigo" | "tipo" | "ip" | "macAddress" | "puertoRed" | "departamento" | "marca" | "claseEquipo" | "numeroSerie" | "monitor" | "serieMonitor" | "codigoContable" | "parlantes" | "placaMadre" | "procesador" | "ram" | "disco" | "estadoRaton" | "estadoTeclado" | "estadoDisco" | "sistemaOperativo" | "mantenimiento" | "actualizable" | "anydesk" | "upgrade" | "recomendacion" | "saleA" | "entraA" | "estado" | "antivirus" | "criterio" | "oficinaId" | "responsableId" | "createdAt", ExtArgs["result"]["activo"]>
 export type ActivoInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   oficina?: boolean | Prisma.OficinaDefaultArgs<ExtArgs>
   responsable?: boolean | Prisma.Activo$responsableArgs<ExtArgs>
@@ -966,12 +1845,35 @@ export type $ActivoPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
     id: number
     codigo: string
     tipo: string
+    ip: string | null
+    macAddress: string | null
+    puertoRed: string | null
+    departamento: string | null
     marca: string | null
-    modelo: string | null
+    claseEquipo: string | null
     numeroSerie: string | null
-    fechaCompra: Date | null
-    costo: number | null
+    monitor: string | null
+    serieMonitor: string | null
+    codigoContable: string | null
+    parlantes: string | null
+    placaMadre: string | null
+    procesador: string | null
+    ram: string | null
+    disco: string | null
+    estadoRaton: string | null
+    estadoTeclado: string | null
+    estadoDisco: string | null
+    sistemaOperativo: string | null
+    mantenimiento: string | null
+    actualizable: string | null
+    anydesk: string | null
+    upgrade: string | null
+    recomendacion: string | null
+    saleA: string | null
+    entraA: string | null
     estado: string
+    antivirus: string | null
+    criterio: string | null
     oficinaId: number
     responsableId: number | null
     createdAt: Date
@@ -1403,12 +2305,35 @@ export interface ActivoFieldRefs {
   readonly id: Prisma.FieldRef<"Activo", 'Int'>
   readonly codigo: Prisma.FieldRef<"Activo", 'String'>
   readonly tipo: Prisma.FieldRef<"Activo", 'String'>
+  readonly ip: Prisma.FieldRef<"Activo", 'String'>
+  readonly macAddress: Prisma.FieldRef<"Activo", 'String'>
+  readonly puertoRed: Prisma.FieldRef<"Activo", 'String'>
+  readonly departamento: Prisma.FieldRef<"Activo", 'String'>
   readonly marca: Prisma.FieldRef<"Activo", 'String'>
-  readonly modelo: Prisma.FieldRef<"Activo", 'String'>
+  readonly claseEquipo: Prisma.FieldRef<"Activo", 'String'>
   readonly numeroSerie: Prisma.FieldRef<"Activo", 'String'>
-  readonly fechaCompra: Prisma.FieldRef<"Activo", 'DateTime'>
-  readonly costo: Prisma.FieldRef<"Activo", 'Float'>
+  readonly monitor: Prisma.FieldRef<"Activo", 'String'>
+  readonly serieMonitor: Prisma.FieldRef<"Activo", 'String'>
+  readonly codigoContable: Prisma.FieldRef<"Activo", 'String'>
+  readonly parlantes: Prisma.FieldRef<"Activo", 'String'>
+  readonly placaMadre: Prisma.FieldRef<"Activo", 'String'>
+  readonly procesador: Prisma.FieldRef<"Activo", 'String'>
+  readonly ram: Prisma.FieldRef<"Activo", 'String'>
+  readonly disco: Prisma.FieldRef<"Activo", 'String'>
+  readonly estadoRaton: Prisma.FieldRef<"Activo", 'String'>
+  readonly estadoTeclado: Prisma.FieldRef<"Activo", 'String'>
+  readonly estadoDisco: Prisma.FieldRef<"Activo", 'String'>
+  readonly sistemaOperativo: Prisma.FieldRef<"Activo", 'String'>
+  readonly mantenimiento: Prisma.FieldRef<"Activo", 'String'>
+  readonly actualizable: Prisma.FieldRef<"Activo", 'String'>
+  readonly anydesk: Prisma.FieldRef<"Activo", 'String'>
+  readonly upgrade: Prisma.FieldRef<"Activo", 'String'>
+  readonly recomendacion: Prisma.FieldRef<"Activo", 'String'>
+  readonly saleA: Prisma.FieldRef<"Activo", 'String'>
+  readonly entraA: Prisma.FieldRef<"Activo", 'String'>
   readonly estado: Prisma.FieldRef<"Activo", 'String'>
+  readonly antivirus: Prisma.FieldRef<"Activo", 'String'>
+  readonly criterio: Prisma.FieldRef<"Activo", 'String'>
   readonly oficinaId: Prisma.FieldRef<"Activo", 'Int'>
   readonly responsableId: Prisma.FieldRef<"Activo", 'Int'>
   readonly createdAt: Prisma.FieldRef<"Activo", 'DateTime'>

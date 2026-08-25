@@ -30,18 +30,41 @@ model Empleado {
 }
 
 model Activo {
-  id             Int       @id @default(autoincrement())
-  codigo         String    @unique
-  tipo           String
-  marca          String?
-  modelo         String?
-  numeroSerie    String?
-  fechaCompra    DateTime?
-  costo          Float?
-  estado         String    @default("activo")
-  oficina        Oficina   @relation(fields: [oficinaId], references: [id])
-  oficinaId      Int
-  responsable    Empleado? @relation(fields: [responsableId], references: [id])
-  responsableId  Int?
-  createdAt      DateTime  @default(now())
+  id                Int       @id @default(autoincrement())
+  codigo            String    @unique
+  tipo              String
+  ip                String?
+  macAddress        String?
+  puertoRed         String?
+  departamento      String?
+  marca             String?
+  claseEquipo       String?
+  numeroSerie       String?
+  monitor           String?
+  serieMonitor      String?
+  codigoContable    String?
+  parlantes         String?
+  placaMadre        String?
+  procesador        String?
+  ram               String?
+  disco             String?
+  estadoRaton       String?
+  estadoTeclado     String?
+  estadoDisco       String?
+  sistemaOperativo  String?
+  mantenimiento     String?
+  actualizable      String?
+  anydesk           String?
+  upgrade           String?
+  recomendacion     String?
+  saleA             String?
+  entraA            String?
+  estado            String    @default("activo")
+  antivirus         String?
+  criterio          String?
+  oficina           Oficina   @relation(fields: [oficinaId], references: [id])
+  oficinaId         Int
+  responsable       Empleado? @relation(fields: [responsableId], references: [id])
+  responsableId     Int?
+  createdAt         DateTime  @default(now())
 }

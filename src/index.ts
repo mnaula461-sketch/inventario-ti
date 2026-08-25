@@ -14,6 +14,7 @@ const app = express();
 const PORT = 3000;
 
 app.use(cors());
+
 app.use(express.json());
 
 app.get('/', (req, res) => {
@@ -96,9 +97,21 @@ app.delete('/empleados/:id', async (req, res) => {
 
 // Crear un activo
 app.post('/activos', async (req, res) => {
-  const { codigo, tipo, marca, modelo, numeroSerie, oficinaId, responsableId } = req.body;
+  const {
+    codigo, tipo, ip, macAddress, puertoRed, departamento, marca, claseEquipo,
+    numeroSerie, monitor, serieMonitor, codigoContable, parlantes, placaMadre,
+    procesador, ram, disco, estadoRaton, estadoTeclado, estadoDisco, sistemaOperativo,
+    mantenimiento, actualizable, anydesk, upgrade, recomendacion, saleA, entraA,
+    estado, antivirus, criterio, oficinaId, responsableId,
+  } = req.body;
   const activo = await prisma.activo.create({
-    data: { codigo, tipo, marca, modelo, numeroSerie, oficinaId, responsableId },
+    data: {
+      codigo, tipo, ip, macAddress, puertoRed, departamento, marca, claseEquipo,
+      numeroSerie, monitor, serieMonitor, codigoContable, parlantes, placaMadre,
+      procesador, ram, disco, estadoRaton, estadoTeclado, estadoDisco, sistemaOperativo,
+      mantenimiento, actualizable, anydesk, upgrade, recomendacion, saleA, entraA,
+      estado, antivirus, criterio, oficinaId, responsableId,
+    },
   });
   res.json(activo);
 });
@@ -114,10 +127,22 @@ app.get('/activos', async (req, res) => {
 // Actualizar un activo
 app.put('/activos/:id', async (req, res) => {
   const { id } = req.params;
-  const { codigo, tipo, marca, modelo, numeroSerie, estado, oficinaId, responsableId } = req.body;
+  const {
+    codigo, tipo, ip, macAddress, puertoRed, departamento, marca, claseEquipo,
+    numeroSerie, monitor, serieMonitor, codigoContable, parlantes, placaMadre,
+    procesador, ram, disco, estadoRaton, estadoTeclado, estadoDisco, sistemaOperativo,
+    mantenimiento, actualizable, anydesk, upgrade, recomendacion, saleA, entraA,
+    estado, antivirus, criterio, oficinaId, responsableId,
+  } = req.body;
   const activo = await prisma.activo.update({
     where: { id: Number(id) },
-    data: { codigo, tipo, marca, modelo, numeroSerie, estado, oficinaId, responsableId },
+    data: {
+      codigo, tipo, ip, macAddress, puertoRed, departamento, marca, claseEquipo,
+      numeroSerie, monitor, serieMonitor, codigoContable, parlantes, placaMadre,
+      procesador, ram, disco, estadoRaton, estadoTeclado, estadoDisco, sistemaOperativo,
+      mantenimiento, actualizable, anydesk, upgrade, recomendacion, saleA, entraA,
+      estado, antivirus, criterio, oficinaId, responsableId,
+    },
   });
   res.json(activo);
 });
