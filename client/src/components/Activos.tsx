@@ -174,6 +174,7 @@ function Activos() {
       oficinaId: String(activo.oficinaId),
       responsableId: activo.responsableId ? String(activo.responsableId) : '',
     });
+        window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const eliminarActivo = async (id: number) => {
@@ -182,16 +183,52 @@ function Activos() {
     await axios.delete(`http://localhost:3000/activos/${id}`);
     cargarActivos();
   };
+    const importarArchivo = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const archivo = e.target.files?.[0];
+    if (!archivo) return;
+
+    const formData = new FormData();
+    formData.append('archivo', archivo);
+
+    try {
+      const res = await axios.post('http://localhost:3000/activos/importar', formData);
+      alert(`Importación completa: ${res.data.creados} creados, ${res.data.saltados} saltados (oficina no encontrada).`);
+      cargarActivos();
+    } catch (error) {
+      alert('Error al importar el archivo.');
+      console.error(error);
+    }
+    e.target.value = '';
+  };
+
+  const eliminarTodos = async () => {
+    const confirmar = window.confirm('¿Seguro que quieres eliminar TODOS los activos? Esta acción no se puede deshacer.');
+    if (!confirmar) return;
+    const confirmarDeNuevo = window.confirm('Última confirmación: se borrarán TODOS los registros de activos. ¿Continuar?');
+    if (!confirmarDeNuevo) return;
+    await axios.delete('http://localhost:3000/activos');
+    cargarActivos();
+  };
 
   return (
     <div>
       <h2>Activos</h2>
+      
 
-      {!mostrarFormulario && (
-        <button onClick={() => setMostrarFormulario(true)} style={{ padding: '0.5rem 1rem', marginBottom: '1.5rem' }}>
-          + Agregar activo
+            <div style={{ marginBottom: '1.5rem', display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
+        {!mostrarFormulario && (
+          <button onClick={() => setMostrarFormulario(true)} style={{ padding: '0.5rem 1rem' }}>
+            + Agregar activo
+          </button>
+        )}
+        <label style={{ padding: '0.5rem 1rem', border: '1px solid #ccc', borderRadius: '4px', cursor: 'pointer' }}>
+          Cargar Excel/CSV
+          <input type="file" accept=".csv" onChange={importarArchivo} style={{ display: 'none' }} />
+        </label>
+        <button onClick={eliminarTodos} style={{ padding: '0.5rem 1rem', color: 'red' }}>
+          Eliminar todos
         </button>
-      )}
+      </div>
 
       {mostrarFormulario && (
         <form onSubmit={guardarActivo} style={{ marginBottom: '2rem', border: '1px solid #ddd', padding: '1rem', borderRadius: '4px' }}>
