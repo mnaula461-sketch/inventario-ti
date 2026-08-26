@@ -401,7 +401,8 @@ export const ModelName = {
   Empleado: 'Empleado',
   Activo: 'Activo',
   Usuario: 'Usuario',
-  PlantillaActa: 'PlantillaActa'
+  PlantillaActa: 'PlantillaActa',
+  HistorialActivo: 'HistorialActivo'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -417,7 +418,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "oficina" | "empleado" | "activo" | "usuario" | "plantillaActa"
+    modelProps: "oficina" | "empleado" | "activo" | "usuario" | "plantillaActa" | "historialActivo"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -791,6 +792,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    HistorialActivo: {
+      payload: Prisma.$HistorialActivoPayload<ExtArgs>
+      fields: Prisma.HistorialActivoFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.HistorialActivoFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$HistorialActivoPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.HistorialActivoFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$HistorialActivoPayload>
+        }
+        findFirst: {
+          args: Prisma.HistorialActivoFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$HistorialActivoPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.HistorialActivoFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$HistorialActivoPayload>
+        }
+        findMany: {
+          args: Prisma.HistorialActivoFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$HistorialActivoPayload>[]
+        }
+        create: {
+          args: Prisma.HistorialActivoCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$HistorialActivoPayload>
+        }
+        createMany: {
+          args: Prisma.HistorialActivoCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.HistorialActivoCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$HistorialActivoPayload>[]
+        }
+        delete: {
+          args: Prisma.HistorialActivoDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$HistorialActivoPayload>
+        }
+        update: {
+          args: Prisma.HistorialActivoUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$HistorialActivoPayload>
+        }
+        deleteMany: {
+          args: Prisma.HistorialActivoDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.HistorialActivoUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.HistorialActivoUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$HistorialActivoPayload>[]
+        }
+        upsert: {
+          args: Prisma.HistorialActivoUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$HistorialActivoPayload>
+        }
+        aggregate: {
+          args: Prisma.HistorialActivoAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateHistorialActivo>
+        }
+        groupBy: {
+          args: Prisma.HistorialActivoGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.HistorialActivoGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.HistorialActivoCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.HistorialActivoCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -931,6 +1006,18 @@ export const PlantillaActaScalarFieldEnum = {
 } as const
 
 export type PlantillaActaScalarFieldEnum = (typeof PlantillaActaScalarFieldEnum)[keyof typeof PlantillaActaScalarFieldEnum]
+
+
+export const HistorialActivoScalarFieldEnum = {
+  id: 'id',
+  activoId: 'activoId',
+  accion: 'accion',
+  detalle: 'detalle',
+  usuario: 'usuario',
+  fecha: 'fecha'
+} as const
+
+export type HistorialActivoScalarFieldEnum = (typeof HistorialActivoScalarFieldEnum)[keyof typeof HistorialActivoScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -1174,6 +1261,7 @@ export type GlobalOmitConfig = {
   activo?: Prisma.ActivoOmit
   usuario?: Prisma.UsuarioOmit
   plantillaActa?: Prisma.PlantillaActaOmit
+  historialActivo?: Prisma.HistorialActivoOmit
 }
 
 /* Types for Logging */

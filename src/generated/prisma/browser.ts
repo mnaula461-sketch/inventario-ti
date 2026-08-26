@@ -42,3 +42,8 @@ export type Usuario = Prisma.UsuarioModel
  * 
  */
 export type PlantillaActa = Prisma.PlantillaActaModel
+/**
+ * Model HistorialActivo
+ * 
+ */
+export type HistorialActivo = Prisma.HistorialActivoModel

@@ -55,7 +55,8 @@ export const ModelName = {
   Empleado: 'Empleado',
   Activo: 'Activo',
   Usuario: 'Usuario',
-  PlantillaActa: 'PlantillaActa'
+  PlantillaActa: 'PlantillaActa',
+  HistorialActivo: 'HistorialActivo'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -175,6 +176,18 @@ export const PlantillaActaScalarFieldEnum = {
 } as const
 
 export type PlantillaActaScalarFieldEnum = (typeof PlantillaActaScalarFieldEnum)[keyof typeof PlantillaActaScalarFieldEnum]
+
+
+export const HistorialActivoScalarFieldEnum = {
+  id: 'id',
+  activoId: 'activoId',
+  accion: 'accion',
+  detalle: 'detalle',
+  usuario: 'usuario',
+  fecha: 'fecha'
+} as const
+
+export type HistorialActivoScalarFieldEnum = (typeof HistorialActivoScalarFieldEnum)[keyof typeof HistorialActivoScalarFieldEnum]
 
 
 export const SortOrder = {

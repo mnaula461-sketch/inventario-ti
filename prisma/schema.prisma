@@ -105,3 +105,12 @@ model PlantillaActa {
   listaSoftware     String   @default("Windows 10 PRO,Windows 11 PRO,Office 365 (Teams, Outlook, Word, Excel, etc.),Onedrive,Adobe Reader DC,Google Chrome,Compresor WinRAR,Anydesk,Forticlient,Pardus QQ,Zoom,Webex,R Studio,Filezilla,SafeNet (Token BCE),Firma EC,WebClientPrint,Mozilla Firefox")
   updatedAt         DateTime @updatedAt
 }
+
+model HistorialActivo {
+  id        Int      @id @default(autoincrement())
+  activoId  Int
+  accion    String
+  detalle   String?
+  usuario   String
+  fecha     DateTime @default(now())
+}

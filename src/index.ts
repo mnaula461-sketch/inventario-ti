@@ -14,7 +14,7 @@ import path from 'path';
 
 
 const upload = multer({ storage: multer.memoryStorage() });
-function verificarToken(req: express.Request, res: express.Response, next: express.NextFunction) {
+function verificarToken(req: express.Request & { usuarioActual?: any }, res: express.Response, next: express.NextFunction) {
   const authHeader = req.headers.authorization;
   const tokenQuery = req.query.token as string | undefined;
 
@@ -26,7 +26,8 @@ function verificarToken(req: express.Request, res: express.Response, next: expre
   }
 
   try {
-    jwt.verify(token, process.env.JWT_SECRET as string);
+    const payload = jwt.verify(token, process.env.JWT_SECRET as string);
+    req.usuarioActual = payload;
     next();
   } catch (error) {
     res.status(401).json({ error: 'Token inválido o expirado' });
@@ -165,7 +166,7 @@ app.delete('/empleados/:id', verificarToken, async (req, res) => {
 });
 
 // Crear un activo
-app.post('/activos', verificarToken, async (req, res) => {
+app.post('/activos', verificarToken, async (req: any, res) => {
   const {
     codigo, tipo, ip, macAddress, puertoRed, departamento, marca, claseEquipo,
     numeroSerie, monitor, serieMonitor, codigoContable, parlantes, placaMadre,
@@ -184,6 +185,14 @@ app.post('/activos', verificarToken, async (req, res) => {
       estado, antivirus, criterio, cargador, tecladoSerial, mouseSerial, adaptadorCorriente,
       impresoraConfigurada, serialImpresora, macComputador, telefonoMarcaModelo, ipTelefono,
       macTelefono, seguroLaptop, softwareSO, softwareCorporativo, softwareOtros, oficinaId, responsableId,
+    },
+  });
+  await prisma.historialActivo.create({
+    data: {
+      activoId: activo.id,
+      accion: 'creado',
+      detalle: `Activo ${activo.codigo} creado`,
+      usuario: req.usuarioActual?.nombre ?? 'Desconocido',
     },
   });
   res.json(activo);
@@ -519,7 +528,7 @@ app.get('/activos', verificarToken, async (req, res) => {
 });
 
 // Actualizar un activo
-app.put('/activos/:id', verificarToken, async (req, res) => {
+app.put('/activos/:id', verificarToken, async (req: any, res) => {
   const { id } = req.params;
   const {
     codigo, tipo, ip, macAddress, puertoRed, departamento, marca, claseEquipo,
@@ -542,16 +551,42 @@ app.put('/activos/:id', verificarToken, async (req, res) => {
       macTelefono, seguroLaptop, softwareSO, softwareCorporativo, softwareOtros, oficinaId, responsableId,
     },
   });
+  await prisma.historialActivo.create({
+    data: {
+      activoId: activo.id,
+      accion: 'editado',
+      detalle: `Activo ${activo.codigo} editado`,
+      usuario: req.usuarioActual?.nombre ?? 'Desconocido',
+    },
+  });
   res.json(activo);
 });
 
 // Eliminar un activo
-app.delete('/activos/:id', verificarToken, async (req, res) => {
+app.delete('/activos/:id', verificarToken, async (req: any, res) => {
   const { id } = req.params;
+  const activo = await prisma.activo.findUnique({ where: { id: Number(id) } });
   await prisma.activo.delete({
     where: { id: Number(id) },
   });
+  await prisma.historialActivo.create({
+    data: {
+      activoId: Number(id),
+      accion: 'eliminado',
+      detalle: `Activo ${activo?.codigo ?? id} eliminado`,
+      usuario: req.usuarioActual?.nombre ?? 'Desconocido',
+    },
+  });
   res.json({ mensaje: 'Activo eliminado' });
+});
+// Obtener el historial de cambios de un activo
+app.get('/activos/:id/historial', verificarToken, async (req, res) => {
+  const { id } = req.params;
+  const historial = await prisma.historialActivo.findMany({
+    where: { activoId: Number(id) },
+    orderBy: { fecha: 'desc' },
+  });
+  res.json(historial);
 });
 
 // Eliminar TODOS los activos
