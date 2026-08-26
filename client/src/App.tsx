@@ -5,6 +5,7 @@ import Empleados from './components/Empleados';
 import Activos from './components/Activos';
 import Reportes from './components/Reportes';
 import Perfil from './components/Perfil';
+import BusquedaGlobal from './components/BusquedaGlobal';
 import Login from './components/Login';
 import logo from './assets/logo.png';
 
@@ -73,6 +74,7 @@ function App() {
             COOPERATIVA GAÑANSOL
           </p>
         </div>
+                <BusquedaGlobal onIrA={setVista} />
         <span style={{ color: 'white', fontSize: '0.85rem' }}>👤 {nombreUsuario}</span>
         <button onClick={cerrarSesion} className="btn-outline" style={{ backgroundColor: 'transparent', color: 'white', borderColor: 'white' }}>
           Cerrar sesión
