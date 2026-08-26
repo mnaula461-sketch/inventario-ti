@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import api from '../api';
+import ActivoDetalle from './ActivoDetalle';
 
 interface Oficina {
   id: number;
@@ -9,6 +10,7 @@ interface Oficina {
 interface Empleado {
   id: number;
   nombre: string;
+  cargo: string | null;
 }
 
 interface Activo {
@@ -48,6 +50,7 @@ interface Activo {
   responsableId: number | null;
   oficina: Oficina;
   responsable: Empleado | null;
+  createdAt: string;
 }
 
 const camposIniciales = {
@@ -102,6 +105,7 @@ function Activos() {
   const [form, setForm] = useState(camposIniciales);
   const [editandoId, setEditandoId] = useState<number | null>(null);
   const [mostrarFormulario, setMostrarFormulario] = useState(false);
+  const [activoViendo, setActivoViendo] = useState<Activo | null>(null);
 
   const [busquedaTexto, setBusquedaTexto] = useState('');
   const [filtroOficina, setFiltroOficina] = useState('');
@@ -273,6 +277,19 @@ function Activos() {
     setPaginaActual(1);
   };
 
+  if (activoViendo) {
+    return (
+      <ActivoDetalle
+        activo={activoViendo}
+        onVolver={() => setActivoViendo(null)}
+        onEditar={() => {
+          empezarEdicion(activoViendo);
+          setActivoViendo(null);
+        }}
+      />
+    );
+  }
+
   return (
     <div>
       <h2 style={{ color: '#2c2560' }}>Activos</h2>
@@ -441,7 +458,7 @@ function Activos() {
             <th style={{ textAlign: 'left', padding: '0.5rem' }}>Oficina</th>
             <th style={{ textAlign: 'left', padding: '0.5rem' }}>Responsable</th>
             <th style={{ textAlign: 'left', padding: '0.5rem' }}>Estado</th>
-            <th style={{ padding: '0.5rem' }}>Acciones</th>
+            <th style={{ padding: '0.5rem', width: '140px' }}>Acciones</th>
           </tr>
         </thead>
         <tbody>
@@ -455,13 +472,18 @@ function Activos() {
               <td style={{ padding: '0.6rem 0.5rem', borderBottom: '1px solid #eee' }}>
                 <BadgeEstado estado={activo.estado} />
               </td>
-              <td style={{ padding: '0.6rem 0.5rem', borderBottom: '1px solid #eee', textAlign: 'center' }}>
-                <button className="btn-edit" onClick={() => empezarEdicion(activo)} style={{ marginRight: '0.4rem' }}>
-                  ✏️ Editar
-                </button>
-                <button className="btn-delete" onClick={() => eliminarActivo(activo.id)}>
-                  🗑️ Eliminar
-                </button>
+              <td style={{ padding: '0.6rem 0.5rem', borderBottom: '1px solid #eee' }}>
+                <div style={{ display: 'flex', gap: '0.4rem', flexWrap: 'nowrap', justifyContent: 'flex-end' }}>
+                  <button className="btn-outline" onClick={() => setActivoViendo(activo)} style={{ padding: '0.35rem 0.6rem', fontSize: '0.8rem', whiteSpace: 'nowrap' }}>
+                    👁️
+                  </button>
+                  <button className="btn-edit" onClick={() => empezarEdicion(activo)} style={{ padding: '0.35rem 0.6rem', fontSize: '0.8rem', whiteSpace: 'nowrap' }}>
+                    ✏️
+                  </button>
+                  <button className="btn-delete" onClick={() => eliminarActivo(activo.id)} style={{ padding: '0.35rem 0.6rem', fontSize: '0.8rem', whiteSpace: 'nowrap' }}>
+                    🗑️
+                  </button>
+                </div>
               </td>
             </tr>
           ))}
