@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react';
 import api from '../api';
 
 interface Oficina {
@@ -9,6 +10,14 @@ interface Empleado {
   id: number;
   nombre: string;
   cargo: string | null;
+}
+
+interface RegistroHistorial {
+  id: number;
+  accion: string;
+  detalle: string | null;
+  usuario: string;
+  fecha: string;
 }
 
 interface Activo {
@@ -89,6 +98,14 @@ function BadgeEstado({ estado }: { estado: string }) {
 }
 
 function ActivoDetalle({ activo, onVolver, onEditar, onGenerarActa }: ActivoDetalleProps) {
+  const [historial, setHistorial] = useState<RegistroHistorial[]>([]);
+
+  useEffect(() => {
+    api.get(`/activos/${activo.id}/historial`)
+      .then((res) => setHistorial(res.data))
+      .catch((error) => console.error('Error al cargar historial:', error));
+  }, [activo.id]);
+
   return (
     <div>
       <button onClick={onVolver} className="btn-outline" style={{ marginBottom: '1.2rem' }}>
@@ -160,6 +177,20 @@ function ActivoDetalle({ activo, onVolver, onEditar, onGenerarActa }: ActivoDeta
           <Fila label="Recomendación" valor={activo.recomendacion} />
           <Fila label="Criterio" valor={activo.criterio} />
         </Seccion>
+      </div>
+
+      <div style={{ background: 'white', borderRadius: '12px', padding: '1.2rem 1.5rem', marginTop: '1.2rem', boxShadow: '0 1px 4px rgba(0,0,0,0.06)' }}>
+        <h3 style={{ color: '#2c2560', fontSize: '1rem', marginBottom: '0.8rem' }}>Historial de cambios</h3>
+        {historial.length === 0 ? (
+          <p style={{ color: '#888', fontSize: '0.85rem' }}>Sin registros todavía.</p>
+        ) : (
+          historial.map((h) => (
+            <div key={h.id} style={{ padding: '0.5rem 0', borderBottom: '1px solid #f0f0f5', fontSize: '0.85rem' }}>
+              <strong style={{ textTransform: 'capitalize' }}>{h.accion}</strong> por {h.usuario} — {new Date(h.fecha).toLocaleString('es-EC')}
+              {h.detalle && <div style={{ color: '#666', fontSize: '0.8rem' }}>{h.detalle}</div>}
+            </div>
+          ))
+        )}
       </div>
     </div>
   );

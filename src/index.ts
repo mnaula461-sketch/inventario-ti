@@ -523,6 +523,7 @@ app.put('/plantilla-acta/:id', verificarToken, async (req, res) => {
 app.get('/activos', verificarToken, async (req, res) => {
   const activos = await prisma.activo.findMany({
     include: { oficina: true, responsable: true },
+    orderBy: { codigo: 'asc' },
   });
   res.json(activos);
 });
@@ -539,6 +540,26 @@ app.put('/activos/:id', verificarToken, async (req: any, res) => {
     impresoraConfigurada, serialImpresora, macComputador, telefonoMarcaModelo, ipTelefono,
     macTelefono, seguroLaptop, softwareSO, softwareCorporativo, softwareOtros, oficinaId, responsableId,
   } = req.body;
+    const activoAnterior = await prisma.activo.findUnique({ where: { id: Number(id) } });
+
+  const camposAComparar: Record<string, string> = {
+    codigo: 'Código', tipo: 'Tipo', marca: 'Marca', claseEquipo: 'Clase de equipo',
+    numeroSerie: 'Número de serie', oficinaId: 'Oficina', responsableId: 'Responsable',
+    estado: 'Estado', ip: 'IP', procesador: 'Procesador', ram: 'RAM', disco: 'Disco',
+  };
+  const cambios: string[] = [];
+  const nuevosDatos: Record<string, any> = {
+    codigo, tipo, marca, claseEquipo, numeroSerie, oficinaId, responsableId,
+    estado, ip, procesador, ram, disco,
+  };
+  for (const campo in camposAComparar) {
+    const valorViejo = (activoAnterior as any)?.[campo];
+    const valorNuevo = nuevosDatos[campo];
+    if (String(valorViejo ?? '') !== String(valorNuevo ?? '')) {
+      cambios.push(`${camposAComparar[campo]}: "${valorViejo ?? '(vacío)'}" → "${valorNuevo ?? '(vacío)'}"`);
+    }
+  }
+  const detalleCambios = cambios.length > 0 ? cambios.join('; ') : 'Sin cambios detectados en campos principales';
   const activo = await prisma.activo.update({
     where: { id: Number(id) },
     data: {
@@ -555,7 +576,7 @@ app.put('/activos/:id', verificarToken, async (req: any, res) => {
     data: {
       activoId: activo.id,
       accion: 'editado',
-      detalle: `Activo ${activo.codigo} editado`,
+      detalle: detalleCambios,
       usuario: req.usuarioActual?.nombre ?? 'Desconocido',
     },
   });
