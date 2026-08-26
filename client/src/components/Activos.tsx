@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import api from '../api';
+import * as XLSX from 'xlsx';
 import ActivoDetalle from './ActivoDetalle';
 
 interface Oficina {
@@ -263,6 +264,63 @@ function Activos() {
     e.target.value = '';
   };
 
+      const exportarExcel = () => {
+    const datos = activosFiltrados.map((a) => ({
+      Código: a.codigo,
+      Tipo: a.tipo,
+      IP: a.ip,
+      'MAC Address': a.macAddress,
+      'Puerto de red': a.puertoRed,
+      Departamento: a.departamento,
+      Propietario: a.responsable?.nombre ?? '',
+      'Ubicación / Oficina': a.oficina?.nombre,
+      Marca: a.marca,
+      'Clase equipo': a.claseEquipo,
+      'Número de serie': a.numeroSerie,
+      Monitor: a.monitor,
+      'Serie monitor': a.serieMonitor,
+      'Código contable': a.codigoContable,
+      Parlantes: a.parlantes,
+      'Placa madre': a.placaMadre,
+      Procesador: a.procesador,
+      'RAM (GB)': a.ram,
+      Disco: a.disco,
+      'Estado ratón': a.estadoRaton,
+      'Estado teclado': a.estadoTeclado,
+      'Estado disco': a.estadoDisco,
+      'Sistema operativo': a.sistemaOperativo,
+      Mantenimiento: a.mantenimiento,
+      Actualizable: a.actualizable,
+      Anydesk: a.anydesk,
+      Upgrade: a.upgrade,
+      Recomendación: a.recomendacion,
+      'Sale a': a.saleA,
+      'Entra a': a.entraA,
+      Estado: a.estado,
+      Antivirus: a.antivirus,
+      Criterio: a.criterio,
+      'Cargador/Adaptador': a.cargador,
+      'Teclado serial': a.tecladoSerial,
+      'Mouse serial': a.mouseSerial,
+      'Adaptador corriente': a.adaptadorCorriente,
+      'Impresora configurada': a.impresoraConfigurada,
+      'Serial impresora': a.serialImpresora,
+      'MAC computador': a.macComputador,
+      'Teléfono marca/modelo': a.telefonoMarcaModelo,
+      'IP teléfono': a.ipTelefono,
+      'MAC teléfono': a.macTelefono,
+      'Seguro laptop': a.seguroLaptop,
+      'Software S.O': a.softwareSO,
+      'Software corporativo': a.softwareCorporativo,
+      'Otro software': a.softwareOtros,
+    }));
+    const hoja = XLSX.utils.json_to_sheet(datos);
+    const libro = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(libro, hoja, 'Activos');
+    const fecha = new Date().toISOString().split('T')[0];
+    XLSX.writeFile(libro, `inventario-activos-${fecha}.xlsx`);
+  };
+
   const eliminarTodos = async () => {
     const confirmar = window.confirm('¿Seguro que quieres eliminar TODOS los activos? Esta acción no se puede deshacer.');
     if (!confirmar) return;
@@ -339,10 +397,13 @@ function Activos() {
             + Agregar activo
           </button>
         )}
-        <label className="btn-outline" style={{ display: 'inline-block' }}>
+                <label className="btn-outline" style={{ display: 'inline-block' }}>
           📤 Cargar Excel/CSV
           <input type="file" accept=".csv" onChange={importarArchivo} style={{ display: 'none' }} />
         </label>
+        <button className="btn-outline" onClick={exportarExcel}>
+          📊 Exportar a Excel
+        </button>
         <button className="btn-delete" onClick={eliminarTodos} style={{ marginLeft: 'auto' }}>
           🗑️ Eliminar todos
         </button>
