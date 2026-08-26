@@ -4,10 +4,11 @@ import Oficinas from './components/Oficinas';
 import Empleados from './components/Empleados';
 import Activos from './components/Activos';
 import Reportes from './components/Reportes';
+import Perfil from './components/Perfil';
 import Login from './components/Login';
 import logo from './assets/logo.png';
 
-type Vista = 'dashboard' | 'oficinas' | 'empleados' | 'activos' | 'reportes';
+type Vista = 'dashboard' | 'oficinas' | 'empleados' | 'activos' | 'reportes' | 'perfil';
 
 function App() {
   const [vista, setVista] = useState<Vista>('dashboard');
@@ -95,6 +96,9 @@ function App() {
           <button style={tabStyle(vista === 'reportes')} onClick={() => setVista('reportes')}>
             Reportes
           </button>
+                    <button style={tabStyle(vista === 'perfil')} onClick={() => setVista('perfil')}>
+            Mi perfil
+          </button>
         </nav>
 
         <div style={{ backgroundColor: vista === 'dashboard' ? 'transparent' : 'white', borderRadius: '12px', padding: vista === 'dashboard' ? '0' : '1.5rem', boxShadow: vista === 'dashboard' ? 'none' : '0 1px 4px rgba(0,0,0,0.08)' }}>
@@ -103,6 +107,7 @@ function App() {
           {vista === 'empleados' && <Empleados />}
           {vista === 'activos' && <Activos />}
           {vista === 'reportes' && <Reportes />}
+                    {vista === 'perfil' && <Perfil nombreUsuario={nombreUsuario} />}
         </div>
       </div>
     </div>

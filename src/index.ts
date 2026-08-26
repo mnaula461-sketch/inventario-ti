@@ -109,6 +109,31 @@ app.post('/auth/login', async (req, res) => {
 app.listen(PORT, '0.0.0.0', () => {
   console.log(`Servidor corriendo en http://localhost:${PORT}`);
 });
+// Cambiar la propia contraseña
+app.put('/auth/cambiar-password', verificarToken, async (req: any, res) => {
+  const { passwordActual, passwordNueva } = req.body;
+  const usuarioId = req.usuarioActual?.id;
+
+  const usuario = await prisma.usuario.findUnique({ where: { id: usuarioId } });
+  if (!usuario) {
+    res.status(404).json({ error: 'Usuario no encontrado' });
+    return;
+  }
+
+  const passwordValida = await bcrypt.compare(passwordActual, usuario.password);
+  if (!passwordValida) {
+    res.status(401).json({ error: 'La contraseña actual es incorrecta' });
+    return;
+  }
+
+  const passwordEncriptada = await bcrypt.hash(passwordNueva, 10);
+  await prisma.usuario.update({
+    where: { id: usuarioId },
+    data: { password: passwordEncriptada },
+  });
+
+  res.json({ mensaje: 'Contraseña actualizada correctamente' });
+});
 // Actualizar una oficina
 app.put('/oficinas/:id', verificarToken, async (req, res) => {
   const { id } = req.params;

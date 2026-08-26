@@ -11,7 +11,6 @@ interface Oficina {
 interface Empleado {
   id: number;
   nombre: string;
-  cargo: string | null;
 }
 
 interface Activo {
@@ -264,7 +263,16 @@ function Activos() {
     e.target.value = '';
   };
 
-      const exportarExcel = () => {
+  const eliminarTodos = async () => {
+    const confirmar = window.confirm('¿Seguro que quieres eliminar TODOS los activos? Esta acción no se puede deshacer.');
+    if (!confirmar) return;
+    const confirmarDeNuevo = window.confirm('Última confirmación: se borrarán TODOS los registros de activos. ¿Continuar?');
+    if (!confirmarDeNuevo) return;
+    await api.delete('/activos');
+    cargarActivos();
+  };
+
+  const exportarExcel = () => {
     const datos = activosFiltrados.map((a) => ({
       Código: a.codigo,
       Tipo: a.tipo,
@@ -321,15 +329,6 @@ function Activos() {
     XLSX.writeFile(libro, `inventario-activos-${fecha}.xlsx`);
   };
 
-  const eliminarTodos = async () => {
-    const confirmar = window.confirm('¿Seguro que quieres eliminar TODOS los activos? Esta acción no se puede deshacer.');
-    if (!confirmar) return;
-    const confirmarDeNuevo = window.confirm('Última confirmación: se borrarán TODOS los registros de activos. ¿Continuar?');
-    if (!confirmarDeNuevo) return;
-    await api.delete('/activos');
-    cargarActivos();
-  };
-
   const buscar = () => {
     setBusquedaAplicada(busquedaTexto.toLowerCase());
     setPaginaActual(1);
@@ -376,7 +375,7 @@ function Activos() {
           empezarEdicion(activoViendo);
           setActivoViendo(null);
         }}
-          onGenerarActa={() => {
+        onGenerarActa={() => {
           const sugerido = localStorage.getItem('nombreUsuario') ?? '';
           const nombreEntrega = window.prompt('¿Quién entrega el equipo?', sugerido);
           if (nombreEntrega === null) return;
@@ -389,7 +388,7 @@ function Activos() {
 
   return (
     <div>
-      <h2 style={{ color: '#2c2560' }}>Activos</h2>
+      <h2 style={{ color: '#1f1b3d' }}>Activos</h2>
 
       <div style={{ marginBottom: '1.2rem', display: 'flex', gap: '0.6rem', alignItems: 'center' }}>
         {!mostrarFormulario && (
@@ -397,7 +396,7 @@ function Activos() {
             + Agregar activo
           </button>
         )}
-                <label className="btn-outline" style={{ display: 'inline-block' }}>
+        <label className="btn-outline" style={{ display: 'inline-block' }}>
           📤 Cargar Excel/CSV
           <input type="file" accept=".csv" onChange={importarArchivo} style={{ display: 'none' }} />
         </label>
@@ -445,7 +444,7 @@ function Activos() {
 
       {mostrarFormulario && (
         <form onSubmit={guardarActivo} style={{ marginBottom: '2rem', border: '1px solid #e2e0f0', padding: '1.2rem', borderRadius: '10px', backgroundColor: '#fafaff' }}>
-          <h3 style={{ color: '#2c2560' }}>Datos básicos</h3>
+          <h3 style={{ color: '#1f1b3d' }}>Datos básicos</h3>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '0.8rem' }}>
             <div style={campoStyle}>
               <label style={labelStyle}>Código *</label>
@@ -476,7 +475,7 @@ function Activos() {
             </div>
           </div>
 
-          <h3 style={{ color: '#2c2560' }}>Red</h3>
+          <h3 style={{ color: '#1f1b3d' }}>Red</h3>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '0.8rem' }}>
             <Campo label="IP" valor={form.ip} onChange={(v) => actualizarCampo('ip', v)} />
             <Campo label="MAC Address" valor={form.macAddress} onChange={(v) => actualizarCampo('macAddress', v)} />
@@ -484,7 +483,7 @@ function Activos() {
             <Campo label="AnyDesk" valor={form.anydesk} onChange={(v) => actualizarCampo('anydesk', v)} />
           </div>
 
-          <h3 style={{ color: '#2c2560' }}>Hardware</h3>
+          <h3 style={{ color: '#1f1b3d' }}>Hardware</h3>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '0.8rem' }}>
             <Campo label="Monitor" valor={form.monitor} onChange={(v) => actualizarCampo('monitor', v)} />
             <Campo label="Serie monitor" valor={form.serieMonitor} onChange={(v) => actualizarCampo('serieMonitor', v)} />
@@ -496,7 +495,7 @@ function Activos() {
             <Campo label="Sistema operativo" valor={form.sistemaOperativo} onChange={(v) => actualizarCampo('sistemaOperativo', v)} />
           </div>
 
-          <h3 style={{ color: '#2c2560' }}>Datos adicionales para acta de entrega</h3>
+          <h3 style={{ color: '#1f1b3d' }}>Datos adicionales para acta de entrega</h3>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '0.8rem' }}>
             <Campo label="Cargador/adaptador" valor={form.cargador} onChange={(v) => actualizarCampo('cargador', v)} />
             <Campo label="Teclado serial" valor={form.tecladoSerial} onChange={(v) => actualizarCampo('tecladoSerial', v)} />
@@ -516,8 +515,8 @@ function Activos() {
                 <option value="NO">NO</option>
               </select>
             </div>
-                        <div style={{ ...campoStyle, gridColumn: 'span 3' }}>
-              <label style={labelStyle}>Software S.O</label>
+            <div style={{ ...campoStyle, gridColumn: 'span 3' }}>
+              <label style={labelStyle}>Software S.O (separados por coma)</label>
               <input type="text" value={form.softwareSO} onChange={(e) => actualizarCampo('softwareSO', e.target.value)} style={inputStyle} placeholder="Windows 11 PRO" />
             </div>
             <div style={{ ...campoStyle, gridColumn: 'span 3' }}>
@@ -530,7 +529,7 @@ function Activos() {
             </div>
           </div>
 
-          <h3 style={{ color: '#2c2560' }}>Estado y mantenimiento</h3>
+          <h3 style={{ color: '#1f1b3d' }}>Estado y mantenimiento</h3>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '0.8rem' }}>
             <Campo label="Estado mouse" valor={form.estadoRaton} onChange={(v) => actualizarCampo('estadoRaton', v)} />
             <Campo label="Estado teclado" valor={form.estadoTeclado} onChange={(v) => actualizarCampo('estadoTeclado', v)} />
