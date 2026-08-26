@@ -54,7 +54,8 @@ export const ModelName = {
   Oficina: 'Oficina',
   Empleado: 'Empleado',
   Activo: 'Activo',
-  Usuario: 'Usuario'
+  Usuario: 'Usuario',
+  PlantillaActa: 'PlantillaActa'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -86,6 +87,7 @@ export const EmpleadoScalarFieldEnum = {
   id: 'id',
   nombre: 'nombre',
   cargo: 'cargo',
+  correo: 'correo',
   oficinaId: 'oficinaId'
 } as const
 
@@ -127,6 +129,18 @@ export const ActivoScalarFieldEnum = {
   criterio: 'criterio',
   oficinaId: 'oficinaId',
   responsableId: 'responsableId',
+  cargador: 'cargador',
+  tecladoSerial: 'tecladoSerial',
+  mouseSerial: 'mouseSerial',
+  adaptadorCorriente: 'adaptadorCorriente',
+  impresoraConfigurada: 'impresoraConfigurada',
+  serialImpresora: 'serialImpresora',
+  macComputador: 'macComputador',
+  telefonoMarcaModelo: 'telefonoMarcaModelo',
+  ipTelefono: 'ipTelefono',
+  macTelefono: 'macTelefono',
+  seguroLaptop: 'seguroLaptop',
+  softwareInstalado: 'softwareInstalado',
   createdAt: 'createdAt'
 } as const
 
@@ -143,6 +157,22 @@ export const UsuarioScalarFieldEnum = {
 } as const
 
 export type UsuarioScalarFieldEnum = (typeof UsuarioScalarFieldEnum)[keyof typeof UsuarioScalarFieldEnum]
+
+
+export const PlantillaActaScalarFieldEnum = {
+  id: 'id',
+  codigo: 'codigo',
+  version: 'version',
+  fechaAprobacion: 'fechaAprobacion',
+  responsable: 'responsable',
+  tituloDocumento: 'tituloDocumento',
+  clausula: 'clausula',
+  observaciones: 'observaciones',
+  listaSoftware: 'listaSoftware',
+  updatedAt: 'updatedAt'
+} as const
+
+export type PlantillaActaScalarFieldEnum = (typeof PlantillaActaScalarFieldEnum)[keyof typeof PlantillaActaScalarFieldEnum]
 
 
 export const SortOrder = {

@@ -24,6 +24,7 @@ model Empleado {
   id         Int      @id @default(autoincrement())
   nombre     String
   cargo      String?
+  correo     String?
   oficina    Oficina  @relation(fields: [oficinaId], references: [id])
   oficinaId  Int
   activos    Activo[]
@@ -66,6 +67,18 @@ model Activo {
   oficinaId         Int
   responsable       Empleado? @relation(fields: [responsableId], references: [id])
   responsableId     Int?
+  cargador          String?
+  tecladoSerial     String?
+  mouseSerial       String?
+  adaptadorCorriente String?
+  impresoraConfigurada String?
+  serialImpresora   String?
+  macComputador     String?
+  telefonoMarcaModelo String?
+  ipTelefono        String?
+  macTelefono       String?
+  seguroLaptop      String?
+  softwareInstalado String?
   createdAt         DateTime  @default(now())
 }
 
@@ -76,4 +89,17 @@ model Usuario {
   password  String
   rol       String   @default("usuario")
   createdAt DateTime @default(now())
+}
+
+model PlantillaActa {
+  id                Int      @id @default(autoincrement())
+  codigo            String   @default("FO-TI-009")
+  version           String   @default("001")
+  fechaAprobacion   String   @default("")
+  responsable       String   @default("Coordinador TICs")
+  tituloDocumento   String   @default("ACTA DE ENTREGA DE EQUIPOS DE COMPUTO")
+  clausula          String   @default("Certifico que los elementos detallados en el presente documento, me han sido entregados para mi cuidado y custodia con el propósito de cumplir con las tareas y asignaciones propias de mi cargo en la agencia, siendo estos de mi única y exclusiva responsabilidad. Me comprometo a usar correctamente los recursos, y solo para los fines establecidos, a no instalar ni permitir la instalación de software por personal ajeno al grupo interno de trabajo de soporte de TI.")
+  observaciones     String   @default("Esta acta se entregará a partir de la revisión y mantenimiento del equipo.")
+  listaSoftware     String   @default("Windows 10 PRO,Windows 11 PRO,Office 365 (Teams, Outlook, Word, Excel, etc.),Onedrive,Adobe Reader DC,Google Chrome,Compresor WinRAR,Anydesk,Forticlient,Pardus QQ,Zoom,Webex,R Studio,Filezilla,SafeNet (Token BCE),Firma EC,WebClientPrint,Mozilla Firefox")
+  updatedAt         DateTime @updatedAt
 }

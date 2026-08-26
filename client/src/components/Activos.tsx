@@ -286,6 +286,10 @@ function Activos() {
           empezarEdicion(activoViendo);
           setActivoViendo(null);
         }}
+        onGenerarActa={() => {
+          const token = localStorage.getItem('token');
+          window.open(`http://localhost:3000/activos/${activoViendo.id}/acta?token=${token}`, '_blank');
+        }}
       />
     );
   }

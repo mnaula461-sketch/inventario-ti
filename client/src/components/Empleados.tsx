@@ -10,6 +10,7 @@ interface Empleado {
   id: number;
   nombre: string;
   cargo: string | null;
+  correo: string | null;
   oficinaId: number;
   oficina: Oficina;
 }
@@ -22,6 +23,7 @@ function Empleados() {
   const [oficinas, setOficinas] = useState<Oficina[]>([]);
   const [nombre, setNombre] = useState('');
   const [cargo, setCargo] = useState('');
+  const [correo, setCorreo] = useState('');
   const [oficinaId, setOficinaId] = useState('');
   const [editandoId, setEditandoId] = useState<number | null>(null);
   const [mostrarFormulario, setMostrarFormulario] = useState(false);
@@ -46,7 +48,7 @@ function Empleados() {
 
   const guardarEmpleado = async (e: React.FormEvent) => {
     e.preventDefault();
-    const data = { nombre, cargo, oficinaId: Number(oficinaId) };
+    const data = { nombre, cargo, correo, oficinaId: Number(oficinaId) };
     if (editandoId) {
       await api.put(`/empleados/${editandoId}`, data);
     } else {
@@ -64,6 +66,7 @@ function Empleados() {
     setEditandoId(empleado.id);
     setNombre(empleado.nombre);
     setCargo(empleado.cargo ?? '');
+    setCorreo(empleado.correo ?? '');
     setOficinaId(String(empleado.oficinaId));
     setMostrarFormulario(true);
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -73,6 +76,7 @@ function Empleados() {
     setEditandoId(null);
     setNombre('');
     setCargo('');
+    setCorreo('');
     setOficinaId('');
     setMostrarFormulario(false);
   };
@@ -107,7 +111,7 @@ function Empleados() {
 
       {mostrarFormulario && (
         <form onSubmit={guardarEmpleado} style={{ marginBottom: '1.5rem', border: '1px solid #e2e0f0', padding: '1.2rem', borderRadius: '10px', backgroundColor: '#fafaff' }}>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '0.8rem', marginBottom: '1rem' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr 1fr', gap: '0.8rem', marginBottom: '1rem' }}>
             <div>
               <label style={labelStyle}>Nombre del empleado</label>
               <input
@@ -124,6 +128,15 @@ function Empleados() {
                 type="text"
                 value={cargo}
                 onChange={(e) => setCargo(e.target.value)}
+                style={inputStyle}
+              />
+            </div>
+              <div>
+              <label style={labelStyle}>Correo</label>
+              <input
+                type="email"
+                value={correo}
+                onChange={(e) => setCorreo(e.target.value)}
                 style={inputStyle}
               />
             </div>

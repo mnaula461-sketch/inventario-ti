@@ -9,17 +9,22 @@ import multer from 'multer';
 import { parse } from 'csv-parse/sync';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
+import { PDFDocument, rgb, StandardFonts } from 'pdf-lib';
+import path from 'path';
 
 
 const upload = multer({ storage: multer.memoryStorage() });
 function verificarToken(req: express.Request, res: express.Response, next: express.NextFunction) {
   const authHeader = req.headers.authorization;
-  if (!authHeader) {
+  const tokenQuery = req.query.token as string | undefined;
+
+  const token = authHeader ? authHeader.split(' ')[1] : tokenQuery;
+
+  if (!token) {
     res.status(401).json({ error: 'No autorizado, falta token' });
     return;
   }
 
-  const token = authHeader.split(' ')[1];
   try {
     jwt.verify(token, process.env.JWT_SECRET as string);
     next();
@@ -124,9 +129,9 @@ app.delete('/oficinas/:id', verificarToken, async (req, res) => {
 });
 // Crear un empleado
 app.post('/empleados', verificarToken, async (req, res) => {
-  const { nombre, cargo, oficinaId } = req.body;
+  const { nombre, cargo, correo, oficinaId } = req.body;
   const empleado = await prisma.empleado.create({
-    data: { nombre, cargo, oficinaId },
+    data: { nombre, cargo, correo, oficinaId },
   });
   res.json(empleado);
 });
@@ -142,10 +147,10 @@ app.get('/empleados', verificarToken, async (req, res) => {
 // Actualizar un empleado
 app.put('/empleados/:id', verificarToken, async (req, res) => {
   const { id } = req.params;
-  const { nombre, cargo, oficinaId } = req.body;
+  const { nombre, cargo, correo, oficinaId } = req.body;
   const empleado = await prisma.empleado.update({
     where: { id: Number(id) },
-    data: { nombre, cargo, oficinaId },
+    data: { nombre, cargo, correo, oficinaId },
   });
   res.json(empleado);
 });
@@ -178,6 +183,254 @@ app.post('/activos', verificarToken, async (req, res) => {
     },
   });
   res.json(activo);
+});
+
+// Obtener la plantilla del acta (crea una por defecto si no existe)
+app.get('/plantilla-acta', verificarToken, async (req, res) => {
+  let plantilla = await prisma.plantillaActa.findFirst();
+  if (!plantilla) {
+    plantilla = await prisma.plantillaActa.create({ data: {} });
+  }
+  res.json(plantilla);
+});
+
+// Generar el PDF del acta de entrega para un activo
+app.get('/activos/:id/acta', verificarToken, async (req, res) => {
+  const { id } = req.params;
+  const activo = await prisma.activo.findUnique({
+    where: { id: Number(id) },
+    include: { oficina: true, responsable: true },
+  });
+
+  if (!activo) {
+    res.status(404).json({ error: 'Activo no encontrado' });
+    return;
+  }
+
+  let plantilla = await prisma.plantillaActa.findFirst();
+  if (!plantilla) {
+    plantilla = await prisma.plantillaActa.create({ data: {} });
+  }
+
+  const pdfDoc = await PDFDocument.create();
+  const page = pdfDoc.addPage([595.28, 841.89]);
+  const { width, height } = page.getSize();
+
+  const font = await pdfDoc.embedFont(StandardFonts.Helvetica);
+  const fontBold = await pdfDoc.embedFont(StandardFonts.HelveticaBold);
+
+  const logoPath = path.join(__dirname, '..', 'client', 'src', 'assets', 'logo.png');
+  const logoBytes = require('fs').readFileSync(logoPath);
+  const logoImage = await pdfDoc.embedPng(logoBytes);
+
+  const black = rgb(0, 0, 0);
+  const lightGray = rgb(0.93, 0.93, 0.93);
+  const white = rgb(1, 1, 1);
+
+  let y = height - 30;
+  const marginX = 30;
+  const contentWidth = width - marginX * 2;
+
+  function drawRect(x: number, yTop: number, w: number, h: number, fillColor: any) {
+    page.drawRectangle({ x, y: yTop - h, width: w, height: h, borderColor: black, borderWidth: 0.7, color: fillColor });
+  }
+
+  function drawText(text: string, x: number, yPos: number, size = 8, bold = false) {
+    page.drawText(text ?? '', { x, y: yPos, size, font: bold ? fontBold : font, color: black });
+  }
+
+  function wrapText(text: string, maxWidth: number, size: number, useFont: any) {
+    const words = (text ?? '').split(' ');
+    const lines: string[] = [];
+    let current = '';
+    for (const word of words) {
+      const test = current ? current + ' ' + word : word;
+      const w = useFont.widthOfTextAtSize(test, size);
+      if (w > maxWidth && current) {
+        lines.push(current);
+        current = word;
+      } else {
+        current = test;
+      }
+    }
+    if (current) lines.push(current);
+    return lines;
+  }
+
+  // ===== ENCABEZADO =====
+  const headerH = 70;
+  const logoBoxW = 160;
+  page.drawRectangle({ x: marginX, y: y - headerH, width: logoBoxW, height: headerH, borderColor: black, borderWidth: 0.7 });
+  const logoDims = logoImage.scale(0.28);
+  page.drawImage(logoImage, {
+    x: marginX + (logoBoxW - logoDims.width) / 2,
+    y: y - headerH + (headerH - logoDims.height) / 2,
+    width: logoDims.width,
+    height: logoDims.height,
+  });
+
+  const titleBoxW = 250;
+  page.drawRectangle({ x: marginX + logoBoxW, y: y - headerH, width: titleBoxW, height: headerH, borderColor: black, borderWidth: 0.7 });
+  const titleLines = wrapText(plantilla.tituloDocumento, titleBoxW - 20, 11, fontBold);
+  let titleY = y - headerH / 2 + (titleLines.length * 13) / 2 - 10;
+  titleLines.forEach((line) => {
+    const tw = fontBold.widthOfTextAtSize(line, 11);
+    drawText(line, marginX + logoBoxW + (titleBoxW - tw) / 2, titleY, 11, true);
+    titleY -= 13;
+  });
+
+  const metaBoxX = marginX + logoBoxW + titleBoxW;
+  const metaBoxW = contentWidth - logoBoxW - titleBoxW;
+  const metaRows = [
+    ['Código:', plantilla.codigo],
+    ['Versión:', plantilla.version],
+    ['Fecha de aprobación:', plantilla.fechaAprobacion],
+    ['Responsable:', plantilla.responsable],
+  ];
+  const metaRowH = headerH / 4;
+  metaRows.forEach((row, i) => {
+    page.drawRectangle({ x: metaBoxX, y: y - metaRowH * (i + 1), width: metaBoxW, height: metaRowH, borderColor: black, borderWidth: 0.6 });
+    drawText(row[0] + ' ' + row[1], metaBoxX + 4, y - metaRowH * (i + 1) + metaRowH / 2 - 3, 7);
+  });
+
+  y -= headerH;
+
+  function sectionTitle(title: string, rowH = 16) {
+    drawRect(marginX, y, contentWidth, rowH, lightGray);
+    const tw = fontBold.widthOfTextAtSize(title, 9);
+    drawText(title, marginX + (contentWidth - tw) / 2, y - rowH / 2 - 3, 9, true);
+    y -= rowH;
+  }
+
+  sectionTitle('DATOS DEL COLABORADOR');
+
+  const respNombre = activo.responsable?.nombre ?? '';
+  const respCargo = activo.responsable?.cargo ?? '';
+  const oficinaNombre = activo.oficina?.nombre ?? '';
+
+  const colData = [
+    ['Nombre', respNombre, 'Cargo', respCargo, 'IP Computador', activo.ip ?? ''],
+    ['Correo', '', 'Área', activo.departamento ?? '', 'Oficina', oficinaNombre],
+  ];
+  const colWidths = [55, 140, 45, 140, 60, contentWidth - 55 - 140 - 45 - 140 - 60];
+  const colRowH = 18;
+  colData.forEach((row) => {
+    let x = marginX;
+    row.forEach((cell, i) => {
+      const w = colWidths[i];
+      const isLabel = i % 2 === 0;
+      drawRect(x, y, w, colRowH, isLabel ? lightGray : white);
+      drawText(cell, x + 3, y - colRowH / 2 - 3, 7, isLabel);
+      x += w;
+    });
+    y -= colRowH;
+  });
+
+  sectionTitle('HARDWARE');
+
+  function drawHwGroup(headers: string[], values: string[]) {
+    const colW = contentWidth / 5;
+    const rowH = 22;
+    let x = marginX;
+    headers.forEach((h) => {
+      drawRect(x, y, colW, rowH, lightGray);
+      const lines = wrapText(h, colW - 6, 6, fontBold);
+      let ly = y - 9;
+      lines.forEach((line) => { drawText(line, x + 3, ly, 6, true); ly -= 7; });
+      x += colW;
+    });
+    y -= rowH;
+    x = marginX;
+    const rowH2 = 16;
+    values.forEach((v) => {
+      drawRect(x, y, colW, rowH2, white);
+      drawText(v ?? '', x + 3, y - 11, 7);
+      x += colW;
+    });
+    y -= rowH2;
+  }
+
+  drawHwGroup(
+    ['TIPO', 'CARGADOR/ADAPTADOR', 'MARCA EQUIPO', 'MODELO EQUIPO', 'N° SERIE S/N'],
+    [activo.tipo, activo.cargador ?? '', activo.marca ?? '', activo.claseEquipo ?? '', activo.numeroSerie ?? '']
+  );
+  drawHwGroup(
+    ['PROCESADOR', 'RAM (GB)', 'DISCO', 'TECLADO SERIAL', 'MOUSE SERIAL'],
+    [activo.procesador ?? '', activo.ram ?? '', activo.disco ?? '', activo.tecladoSerial ?? '', activo.mouseSerial ?? '']
+  );
+  drawHwGroup(
+    ['MONITOR', 'MONITOR SERIAL', 'ADAPT. CORRIENTE', 'IMPRESORA CONFIG.', 'SERIAL IMPRESORA'],
+    [activo.monitor ?? '', activo.serieMonitor ?? '', activo.adaptadorCorriente ?? '', activo.impresoraConfigurada ?? '', activo.serialImpresora ?? '']
+  );
+  drawHwGroup(
+    ['MAC COMPUTADOR', 'TELÉFONO MARCA/MODELO', 'IP TELÉFONO', 'MAC TELÉFONO', 'SEGURO LAPTOP'],
+    [activo.macComputador ?? '', activo.telefonoMarcaModelo ?? '', activo.ipTelefono ?? '', activo.macTelefono ?? '', activo.seguroLaptop ?? '']
+  );
+
+  sectionTitle('SOFTWARE INSTALADO');
+  const swText = activo.softwareInstalado ?? '';
+  const swLines = wrapText(swText, contentWidth - 10, 8, font);
+  const swBoxH = Math.max(30, swLines.length * 11 + 10);
+  drawRect(marginX, y, contentWidth, swBoxH, white);
+  let swY = y - 12;
+  swLines.forEach((line) => { drawText(line, marginX + 5, swY, 8); swY -= 11; });
+  y -= swBoxH;
+
+  sectionTitle('OBSERVACIONES');
+  const obsLines = wrapText(plantilla.observaciones, contentWidth - 10, 7.5, font);
+  const obsH = obsLines.length * 10 + 10;
+  drawRect(marginX, y, contentWidth, obsH, white);
+  let obsY = y - 12;
+  obsLines.forEach((line) => { drawText(line, marginX + 5, obsY, 7.5); obsY -= 10; });
+  y -= obsH;
+
+  const clausulaLines = wrapText(plantilla.clausula, contentWidth - 10, 7.5, font);
+  const clausulaH = clausulaLines.length * 10 + 10;
+  drawRect(marginX, y, contentWidth, clausulaH, white);
+  let clausY = y - 12;
+  clausulaLines.forEach((line) => { drawText(line, marginX + 5, clausY, 7.5); clausY -= 10; });
+  y -= clausulaH;
+
+  sectionTitle('ENTREGA DE EQUIPO');
+  const halfW = contentWidth / 2;
+  drawRect(marginX, y, halfW, 16, lightGray);
+  drawRect(marginX + halfW, y, halfW, 16, lightGray);
+  drawText('RECIBE', marginX + halfW / 2 - 15, y - 12, 8, true);
+  drawText('ENTREGA', marginX + halfW + halfW / 2 - 18, y - 12, 8, true);
+  y -= 16;
+
+  const hoy = new Date().toLocaleDateString('es-EC');
+  const firmaRows = [
+    ['Nombre', respNombre, 'Nombre', ''],
+    ['Firma', '', 'Firma', ''],
+    ['Fecha', hoy, 'Fecha', hoy],
+  ];
+  firmaRows.forEach((row) => {
+    const rowH = row[0] === 'Firma' ? 30 : 22;
+    drawRect(marginX, y, halfW, rowH, white);
+    drawRect(marginX + halfW, y, halfW, rowH, white);
+    drawText(row[0], marginX + 4, y - 10, 7, true);
+    if (row[1]) drawText(row[1], marginX + 4, y - 20, 7, true);
+    drawText(row[2], marginX + halfW + 4, y - 10, 7, true);
+    if (row[3]) drawText(row[3], marginX + halfW + 4, y - 20, 7, true);
+    y -= rowH;
+  });
+
+  const pdfBytes = await pdfDoc.save();
+  res.setHeader('Content-Type', 'application/pdf');
+  res.setHeader('Content-Disposition', `attachment; filename="acta-${activo.codigo}.pdf"`);
+  res.send(Buffer.from(pdfBytes));
+});
+
+// Actualizar la plantilla del acta
+app.put('/plantilla-acta/:id', verificarToken, async (req, res) => {
+  const { id } = req.params;
+  const { codigo, version, fechaAprobacion, responsable, tituloDocumento, clausula, observaciones, listaSoftware } = req.body;
+  const plantilla = await prisma.plantillaActa.update({
+    where: { id: Number(id) },
+    data: { codigo, version, fechaAprobacion, responsable, tituloDocumento, clausula, observaciones, listaSoftware },
+  });
+  res.json(plantilla);
 });
 
 // Listar todos los activos (con oficina y responsable incluidos)

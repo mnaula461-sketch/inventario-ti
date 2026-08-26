@@ -40,6 +40,7 @@ export type EmpleadoMinAggregateOutputType = {
   id: number | null
   nombre: string | null
   cargo: string | null
+  correo: string | null
   oficinaId: number | null
 }
 
@@ -47,6 +48,7 @@ export type EmpleadoMaxAggregateOutputType = {
   id: number | null
   nombre: string | null
   cargo: string | null
+  correo: string | null
   oficinaId: number | null
 }
 
@@ -54,6 +56,7 @@ export type EmpleadoCountAggregateOutputType = {
   id: number
   nombre: number
   cargo: number
+  correo: number
   oficinaId: number
   _all: number
 }
@@ -73,6 +76,7 @@ export type EmpleadoMinAggregateInputType = {
   id?: true
   nombre?: true
   cargo?: true
+  correo?: true
   oficinaId?: true
 }
 
@@ -80,6 +84,7 @@ export type EmpleadoMaxAggregateInputType = {
   id?: true
   nombre?: true
   cargo?: true
+  correo?: true
   oficinaId?: true
 }
 
@@ -87,6 +92,7 @@ export type EmpleadoCountAggregateInputType = {
   id?: true
   nombre?: true
   cargo?: true
+  correo?: true
   oficinaId?: true
   _all?: true
 }
@@ -181,6 +187,7 @@ export type EmpleadoGroupByOutputType = {
   id: number
   nombre: string
   cargo: string | null
+  correo: string | null
   oficinaId: number
   _count: EmpleadoCountAggregateOutputType | null
   _avg: EmpleadoAvgAggregateOutputType | null
@@ -211,6 +218,7 @@ export type EmpleadoWhereInput = {
   id?: Prisma.IntFilter<"Empleado"> | number
   nombre?: Prisma.StringFilter<"Empleado"> | string
   cargo?: Prisma.StringNullableFilter<"Empleado"> | string | null
+  correo?: Prisma.StringNullableFilter<"Empleado"> | string | null
   oficinaId?: Prisma.IntFilter<"Empleado"> | number
   oficina?: Prisma.XOR<Prisma.OficinaScalarRelationFilter, Prisma.OficinaWhereInput>
   activos?: Prisma.ActivoListRelationFilter
@@ -220,6 +228,7 @@ export type EmpleadoOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   nombre?: Prisma.SortOrder
   cargo?: Prisma.SortOrderInput | Prisma.SortOrder
+  correo?: Prisma.SortOrderInput | Prisma.SortOrder
   oficinaId?: Prisma.SortOrder
   oficina?: Prisma.OficinaOrderByWithRelationInput
   activos?: Prisma.ActivoOrderByRelationAggregateInput
@@ -232,6 +241,7 @@ export type EmpleadoWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.EmpleadoWhereInput | Prisma.EmpleadoWhereInput[]
   nombre?: Prisma.StringFilter<"Empleado"> | string
   cargo?: Prisma.StringNullableFilter<"Empleado"> | string | null
+  correo?: Prisma.StringNullableFilter<"Empleado"> | string | null
   oficinaId?: Prisma.IntFilter<"Empleado"> | number
   oficina?: Prisma.XOR<Prisma.OficinaScalarRelationFilter, Prisma.OficinaWhereInput>
   activos?: Prisma.ActivoListRelationFilter
@@ -241,6 +251,7 @@ export type EmpleadoOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   nombre?: Prisma.SortOrder
   cargo?: Prisma.SortOrderInput | Prisma.SortOrder
+  correo?: Prisma.SortOrderInput | Prisma.SortOrder
   oficinaId?: Prisma.SortOrder
   _count?: Prisma.EmpleadoCountOrderByAggregateInput
   _avg?: Prisma.EmpleadoAvgOrderByAggregateInput
@@ -256,12 +267,14 @@ export type EmpleadoScalarWhereWithAggregatesInput = {
   id?: Prisma.IntWithAggregatesFilter<"Empleado"> | number
   nombre?: Prisma.StringWithAggregatesFilter<"Empleado"> | string
   cargo?: Prisma.StringNullableWithAggregatesFilter<"Empleado"> | string | null
+  correo?: Prisma.StringNullableWithAggregatesFilter<"Empleado"> | string | null
   oficinaId?: Prisma.IntWithAggregatesFilter<"Empleado"> | number
 }
 
 export type EmpleadoCreateInput = {
   nombre: string
   cargo?: string | null
+  correo?: string | null
   oficina: Prisma.OficinaCreateNestedOneWithoutEmpleadosInput
   activos?: Prisma.ActivoCreateNestedManyWithoutResponsableInput
 }
@@ -270,6 +283,7 @@ export type EmpleadoUncheckedCreateInput = {
   id?: number
   nombre: string
   cargo?: string | null
+  correo?: string | null
   oficinaId: number
   activos?: Prisma.ActivoUncheckedCreateNestedManyWithoutResponsableInput
 }
@@ -277,6 +291,7 @@ export type EmpleadoUncheckedCreateInput = {
 export type EmpleadoUpdateInput = {
   nombre?: Prisma.StringFieldUpdateOperationsInput | string
   cargo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   oficina?: Prisma.OficinaUpdateOneRequiredWithoutEmpleadosNestedInput
   activos?: Prisma.ActivoUpdateManyWithoutResponsableNestedInput
 }
@@ -285,6 +300,7 @@ export type EmpleadoUncheckedUpdateInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   nombre?: Prisma.StringFieldUpdateOperationsInput | string
   cargo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   oficinaId?: Prisma.IntFieldUpdateOperationsInput | number
   activos?: Prisma.ActivoUncheckedUpdateManyWithoutResponsableNestedInput
 }
@@ -293,18 +309,21 @@ export type EmpleadoCreateManyInput = {
   id?: number
   nombre: string
   cargo?: string | null
+  correo?: string | null
   oficinaId: number
 }
 
 export type EmpleadoUpdateManyMutationInput = {
   nombre?: Prisma.StringFieldUpdateOperationsInput | string
   cargo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type EmpleadoUncheckedUpdateManyInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   nombre?: Prisma.StringFieldUpdateOperationsInput | string
   cargo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   oficinaId?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
@@ -322,6 +341,7 @@ export type EmpleadoCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   nombre?: Prisma.SortOrder
   cargo?: Prisma.SortOrder
+  correo?: Prisma.SortOrder
   oficinaId?: Prisma.SortOrder
 }
 
@@ -334,6 +354,7 @@ export type EmpleadoMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   nombre?: Prisma.SortOrder
   cargo?: Prisma.SortOrder
+  correo?: Prisma.SortOrder
   oficinaId?: Prisma.SortOrder
 }
 
@@ -341,6 +362,7 @@ export type EmpleadoMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   nombre?: Prisma.SortOrder
   cargo?: Prisma.SortOrder
+  correo?: Prisma.SortOrder
   oficinaId?: Prisma.SortOrder
 }
 
@@ -415,6 +437,7 @@ export type EmpleadoUpdateOneWithoutActivosNestedInput = {
 export type EmpleadoCreateWithoutOficinaInput = {
   nombre: string
   cargo?: string | null
+  correo?: string | null
   activos?: Prisma.ActivoCreateNestedManyWithoutResponsableInput
 }
 
@@ -422,6 +445,7 @@ export type EmpleadoUncheckedCreateWithoutOficinaInput = {
   id?: number
   nombre: string
   cargo?: string | null
+  correo?: string | null
   activos?: Prisma.ActivoUncheckedCreateNestedManyWithoutResponsableInput
 }
 
@@ -458,12 +482,14 @@ export type EmpleadoScalarWhereInput = {
   id?: Prisma.IntFilter<"Empleado"> | number
   nombre?: Prisma.StringFilter<"Empleado"> | string
   cargo?: Prisma.StringNullableFilter<"Empleado"> | string | null
+  correo?: Prisma.StringNullableFilter<"Empleado"> | string | null
   oficinaId?: Prisma.IntFilter<"Empleado"> | number
 }
 
 export type EmpleadoCreateWithoutActivosInput = {
   nombre: string
   cargo?: string | null
+  correo?: string | null
   oficina: Prisma.OficinaCreateNestedOneWithoutEmpleadosInput
 }
 
@@ -471,6 +497,7 @@ export type EmpleadoUncheckedCreateWithoutActivosInput = {
   id?: number
   nombre: string
   cargo?: string | null
+  correo?: string | null
   oficinaId: number
 }
 
@@ -493,6 +520,7 @@ export type EmpleadoUpdateToOneWithWhereWithoutActivosInput = {
 export type EmpleadoUpdateWithoutActivosInput = {
   nombre?: Prisma.StringFieldUpdateOperationsInput | string
   cargo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   oficina?: Prisma.OficinaUpdateOneRequiredWithoutEmpleadosNestedInput
 }
 
@@ -500,6 +528,7 @@ export type EmpleadoUncheckedUpdateWithoutActivosInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   nombre?: Prisma.StringFieldUpdateOperationsInput | string
   cargo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   oficinaId?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
@@ -507,11 +536,13 @@ export type EmpleadoCreateManyOficinaInput = {
   id?: number
   nombre: string
   cargo?: string | null
+  correo?: string | null
 }
 
 export type EmpleadoUpdateWithoutOficinaInput = {
   nombre?: Prisma.StringFieldUpdateOperationsInput | string
   cargo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   activos?: Prisma.ActivoUpdateManyWithoutResponsableNestedInput
 }
 
@@ -519,6 +550,7 @@ export type EmpleadoUncheckedUpdateWithoutOficinaInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   nombre?: Prisma.StringFieldUpdateOperationsInput | string
   cargo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   activos?: Prisma.ActivoUncheckedUpdateManyWithoutResponsableNestedInput
 }
 
@@ -526,6 +558,7 @@ export type EmpleadoUncheckedUpdateManyWithoutOficinaInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   nombre?: Prisma.StringFieldUpdateOperationsInput | string
   cargo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 
@@ -563,6 +596,7 @@ export type EmpleadoSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   id?: boolean
   nombre?: boolean
   cargo?: boolean
+  correo?: boolean
   oficinaId?: boolean
   oficina?: boolean | Prisma.OficinaDefaultArgs<ExtArgs>
   activos?: boolean | Prisma.Empleado$activosArgs<ExtArgs>
@@ -573,6 +607,7 @@ export type EmpleadoSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exte
   id?: boolean
   nombre?: boolean
   cargo?: boolean
+  correo?: boolean
   oficinaId?: boolean
   oficina?: boolean | Prisma.OficinaDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["empleado"]>
@@ -581,6 +616,7 @@ export type EmpleadoSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exte
   id?: boolean
   nombre?: boolean
   cargo?: boolean
+  correo?: boolean
   oficinaId?: boolean
   oficina?: boolean | Prisma.OficinaDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["empleado"]>
@@ -589,10 +625,11 @@ export type EmpleadoSelectScalar = {
   id?: boolean
   nombre?: boolean
   cargo?: boolean
+  correo?: boolean
   oficinaId?: boolean
 }
 
-export type EmpleadoOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "nombre" | "cargo" | "oficinaId", ExtArgs["result"]["empleado"]>
+export type EmpleadoOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "nombre" | "cargo" | "correo" | "oficinaId", ExtArgs["result"]["empleado"]>
 export type EmpleadoInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   oficina?: boolean | Prisma.OficinaDefaultArgs<ExtArgs>
   activos?: boolean | Prisma.Empleado$activosArgs<ExtArgs>
@@ -615,6 +652,7 @@ export type $EmpleadoPayload<ExtArgs extends runtime.Types.Extensions.InternalAr
     id: number
     nombre: string
     cargo: string | null
+    correo: string | null
     oficinaId: number
   }, ExtArgs["result"]["empleado"]>
   composites: {}
@@ -1044,6 +1082,7 @@ export interface EmpleadoFieldRefs {
   readonly id: Prisma.FieldRef<"Empleado", 'Int'>
   readonly nombre: Prisma.FieldRef<"Empleado", 'String'>
   readonly cargo: Prisma.FieldRef<"Empleado", 'String'>
+  readonly correo: Prisma.FieldRef<"Empleado", 'String'>
   readonly oficinaId: Prisma.FieldRef<"Empleado", 'Int'>
 }
     

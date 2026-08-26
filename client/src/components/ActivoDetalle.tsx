@@ -53,6 +53,7 @@ interface ActivoDetalleProps {
   activo: Activo;
   onVolver: () => void;
   onEditar: () => void;
+  onGenerarActa: () => void;
 }
 
 function Fila({ label, valor }: { label: string; valor: string | null | undefined }) {
@@ -87,7 +88,7 @@ function BadgeEstado({ estado }: { estado: string }) {
   );
 }
 
-function ActivoDetalle({ activo, onVolver, onEditar }: ActivoDetalleProps) {
+function ActivoDetalle({ activo, onVolver, onEditar, onGenerarActa }: ActivoDetalleProps) {
   return (
     <div>
       <button onClick={onVolver} className="btn-outline" style={{ marginBottom: '1.2rem' }}>
@@ -106,6 +107,7 @@ function ActivoDetalle({ activo, onVolver, onEditar }: ActivoDetalleProps) {
         <div style={{ display: 'flex', gap: '0.6rem', alignItems: 'center' }}>
           <BadgeEstado estado={activo.estado} />
           <button onClick={onEditar} className="btn-edit">✏️ Editar</button>
+          <button onClick={onGenerarActa} className="btn-primary">📄 Generar acta</button>
         </div>
       </div>
 

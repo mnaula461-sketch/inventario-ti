@@ -61,3 +61,8 @@ export type Activo = Prisma.ActivoModel
  * 
  */
 export type Usuario = Prisma.UsuarioModel
+/**
+ * Model PlantillaActa
+ * 
+ */
+export type PlantillaActa = Prisma.PlantillaActaModel

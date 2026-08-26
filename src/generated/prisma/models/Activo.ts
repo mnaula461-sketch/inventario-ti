@@ -73,6 +73,18 @@ export type ActivoMinAggregateOutputType = {
   criterio: string | null
   oficinaId: number | null
   responsableId: number | null
+  cargador: string | null
+  tecladoSerial: string | null
+  mouseSerial: string | null
+  adaptadorCorriente: string | null
+  impresoraConfigurada: string | null
+  serialImpresora: string | null
+  macComputador: string | null
+  telefonoMarcaModelo: string | null
+  ipTelefono: string | null
+  macTelefono: string | null
+  seguroLaptop: string | null
+  softwareInstalado: string | null
   createdAt: Date | null
 }
 
@@ -111,6 +123,18 @@ export type ActivoMaxAggregateOutputType = {
   criterio: string | null
   oficinaId: number | null
   responsableId: number | null
+  cargador: string | null
+  tecladoSerial: string | null
+  mouseSerial: string | null
+  adaptadorCorriente: string | null
+  impresoraConfigurada: string | null
+  serialImpresora: string | null
+  macComputador: string | null
+  telefonoMarcaModelo: string | null
+  ipTelefono: string | null
+  macTelefono: string | null
+  seguroLaptop: string | null
+  softwareInstalado: string | null
   createdAt: Date | null
 }
 
@@ -149,6 +173,18 @@ export type ActivoCountAggregateOutputType = {
   criterio: number
   oficinaId: number
   responsableId: number
+  cargador: number
+  tecladoSerial: number
+  mouseSerial: number
+  adaptadorCorriente: number
+  impresoraConfigurada: number
+  serialImpresora: number
+  macComputador: number
+  telefonoMarcaModelo: number
+  ipTelefono: number
+  macTelefono: number
+  seguroLaptop: number
+  softwareInstalado: number
   createdAt: number
   _all: number
 }
@@ -201,6 +237,18 @@ export type ActivoMinAggregateInputType = {
   criterio?: true
   oficinaId?: true
   responsableId?: true
+  cargador?: true
+  tecladoSerial?: true
+  mouseSerial?: true
+  adaptadorCorriente?: true
+  impresoraConfigurada?: true
+  serialImpresora?: true
+  macComputador?: true
+  telefonoMarcaModelo?: true
+  ipTelefono?: true
+  macTelefono?: true
+  seguroLaptop?: true
+  softwareInstalado?: true
   createdAt?: true
 }
 
@@ -239,6 +287,18 @@ export type ActivoMaxAggregateInputType = {
   criterio?: true
   oficinaId?: true
   responsableId?: true
+  cargador?: true
+  tecladoSerial?: true
+  mouseSerial?: true
+  adaptadorCorriente?: true
+  impresoraConfigurada?: true
+  serialImpresora?: true
+  macComputador?: true
+  telefonoMarcaModelo?: true
+  ipTelefono?: true
+  macTelefono?: true
+  seguroLaptop?: true
+  softwareInstalado?: true
   createdAt?: true
 }
 
@@ -277,6 +337,18 @@ export type ActivoCountAggregateInputType = {
   criterio?: true
   oficinaId?: true
   responsableId?: true
+  cargador?: true
+  tecladoSerial?: true
+  mouseSerial?: true
+  adaptadorCorriente?: true
+  impresoraConfigurada?: true
+  serialImpresora?: true
+  macComputador?: true
+  telefonoMarcaModelo?: true
+  ipTelefono?: true
+  macTelefono?: true
+  seguroLaptop?: true
+  softwareInstalado?: true
   createdAt?: true
   _all?: true
 }
@@ -402,6 +474,18 @@ export type ActivoGroupByOutputType = {
   criterio: string | null
   oficinaId: number
   responsableId: number | null
+  cargador: string | null
+  tecladoSerial: string | null
+  mouseSerial: string | null
+  adaptadorCorriente: string | null
+  impresoraConfigurada: string | null
+  serialImpresora: string | null
+  macComputador: string | null
+  telefonoMarcaModelo: string | null
+  ipTelefono: string | null
+  macTelefono: string | null
+  seguroLaptop: string | null
+  softwareInstalado: string | null
   createdAt: Date
   _count: ActivoCountAggregateOutputType | null
   _avg: ActivoAvgAggregateOutputType | null
@@ -463,6 +547,18 @@ export type ActivoWhereInput = {
   criterio?: Prisma.StringNullableFilter<"Activo"> | string | null
   oficinaId?: Prisma.IntFilter<"Activo"> | number
   responsableId?: Prisma.IntNullableFilter<"Activo"> | number | null
+  cargador?: Prisma.StringNullableFilter<"Activo"> | string | null
+  tecladoSerial?: Prisma.StringNullableFilter<"Activo"> | string | null
+  mouseSerial?: Prisma.StringNullableFilter<"Activo"> | string | null
+  adaptadorCorriente?: Prisma.StringNullableFilter<"Activo"> | string | null
+  impresoraConfigurada?: Prisma.StringNullableFilter<"Activo"> | string | null
+  serialImpresora?: Prisma.StringNullableFilter<"Activo"> | string | null
+  macComputador?: Prisma.StringNullableFilter<"Activo"> | string | null
+  telefonoMarcaModelo?: Prisma.StringNullableFilter<"Activo"> | string | null
+  ipTelefono?: Prisma.StringNullableFilter<"Activo"> | string | null
+  macTelefono?: Prisma.StringNullableFilter<"Activo"> | string | null
+  seguroLaptop?: Prisma.StringNullableFilter<"Activo"> | string | null
+  softwareInstalado?: Prisma.StringNullableFilter<"Activo"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Activo"> | Date | string
   oficina?: Prisma.XOR<Prisma.OficinaScalarRelationFilter, Prisma.OficinaWhereInput>
   responsable?: Prisma.XOR<Prisma.EmpleadoNullableScalarRelationFilter, Prisma.EmpleadoWhereInput> | null
@@ -503,6 +599,18 @@ export type ActivoOrderByWithRelationInput = {
   criterio?: Prisma.SortOrderInput | Prisma.SortOrder
   oficinaId?: Prisma.SortOrder
   responsableId?: Prisma.SortOrderInput | Prisma.SortOrder
+  cargador?: Prisma.SortOrderInput | Prisma.SortOrder
+  tecladoSerial?: Prisma.SortOrderInput | Prisma.SortOrder
+  mouseSerial?: Prisma.SortOrderInput | Prisma.SortOrder
+  adaptadorCorriente?: Prisma.SortOrderInput | Prisma.SortOrder
+  impresoraConfigurada?: Prisma.SortOrderInput | Prisma.SortOrder
+  serialImpresora?: Prisma.SortOrderInput | Prisma.SortOrder
+  macComputador?: Prisma.SortOrderInput | Prisma.SortOrder
+  telefonoMarcaModelo?: Prisma.SortOrderInput | Prisma.SortOrder
+  ipTelefono?: Prisma.SortOrderInput | Prisma.SortOrder
+  macTelefono?: Prisma.SortOrderInput | Prisma.SortOrder
+  seguroLaptop?: Prisma.SortOrderInput | Prisma.SortOrder
+  softwareInstalado?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   oficina?: Prisma.OficinaOrderByWithRelationInput
   responsable?: Prisma.EmpleadoOrderByWithRelationInput
@@ -546,6 +654,18 @@ export type ActivoWhereUniqueInput = Prisma.AtLeast<{
   criterio?: Prisma.StringNullableFilter<"Activo"> | string | null
   oficinaId?: Prisma.IntFilter<"Activo"> | number
   responsableId?: Prisma.IntNullableFilter<"Activo"> | number | null
+  cargador?: Prisma.StringNullableFilter<"Activo"> | string | null
+  tecladoSerial?: Prisma.StringNullableFilter<"Activo"> | string | null
+  mouseSerial?: Prisma.StringNullableFilter<"Activo"> | string | null
+  adaptadorCorriente?: Prisma.StringNullableFilter<"Activo"> | string | null
+  impresoraConfigurada?: Prisma.StringNullableFilter<"Activo"> | string | null
+  serialImpresora?: Prisma.StringNullableFilter<"Activo"> | string | null
+  macComputador?: Prisma.StringNullableFilter<"Activo"> | string | null
+  telefonoMarcaModelo?: Prisma.StringNullableFilter<"Activo"> | string | null
+  ipTelefono?: Prisma.StringNullableFilter<"Activo"> | string | null
+  macTelefono?: Prisma.StringNullableFilter<"Activo"> | string | null
+  seguroLaptop?: Prisma.StringNullableFilter<"Activo"> | string | null
+  softwareInstalado?: Prisma.StringNullableFilter<"Activo"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Activo"> | Date | string
   oficina?: Prisma.XOR<Prisma.OficinaScalarRelationFilter, Prisma.OficinaWhereInput>
   responsable?: Prisma.XOR<Prisma.EmpleadoNullableScalarRelationFilter, Prisma.EmpleadoWhereInput> | null
@@ -586,6 +706,18 @@ export type ActivoOrderByWithAggregationInput = {
   criterio?: Prisma.SortOrderInput | Prisma.SortOrder
   oficinaId?: Prisma.SortOrder
   responsableId?: Prisma.SortOrderInput | Prisma.SortOrder
+  cargador?: Prisma.SortOrderInput | Prisma.SortOrder
+  tecladoSerial?: Prisma.SortOrderInput | Prisma.SortOrder
+  mouseSerial?: Prisma.SortOrderInput | Prisma.SortOrder
+  adaptadorCorriente?: Prisma.SortOrderInput | Prisma.SortOrder
+  impresoraConfigurada?: Prisma.SortOrderInput | Prisma.SortOrder
+  serialImpresora?: Prisma.SortOrderInput | Prisma.SortOrder
+  macComputador?: Prisma.SortOrderInput | Prisma.SortOrder
+  telefonoMarcaModelo?: Prisma.SortOrderInput | Prisma.SortOrder
+  ipTelefono?: Prisma.SortOrderInput | Prisma.SortOrder
+  macTelefono?: Prisma.SortOrderInput | Prisma.SortOrder
+  seguroLaptop?: Prisma.SortOrderInput | Prisma.SortOrder
+  softwareInstalado?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   _count?: Prisma.ActivoCountOrderByAggregateInput
   _avg?: Prisma.ActivoAvgOrderByAggregateInput
@@ -632,6 +764,18 @@ export type ActivoScalarWhereWithAggregatesInput = {
   criterio?: Prisma.StringNullableWithAggregatesFilter<"Activo"> | string | null
   oficinaId?: Prisma.IntWithAggregatesFilter<"Activo"> | number
   responsableId?: Prisma.IntNullableWithAggregatesFilter<"Activo"> | number | null
+  cargador?: Prisma.StringNullableWithAggregatesFilter<"Activo"> | string | null
+  tecladoSerial?: Prisma.StringNullableWithAggregatesFilter<"Activo"> | string | null
+  mouseSerial?: Prisma.StringNullableWithAggregatesFilter<"Activo"> | string | null
+  adaptadorCorriente?: Prisma.StringNullableWithAggregatesFilter<"Activo"> | string | null
+  impresoraConfigurada?: Prisma.StringNullableWithAggregatesFilter<"Activo"> | string | null
+  serialImpresora?: Prisma.StringNullableWithAggregatesFilter<"Activo"> | string | null
+  macComputador?: Prisma.StringNullableWithAggregatesFilter<"Activo"> | string | null
+  telefonoMarcaModelo?: Prisma.StringNullableWithAggregatesFilter<"Activo"> | string | null
+  ipTelefono?: Prisma.StringNullableWithAggregatesFilter<"Activo"> | string | null
+  macTelefono?: Prisma.StringNullableWithAggregatesFilter<"Activo"> | string | null
+  seguroLaptop?: Prisma.StringNullableWithAggregatesFilter<"Activo"> | string | null
+  softwareInstalado?: Prisma.StringNullableWithAggregatesFilter<"Activo"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Activo"> | Date | string
 }
 
@@ -667,6 +811,18 @@ export type ActivoCreateInput = {
   estado?: string
   antivirus?: string | null
   criterio?: string | null
+  cargador?: string | null
+  tecladoSerial?: string | null
+  mouseSerial?: string | null
+  adaptadorCorriente?: string | null
+  impresoraConfigurada?: string | null
+  serialImpresora?: string | null
+  macComputador?: string | null
+  telefonoMarcaModelo?: string | null
+  ipTelefono?: string | null
+  macTelefono?: string | null
+  seguroLaptop?: string | null
+  softwareInstalado?: string | null
   createdAt?: Date | string
   oficina: Prisma.OficinaCreateNestedOneWithoutActivosInput
   responsable?: Prisma.EmpleadoCreateNestedOneWithoutActivosInput
@@ -707,6 +863,18 @@ export type ActivoUncheckedCreateInput = {
   criterio?: string | null
   oficinaId: number
   responsableId?: number | null
+  cargador?: string | null
+  tecladoSerial?: string | null
+  mouseSerial?: string | null
+  adaptadorCorriente?: string | null
+  impresoraConfigurada?: string | null
+  serialImpresora?: string | null
+  macComputador?: string | null
+  telefonoMarcaModelo?: string | null
+  ipTelefono?: string | null
+  macTelefono?: string | null
+  seguroLaptop?: string | null
+  softwareInstalado?: string | null
   createdAt?: Date | string
 }
 
@@ -742,6 +910,18 @@ export type ActivoUpdateInput = {
   estado?: Prisma.StringFieldUpdateOperationsInput | string
   antivirus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   criterio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cargador?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tecladoSerial?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  mouseSerial?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  adaptadorCorriente?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  impresoraConfigurada?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  serialImpresora?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  macComputador?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telefonoMarcaModelo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ipTelefono?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  macTelefono?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  seguroLaptop?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  softwareInstalado?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   oficina?: Prisma.OficinaUpdateOneRequiredWithoutActivosNestedInput
   responsable?: Prisma.EmpleadoUpdateOneWithoutActivosNestedInput
@@ -782,6 +962,18 @@ export type ActivoUncheckedUpdateInput = {
   criterio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   oficinaId?: Prisma.IntFieldUpdateOperationsInput | number
   responsableId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  cargador?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tecladoSerial?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  mouseSerial?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  adaptadorCorriente?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  impresoraConfigurada?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  serialImpresora?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  macComputador?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telefonoMarcaModelo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ipTelefono?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  macTelefono?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  seguroLaptop?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  softwareInstalado?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -820,6 +1012,18 @@ export type ActivoCreateManyInput = {
   criterio?: string | null
   oficinaId: number
   responsableId?: number | null
+  cargador?: string | null
+  tecladoSerial?: string | null
+  mouseSerial?: string | null
+  adaptadorCorriente?: string | null
+  impresoraConfigurada?: string | null
+  serialImpresora?: string | null
+  macComputador?: string | null
+  telefonoMarcaModelo?: string | null
+  ipTelefono?: string | null
+  macTelefono?: string | null
+  seguroLaptop?: string | null
+  softwareInstalado?: string | null
   createdAt?: Date | string
 }
 
@@ -855,6 +1059,18 @@ export type ActivoUpdateManyMutationInput = {
   estado?: Prisma.StringFieldUpdateOperationsInput | string
   antivirus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   criterio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cargador?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tecladoSerial?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  mouseSerial?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  adaptadorCorriente?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  impresoraConfigurada?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  serialImpresora?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  macComputador?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telefonoMarcaModelo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ipTelefono?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  macTelefono?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  seguroLaptop?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  softwareInstalado?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -893,6 +1109,18 @@ export type ActivoUncheckedUpdateManyInput = {
   criterio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   oficinaId?: Prisma.IntFieldUpdateOperationsInput | number
   responsableId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  cargador?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tecladoSerial?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  mouseSerial?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  adaptadorCorriente?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  impresoraConfigurada?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  serialImpresora?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  macComputador?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telefonoMarcaModelo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ipTelefono?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  macTelefono?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  seguroLaptop?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  softwareInstalado?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -941,6 +1169,18 @@ export type ActivoCountOrderByAggregateInput = {
   criterio?: Prisma.SortOrder
   oficinaId?: Prisma.SortOrder
   responsableId?: Prisma.SortOrder
+  cargador?: Prisma.SortOrder
+  tecladoSerial?: Prisma.SortOrder
+  mouseSerial?: Prisma.SortOrder
+  adaptadorCorriente?: Prisma.SortOrder
+  impresoraConfigurada?: Prisma.SortOrder
+  serialImpresora?: Prisma.SortOrder
+  macComputador?: Prisma.SortOrder
+  telefonoMarcaModelo?: Prisma.SortOrder
+  ipTelefono?: Prisma.SortOrder
+  macTelefono?: Prisma.SortOrder
+  seguroLaptop?: Prisma.SortOrder
+  softwareInstalado?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
 
@@ -985,6 +1225,18 @@ export type ActivoMaxOrderByAggregateInput = {
   criterio?: Prisma.SortOrder
   oficinaId?: Prisma.SortOrder
   responsableId?: Prisma.SortOrder
+  cargador?: Prisma.SortOrder
+  tecladoSerial?: Prisma.SortOrder
+  mouseSerial?: Prisma.SortOrder
+  adaptadorCorriente?: Prisma.SortOrder
+  impresoraConfigurada?: Prisma.SortOrder
+  serialImpresora?: Prisma.SortOrder
+  macComputador?: Prisma.SortOrder
+  telefonoMarcaModelo?: Prisma.SortOrder
+  ipTelefono?: Prisma.SortOrder
+  macTelefono?: Prisma.SortOrder
+  seguroLaptop?: Prisma.SortOrder
+  softwareInstalado?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
 
@@ -1023,6 +1275,18 @@ export type ActivoMinOrderByAggregateInput = {
   criterio?: Prisma.SortOrder
   oficinaId?: Prisma.SortOrder
   responsableId?: Prisma.SortOrder
+  cargador?: Prisma.SortOrder
+  tecladoSerial?: Prisma.SortOrder
+  mouseSerial?: Prisma.SortOrder
+  adaptadorCorriente?: Prisma.SortOrder
+  impresoraConfigurada?: Prisma.SortOrder
+  serialImpresora?: Prisma.SortOrder
+  macComputador?: Prisma.SortOrder
+  telefonoMarcaModelo?: Prisma.SortOrder
+  ipTelefono?: Prisma.SortOrder
+  macTelefono?: Prisma.SortOrder
+  seguroLaptop?: Prisma.SortOrder
+  softwareInstalado?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
 
@@ -1160,6 +1424,18 @@ export type ActivoCreateWithoutOficinaInput = {
   estado?: string
   antivirus?: string | null
   criterio?: string | null
+  cargador?: string | null
+  tecladoSerial?: string | null
+  mouseSerial?: string | null
+  adaptadorCorriente?: string | null
+  impresoraConfigurada?: string | null
+  serialImpresora?: string | null
+  macComputador?: string | null
+  telefonoMarcaModelo?: string | null
+  ipTelefono?: string | null
+  macTelefono?: string | null
+  seguroLaptop?: string | null
+  softwareInstalado?: string | null
   createdAt?: Date | string
   responsable?: Prisma.EmpleadoCreateNestedOneWithoutActivosInput
 }
@@ -1198,6 +1474,18 @@ export type ActivoUncheckedCreateWithoutOficinaInput = {
   antivirus?: string | null
   criterio?: string | null
   responsableId?: number | null
+  cargador?: string | null
+  tecladoSerial?: string | null
+  mouseSerial?: string | null
+  adaptadorCorriente?: string | null
+  impresoraConfigurada?: string | null
+  serialImpresora?: string | null
+  macComputador?: string | null
+  telefonoMarcaModelo?: string | null
+  ipTelefono?: string | null
+  macTelefono?: string | null
+  seguroLaptop?: string | null
+  softwareInstalado?: string | null
   createdAt?: Date | string
 }
 
@@ -1265,6 +1553,18 @@ export type ActivoScalarWhereInput = {
   criterio?: Prisma.StringNullableFilter<"Activo"> | string | null
   oficinaId?: Prisma.IntFilter<"Activo"> | number
   responsableId?: Prisma.IntNullableFilter<"Activo"> | number | null
+  cargador?: Prisma.StringNullableFilter<"Activo"> | string | null
+  tecladoSerial?: Prisma.StringNullableFilter<"Activo"> | string | null
+  mouseSerial?: Prisma.StringNullableFilter<"Activo"> | string | null
+  adaptadorCorriente?: Prisma.StringNullableFilter<"Activo"> | string | null
+  impresoraConfigurada?: Prisma.StringNullableFilter<"Activo"> | string | null
+  serialImpresora?: Prisma.StringNullableFilter<"Activo"> | string | null
+  macComputador?: Prisma.StringNullableFilter<"Activo"> | string | null
+  telefonoMarcaModelo?: Prisma.StringNullableFilter<"Activo"> | string | null
+  ipTelefono?: Prisma.StringNullableFilter<"Activo"> | string | null
+  macTelefono?: Prisma.StringNullableFilter<"Activo"> | string | null
+  seguroLaptop?: Prisma.StringNullableFilter<"Activo"> | string | null
+  softwareInstalado?: Prisma.StringNullableFilter<"Activo"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Activo"> | Date | string
 }
 
@@ -1300,6 +1600,18 @@ export type ActivoCreateWithoutResponsableInput = {
   estado?: string
   antivirus?: string | null
   criterio?: string | null
+  cargador?: string | null
+  tecladoSerial?: string | null
+  mouseSerial?: string | null
+  adaptadorCorriente?: string | null
+  impresoraConfigurada?: string | null
+  serialImpresora?: string | null
+  macComputador?: string | null
+  telefonoMarcaModelo?: string | null
+  ipTelefono?: string | null
+  macTelefono?: string | null
+  seguroLaptop?: string | null
+  softwareInstalado?: string | null
   createdAt?: Date | string
   oficina: Prisma.OficinaCreateNestedOneWithoutActivosInput
 }
@@ -1338,6 +1650,18 @@ export type ActivoUncheckedCreateWithoutResponsableInput = {
   antivirus?: string | null
   criterio?: string | null
   oficinaId: number
+  cargador?: string | null
+  tecladoSerial?: string | null
+  mouseSerial?: string | null
+  adaptadorCorriente?: string | null
+  impresoraConfigurada?: string | null
+  serialImpresora?: string | null
+  macComputador?: string | null
+  telefonoMarcaModelo?: string | null
+  ipTelefono?: string | null
+  macTelefono?: string | null
+  seguroLaptop?: string | null
+  softwareInstalado?: string | null
   createdAt?: Date | string
 }
 
@@ -1401,6 +1725,18 @@ export type ActivoCreateManyOficinaInput = {
   antivirus?: string | null
   criterio?: string | null
   responsableId?: number | null
+  cargador?: string | null
+  tecladoSerial?: string | null
+  mouseSerial?: string | null
+  adaptadorCorriente?: string | null
+  impresoraConfigurada?: string | null
+  serialImpresora?: string | null
+  macComputador?: string | null
+  telefonoMarcaModelo?: string | null
+  ipTelefono?: string | null
+  macTelefono?: string | null
+  seguroLaptop?: string | null
+  softwareInstalado?: string | null
   createdAt?: Date | string
 }
 
@@ -1436,6 +1772,18 @@ export type ActivoUpdateWithoutOficinaInput = {
   estado?: Prisma.StringFieldUpdateOperationsInput | string
   antivirus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   criterio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cargador?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tecladoSerial?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  mouseSerial?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  adaptadorCorriente?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  impresoraConfigurada?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  serialImpresora?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  macComputador?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telefonoMarcaModelo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ipTelefono?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  macTelefono?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  seguroLaptop?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  softwareInstalado?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   responsable?: Prisma.EmpleadoUpdateOneWithoutActivosNestedInput
 }
@@ -1474,6 +1822,18 @@ export type ActivoUncheckedUpdateWithoutOficinaInput = {
   antivirus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   criterio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   responsableId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  cargador?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tecladoSerial?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  mouseSerial?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  adaptadorCorriente?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  impresoraConfigurada?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  serialImpresora?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  macComputador?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telefonoMarcaModelo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ipTelefono?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  macTelefono?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  seguroLaptop?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  softwareInstalado?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -1511,6 +1871,18 @@ export type ActivoUncheckedUpdateManyWithoutOficinaInput = {
   antivirus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   criterio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   responsableId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  cargador?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tecladoSerial?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  mouseSerial?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  adaptadorCorriente?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  impresoraConfigurada?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  serialImpresora?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  macComputador?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telefonoMarcaModelo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ipTelefono?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  macTelefono?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  seguroLaptop?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  softwareInstalado?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -1548,6 +1920,18 @@ export type ActivoCreateManyResponsableInput = {
   antivirus?: string | null
   criterio?: string | null
   oficinaId: number
+  cargador?: string | null
+  tecladoSerial?: string | null
+  mouseSerial?: string | null
+  adaptadorCorriente?: string | null
+  impresoraConfigurada?: string | null
+  serialImpresora?: string | null
+  macComputador?: string | null
+  telefonoMarcaModelo?: string | null
+  ipTelefono?: string | null
+  macTelefono?: string | null
+  seguroLaptop?: string | null
+  softwareInstalado?: string | null
   createdAt?: Date | string
 }
 
@@ -1583,6 +1967,18 @@ export type ActivoUpdateWithoutResponsableInput = {
   estado?: Prisma.StringFieldUpdateOperationsInput | string
   antivirus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   criterio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cargador?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tecladoSerial?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  mouseSerial?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  adaptadorCorriente?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  impresoraConfigurada?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  serialImpresora?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  macComputador?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telefonoMarcaModelo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ipTelefono?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  macTelefono?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  seguroLaptop?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  softwareInstalado?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   oficina?: Prisma.OficinaUpdateOneRequiredWithoutActivosNestedInput
 }
@@ -1621,6 +2017,18 @@ export type ActivoUncheckedUpdateWithoutResponsableInput = {
   antivirus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   criterio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   oficinaId?: Prisma.IntFieldUpdateOperationsInput | number
+  cargador?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tecladoSerial?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  mouseSerial?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  adaptadorCorriente?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  impresoraConfigurada?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  serialImpresora?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  macComputador?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telefonoMarcaModelo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ipTelefono?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  macTelefono?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  seguroLaptop?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  softwareInstalado?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -1658,6 +2066,18 @@ export type ActivoUncheckedUpdateManyWithoutResponsableInput = {
   antivirus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   criterio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   oficinaId?: Prisma.IntFieldUpdateOperationsInput | number
+  cargador?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  tecladoSerial?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  mouseSerial?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  adaptadorCorriente?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  impresoraConfigurada?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  serialImpresora?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  macComputador?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  telefonoMarcaModelo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  ipTelefono?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  macTelefono?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  seguroLaptop?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  softwareInstalado?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -1698,6 +2118,18 @@ export type ActivoSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   criterio?: boolean
   oficinaId?: boolean
   responsableId?: boolean
+  cargador?: boolean
+  tecladoSerial?: boolean
+  mouseSerial?: boolean
+  adaptadorCorriente?: boolean
+  impresoraConfigurada?: boolean
+  serialImpresora?: boolean
+  macComputador?: boolean
+  telefonoMarcaModelo?: boolean
+  ipTelefono?: boolean
+  macTelefono?: boolean
+  seguroLaptop?: boolean
+  softwareInstalado?: boolean
   createdAt?: boolean
   oficina?: boolean | Prisma.OficinaDefaultArgs<ExtArgs>
   responsable?: boolean | Prisma.Activo$responsableArgs<ExtArgs>
@@ -1738,6 +2170,18 @@ export type ActivoSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extens
   criterio?: boolean
   oficinaId?: boolean
   responsableId?: boolean
+  cargador?: boolean
+  tecladoSerial?: boolean
+  mouseSerial?: boolean
+  adaptadorCorriente?: boolean
+  impresoraConfigurada?: boolean
+  serialImpresora?: boolean
+  macComputador?: boolean
+  telefonoMarcaModelo?: boolean
+  ipTelefono?: boolean
+  macTelefono?: boolean
+  seguroLaptop?: boolean
+  softwareInstalado?: boolean
   createdAt?: boolean
   oficina?: boolean | Prisma.OficinaDefaultArgs<ExtArgs>
   responsable?: boolean | Prisma.Activo$responsableArgs<ExtArgs>
@@ -1778,6 +2222,18 @@ export type ActivoSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extens
   criterio?: boolean
   oficinaId?: boolean
   responsableId?: boolean
+  cargador?: boolean
+  tecladoSerial?: boolean
+  mouseSerial?: boolean
+  adaptadorCorriente?: boolean
+  impresoraConfigurada?: boolean
+  serialImpresora?: boolean
+  macComputador?: boolean
+  telefonoMarcaModelo?: boolean
+  ipTelefono?: boolean
+  macTelefono?: boolean
+  seguroLaptop?: boolean
+  softwareInstalado?: boolean
   createdAt?: boolean
   oficina?: boolean | Prisma.OficinaDefaultArgs<ExtArgs>
   responsable?: boolean | Prisma.Activo$responsableArgs<ExtArgs>
@@ -1818,10 +2274,22 @@ export type ActivoSelectScalar = {
   criterio?: boolean
   oficinaId?: boolean
   responsableId?: boolean
+  cargador?: boolean
+  tecladoSerial?: boolean
+  mouseSerial?: boolean
+  adaptadorCorriente?: boolean
+  impresoraConfigurada?: boolean
+  serialImpresora?: boolean
+  macComputador?: boolean
+  telefonoMarcaModelo?: boolean
+  ipTelefono?: boolean
+  macTelefono?: boolean
+  seguroLaptop?: boolean
+  softwareInstalado?: boolean
   createdAt?: boolean
 }
 
-export type ActivoOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "codigo" | "tipo" | "ip" | "macAddress" | "puertoRed" | "departamento" | "marca" | "claseEquipo" | "numeroSerie" | "monitor" | "serieMonitor" | "codigoContable" | "parlantes" | "placaMadre" | "procesador" | "ram" | "disco" | "estadoRaton" | "estadoTeclado" | "estadoDisco" | "sistemaOperativo" | "mantenimiento" | "actualizable" | "anydesk" | "upgrade" | "recomendacion" | "saleA" | "entraA" | "estado" | "antivirus" | "criterio" | "oficinaId" | "responsableId" | "createdAt", ExtArgs["result"]["activo"]>
+export type ActivoOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "codigo" | "tipo" | "ip" | "macAddress" | "puertoRed" | "departamento" | "marca" | "claseEquipo" | "numeroSerie" | "monitor" | "serieMonitor" | "codigoContable" | "parlantes" | "placaMadre" | "procesador" | "ram" | "disco" | "estadoRaton" | "estadoTeclado" | "estadoDisco" | "sistemaOperativo" | "mantenimiento" | "actualizable" | "anydesk" | "upgrade" | "recomendacion" | "saleA" | "entraA" | "estado" | "antivirus" | "criterio" | "oficinaId" | "responsableId" | "cargador" | "tecladoSerial" | "mouseSerial" | "adaptadorCorriente" | "impresoraConfigurada" | "serialImpresora" | "macComputador" | "telefonoMarcaModelo" | "ipTelefono" | "macTelefono" | "seguroLaptop" | "softwareInstalado" | "createdAt", ExtArgs["result"]["activo"]>
 export type ActivoInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   oficina?: boolean | Prisma.OficinaDefaultArgs<ExtArgs>
   responsable?: boolean | Prisma.Activo$responsableArgs<ExtArgs>
@@ -1876,6 +2344,18 @@ export type $ActivoPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
     criterio: string | null
     oficinaId: number
     responsableId: number | null
+    cargador: string | null
+    tecladoSerial: string | null
+    mouseSerial: string | null
+    adaptadorCorriente: string | null
+    impresoraConfigurada: string | null
+    serialImpresora: string | null
+    macComputador: string | null
+    telefonoMarcaModelo: string | null
+    ipTelefono: string | null
+    macTelefono: string | null
+    seguroLaptop: string | null
+    softwareInstalado: string | null
     createdAt: Date
   }, ExtArgs["result"]["activo"]>
   composites: {}
@@ -2336,6 +2816,18 @@ export interface ActivoFieldRefs {
   readonly criterio: Prisma.FieldRef<"Activo", 'String'>
   readonly oficinaId: Prisma.FieldRef<"Activo", 'Int'>
   readonly responsableId: Prisma.FieldRef<"Activo", 'Int'>
+  readonly cargador: Prisma.FieldRef<"Activo", 'String'>
+  readonly tecladoSerial: Prisma.FieldRef<"Activo", 'String'>
+  readonly mouseSerial: Prisma.FieldRef<"Activo", 'String'>
+  readonly adaptadorCorriente: Prisma.FieldRef<"Activo", 'String'>
+  readonly impresoraConfigurada: Prisma.FieldRef<"Activo", 'String'>
+  readonly serialImpresora: Prisma.FieldRef<"Activo", 'String'>
+  readonly macComputador: Prisma.FieldRef<"Activo", 'String'>
+  readonly telefonoMarcaModelo: Prisma.FieldRef<"Activo", 'String'>
+  readonly ipTelefono: Prisma.FieldRef<"Activo", 'String'>
+  readonly macTelefono: Prisma.FieldRef<"Activo", 'String'>
+  readonly seguroLaptop: Prisma.FieldRef<"Activo", 'String'>
+  readonly softwareInstalado: Prisma.FieldRef<"Activo", 'String'>
   readonly createdAt: Prisma.FieldRef<"Activo", 'DateTime'>
 }
     
