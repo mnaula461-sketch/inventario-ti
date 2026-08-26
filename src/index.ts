@@ -171,7 +171,9 @@ app.post('/activos', verificarToken, async (req, res) => {
     numeroSerie, monitor, serieMonitor, codigoContable, parlantes, placaMadre,
     procesador, ram, disco, estadoRaton, estadoTeclado, estadoDisco, sistemaOperativo,
     mantenimiento, actualizable, anydesk, upgrade, recomendacion, saleA, entraA,
-    estado, antivirus, criterio, oficinaId, responsableId,
+    estado, antivirus, criterio, cargador, tecladoSerial, mouseSerial, adaptadorCorriente,
+    impresoraConfigurada, serialImpresora, macComputador, telefonoMarcaModelo, ipTelefono,
+    macTelefono, seguroLaptop, softwareSO, softwareCorporativo, softwareOtros, oficinaId, responsableId,
   } = req.body;
   const activo = await prisma.activo.create({
     data: {
@@ -179,7 +181,9 @@ app.post('/activos', verificarToken, async (req, res) => {
       numeroSerie, monitor, serieMonitor, codigoContable, parlantes, placaMadre,
       procesador, ram, disco, estadoRaton, estadoTeclado, estadoDisco, sistemaOperativo,
       mantenimiento, actualizable, anydesk, upgrade, recomendacion, saleA, entraA,
-      estado, antivirus, criterio, oficinaId, responsableId,
+      estado, antivirus, criterio, cargador, tecladoSerial, mouseSerial, adaptadorCorriente,
+      impresoraConfigurada, serialImpresora, macComputador, telefonoMarcaModelo, ipTelefono,
+      macTelefono, seguroLaptop, softwareSO, softwareCorporativo, softwareOtros, oficinaId, responsableId,
     },
   });
   res.json(activo);
@@ -194,6 +198,7 @@ app.get('/plantilla-acta', verificarToken, async (req, res) => {
   res.json(plantilla);
 });
 
+// Generar el PDF del acta de entrega para un activo
 // Generar el PDF del acta de entrega para un activo
 app.get('/activos/:id/acta', verificarToken, async (req, res) => {
   const { id } = req.params;
@@ -302,15 +307,17 @@ app.get('/activos/:id/acta', verificarToken, async (req, res) => {
     y -= rowH;
   }
 
+  // ===== DATOS DEL COLABORADOR =====
   sectionTitle('DATOS DEL COLABORADOR');
 
   const respNombre = activo.responsable?.nombre ?? '';
   const respCargo = activo.responsable?.cargo ?? '';
+  const respCorreo = activo.responsable?.correo ?? '';
   const oficinaNombre = activo.oficina?.nombre ?? '';
 
   const colData = [
     ['Nombre', respNombre, 'Cargo', respCargo, 'IP Computador', activo.ip ?? ''],
-    ['Correo', '', 'Área', activo.departamento ?? '', 'Oficina', oficinaNombre],
+    ['Correo', respCorreo, 'Área', activo.departamento ?? '', 'Oficina', oficinaNombre],
   ];
   const colWidths = [55, 140, 45, 140, 60, contentWidth - 55 - 140 - 45 - 140 - 60];
   const colRowH = 18;
@@ -326,9 +333,20 @@ app.get('/activos/:id/acta', verificarToken, async (req, res) => {
     y -= colRowH;
   });
 
+  // ===== HARDWARE =====
   sectionTitle('HARDWARE');
 
-  function drawHwGroup(headers: string[], values: string[]) {
+  const tipoOpciones = ['ESCRITORIO', 'LAPTOP', 'AIO', 'NUC'];
+  const tipoTexto = (activo.tipo ?? '').toUpperCase();
+  function tipoMarcado(op: string) {
+    if (op === 'ESCRITORIO') return tipoTexto.includes('ESCRITORIO') || tipoTexto.includes('DESKTOP') || tipoTexto.includes('PC') || tipoTexto.includes('SERVIDOR');
+    if (op === 'LAPTOP') return tipoTexto.includes('LAPTOP');
+    if (op === 'AIO') return tipoTexto.includes('AIO');
+    if (op === 'NUC') return tipoTexto.includes('NUC');
+    return false;
+  }
+
+  function drawHwGroup(headers: string[], values: string[], primeraColTipo = false) {
     const colW = contentWidth / 5;
     const rowH = 22;
     let x = marginX;
@@ -341,41 +359,112 @@ app.get('/activos/:id/acta', verificarToken, async (req, res) => {
     });
     y -= rowH;
     x = marginX;
-    const rowH2 = 16;
-    values.forEach((v) => {
+    const rowH2 = primeraColTipo ? 20 : 16;
+
+    if (primeraColTipo) {
       drawRect(x, y, colW, rowH2, white);
-      drawText(v ?? '', x + 3, y - 11, 7);
+      let cbX = x + 3;
+      let cbY = y - 8;
+      tipoOpciones.forEach((op, i) => {
+        const marcado = tipoMarcado(op);
+        const box = marcado ? '[X]' : '[ ]';
+        drawText(`${box} ${op}`, cbX, cbY, 5.5, marcado);
+        if (i % 2 === 0) {
+          cbX += colW / 2;
+        } else {
+          cbX -= colW / 2;
+          cbY -= 8;
+        }
+      });
       x += colW;
-    });
+      for (let i = 1; i < values.length; i++) {
+        drawRect(x, y, colW, rowH2, white);
+        drawText(values[i] ?? '', x + 3, y - 12, 7);
+        x += colW;
+      }
+    } else {
+      values.forEach((v) => {
+        drawRect(x, y, colW, rowH2, white);
+        drawText(v ?? '', x + 3, y - 11, 7);
+        x += colW;
+      });
+    }
     y -= rowH2;
   }
 
   drawHwGroup(
-    ['TIPO', 'CARGADOR/ADAPTADOR', 'MARCA EQUIPO', 'MODELO EQUIPO', 'N° SERIE S/N'],
-    [activo.tipo, activo.cargador ?? '', activo.marca ?? '', activo.claseEquipo ?? '', activo.numeroSerie ?? '']
+    ['TIPO', 'CARGADOR-ADAPTADOR DE CORRIENTE', 'MARCA EQUIPO', 'MODELO EQUIPO', 'NUMERO DE SERIE S/N'],
+    ['', activo.cargador ?? '', activo.marca ?? '', activo.claseEquipo ?? '', activo.numeroSerie ?? ''],
+    true
   );
   drawHwGroup(
-    ['PROCESADOR', 'RAM (GB)', 'DISCO', 'TECLADO SERIAL', 'MOUSE SERIAL'],
+    ['PROCESADOR', 'MEMORIA RAM (GB)', 'TIPO Y CAPACIDAD DE DISCO (GB)', 'TECLADO SERIAL', 'MOUSE SERIAL'],
     [activo.procesador ?? '', activo.ram ?? '', activo.disco ?? '', activo.tecladoSerial ?? '', activo.mouseSerial ?? '']
   );
   drawHwGroup(
-    ['MONITOR', 'MONITOR SERIAL', 'ADAPT. CORRIENTE', 'IMPRESORA CONFIG.', 'SERIAL IMPRESORA'],
+    ['MONITOR', 'MONITOR SERIAL', 'ADAPTADOR CORRIENTE', 'IMPRESORA CONFIGURADA', 'SERIAL IMPRESORA'],
     [activo.monitor ?? '', activo.serieMonitor ?? '', activo.adaptadorCorriente ?? '', activo.impresoraConfigurada ?? '', activo.serialImpresora ?? '']
   );
   drawHwGroup(
-    ['MAC COMPUTADOR', 'TELÉFONO MARCA/MODELO', 'IP TELÉFONO', 'MAC TELÉFONO', 'SEGURO LAPTOP'],
+    ['MAC COMPUTADOR', 'TELEFONO MARCA / MODELO', 'IP TELEFONO', 'MAC TELEFONO', 'SEGURO LAPTOP'],
     [activo.macComputador ?? '', activo.telefonoMarcaModelo ?? '', activo.ipTelefono ?? '', activo.macTelefono ?? '', activo.seguroLaptop ?? '']
   );
 
-  sectionTitle('SOFTWARE INSTALADO');
-  const swText = activo.softwareInstalado ?? '';
-  const swLines = wrapText(swText, contentWidth - 10, 8, font);
-  const swBoxH = Math.max(30, swLines.length * 11 + 10);
-  drawRect(marginX, y, contentWidth, swBoxH, white);
-  let swY = y - 12;
-  swLines.forEach((line) => { drawText(line, marginX + 5, swY, 8); swY -= 11; });
-  y -= swBoxH;
+  // ===== SOFTWARE =====
+    // ===== SOFTWARE =====
+  sectionTitle('SOFTWARE');
 
+  const softwareSO = ['Windows 10 PRO', 'Windows 11 PRO'];
+  const softwareCorporativo = [
+    'Office 365 (Teams, Outlook, Word, Excel, etc.)', 'Onedrive', 'Adobe Reader DC',
+    'Google Chrome', 'Compresor WinRAR', 'Anydesk', 'Forticlient', 'Pardus QQ',
+  ];
+  const softwareOtros = [
+    'Zoom', 'Webex', 'R Studio', 'Filezilla', 'SafeNet (Token BCE)',
+    'Firma EC', 'WebClientPrint', 'Mozilla Firefox',
+  ];
+
+  const softwareSeleccionado = (activo.softwareInstalado ?? '').split(',').map((s) => s.trim());
+
+  const nameColW = contentWidth * 0.28;
+  const boxColW = contentWidth / 3 - nameColW;
+  const swHeaderH = 14;
+
+  // Encabezados de las 3 categorías
+  let hx = marginX;
+  [
+    ['Software S.O', nameColW + boxColW],
+    ['Software estándar corporativo', nameColW + boxColW],
+    ['Otros Software solicitada', nameColW + boxColW],
+  ].forEach(([titulo, w]) => {
+    drawRect(hx, y, w as number, swHeaderH, lightGray);
+    const tw = fontBold.widthOfTextAtSize(titulo as string, 7);
+    drawText(titulo as string, hx + ((w as number) - tw) / 2, y - swHeaderH / 2 - 3, 7, true);
+    hx += w as number;
+  });
+  y -= swHeaderH;
+
+  const maxFilas = Math.max(softwareSO.length, softwareCorporativo.length, softwareOtros.length);
+  const swRowH = 12;
+
+  for (let fila = 0; fila < maxFilas; fila++) {
+    let x = marginX;
+    [softwareSO, softwareCorporativo, softwareOtros].forEach((lista) => {
+      const item = lista[fila];
+      drawRect(x, y, nameColW, swRowH, white);
+      drawRect(x + nameColW, y, boxColW, swRowH, white);
+      if (item) {
+        const lines = wrapText(item, nameColW - 6, 6, font);
+        drawText(lines[0] ?? '', x + 3, y - 8, 6);
+        const marcado = softwareSeleccionado.includes(item);
+        const box = marcado ? '[X]' : '[ ]';
+        drawText(box, x + nameColW + 3, y - 8, 7, marcado);
+      }
+      x += nameColW + boxColW;
+    });
+    y -= swRowH;
+  }
+  // ===== OBSERVACIONES =====
   sectionTitle('OBSERVACIONES');
   const obsLines = wrapText(plantilla.observaciones, contentWidth - 10, 7.5, font);
   const obsH = obsLines.length * 10 + 10;
@@ -391,6 +480,7 @@ app.get('/activos/:id/acta', verificarToken, async (req, res) => {
   clausulaLines.forEach((line) => { drawText(line, marginX + 5, clausY, 7.5); clausY -= 10; });
   y -= clausulaH;
 
+  // ===== FIRMAS =====
   sectionTitle('ENTREGA DE EQUIPO');
   const halfW = contentWidth / 2;
   drawRect(marginX, y, halfW, 16, lightGray);
@@ -449,7 +539,9 @@ app.put('/activos/:id', verificarToken, async (req, res) => {
     numeroSerie, monitor, serieMonitor, codigoContable, parlantes, placaMadre,
     procesador, ram, disco, estadoRaton, estadoTeclado, estadoDisco, sistemaOperativo,
     mantenimiento, actualizable, anydesk, upgrade, recomendacion, saleA, entraA,
-    estado, antivirus, criterio, oficinaId, responsableId,
+    estado, antivirus, criterio, cargador, tecladoSerial, mouseSerial, adaptadorCorriente,
+    impresoraConfigurada, serialImpresora, macComputador, telefonoMarcaModelo, ipTelefono,
+    macTelefono, seguroLaptop, softwareSO, softwareCorporativo, softwareOtros, oficinaId, responsableId,
   } = req.body;
   const activo = await prisma.activo.update({
     where: { id: Number(id) },
@@ -458,7 +550,9 @@ app.put('/activos/:id', verificarToken, async (req, res) => {
       numeroSerie, monitor, serieMonitor, codigoContable, parlantes, placaMadre,
       procesador, ram, disco, estadoRaton, estadoTeclado, estadoDisco, sistemaOperativo,
       mantenimiento, actualizable, anydesk, upgrade, recomendacion, saleA, entraA,
-      estado, antivirus, criterio, oficinaId, responsableId,
+      estado, antivirus, criterio, cargador, tecladoSerial, mouseSerial, adaptadorCorriente,
+      impresoraConfigurada, serialImpresora, macComputador, telefonoMarcaModelo, ipTelefono,
+      macTelefono, seguroLaptop, softwareSO, softwareCorporativo, softwareOtros, oficinaId, responsableId,
     },
   });
   res.json(activo);

@@ -179,6 +179,7 @@ function Empleados() {
           <tr>
             <th style={{ textAlign: 'left', padding: '0.5rem' }}>Nombre</th>
             <th style={{ textAlign: 'left', padding: '0.5rem' }}>Cargo</th>
+            <th style={{ textAlign: 'left', padding: '0.5rem' }}>Correo</th>
             <th style={{ textAlign: 'left', padding: '0.5rem' }}>Oficina</th>
             <th style={{ padding: '0.5rem' }}>Acciones</th>
           </tr>
@@ -188,6 +189,7 @@ function Empleados() {
             <tr key={empleado.id}>
               <td style={{ padding: '0.6rem 0.5rem', borderBottom: '1px solid #eee' }}>{empleado.nombre}</td>
               <td style={{ padding: '0.6rem 0.5rem', borderBottom: '1px solid #eee' }}>{empleado.cargo}</td>
+              <td style={{ padding: '0.6rem 0.5rem', borderBottom: '1px solid #eee' }}>{empleado.correo}</td>
               <td style={{ padding: '0.6rem 0.5rem', borderBottom: '1px solid #eee' }}>{empleado.oficina?.nombre}</td>
               <td style={{ padding: '0.6rem 0.5rem', borderBottom: '1px solid #eee', textAlign: 'center' }}>
                 <button className="btn-edit" onClick={() => empezarEdicion(empleado)} style={{ marginRight: '0.4rem' }}>

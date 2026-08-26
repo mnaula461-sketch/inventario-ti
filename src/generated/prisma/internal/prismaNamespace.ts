@@ -896,7 +896,9 @@ export const ActivoScalarFieldEnum = {
   ipTelefono: 'ipTelefono',
   macTelefono: 'macTelefono',
   seguroLaptop: 'seguroLaptop',
-  softwareInstalado: 'softwareInstalado',
+  softwareSO: 'softwareSO',
+  softwareCorporativo: 'softwareCorporativo',
+  softwareOtros: 'softwareOtros',
   createdAt: 'createdAt'
 } as const
 

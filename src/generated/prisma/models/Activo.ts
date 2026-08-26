@@ -84,7 +84,9 @@ export type ActivoMinAggregateOutputType = {
   ipTelefono: string | null
   macTelefono: string | null
   seguroLaptop: string | null
-  softwareInstalado: string | null
+  softwareSO: string | null
+  softwareCorporativo: string | null
+  softwareOtros: string | null
   createdAt: Date | null
 }
 
@@ -134,7 +136,9 @@ export type ActivoMaxAggregateOutputType = {
   ipTelefono: string | null
   macTelefono: string | null
   seguroLaptop: string | null
-  softwareInstalado: string | null
+  softwareSO: string | null
+  softwareCorporativo: string | null
+  softwareOtros: string | null
   createdAt: Date | null
 }
 
@@ -184,7 +188,9 @@ export type ActivoCountAggregateOutputType = {
   ipTelefono: number
   macTelefono: number
   seguroLaptop: number
-  softwareInstalado: number
+  softwareSO: number
+  softwareCorporativo: number
+  softwareOtros: number
   createdAt: number
   _all: number
 }
@@ -248,7 +254,9 @@ export type ActivoMinAggregateInputType = {
   ipTelefono?: true
   macTelefono?: true
   seguroLaptop?: true
-  softwareInstalado?: true
+  softwareSO?: true
+  softwareCorporativo?: true
+  softwareOtros?: true
   createdAt?: true
 }
 
@@ -298,7 +306,9 @@ export type ActivoMaxAggregateInputType = {
   ipTelefono?: true
   macTelefono?: true
   seguroLaptop?: true
-  softwareInstalado?: true
+  softwareSO?: true
+  softwareCorporativo?: true
+  softwareOtros?: true
   createdAt?: true
 }
 
@@ -348,7 +358,9 @@ export type ActivoCountAggregateInputType = {
   ipTelefono?: true
   macTelefono?: true
   seguroLaptop?: true
-  softwareInstalado?: true
+  softwareSO?: true
+  softwareCorporativo?: true
+  softwareOtros?: true
   createdAt?: true
   _all?: true
 }
@@ -485,7 +497,9 @@ export type ActivoGroupByOutputType = {
   ipTelefono: string | null
   macTelefono: string | null
   seguroLaptop: string | null
-  softwareInstalado: string | null
+  softwareSO: string | null
+  softwareCorporativo: string | null
+  softwareOtros: string | null
   createdAt: Date
   _count: ActivoCountAggregateOutputType | null
   _avg: ActivoAvgAggregateOutputType | null
@@ -558,7 +572,9 @@ export type ActivoWhereInput = {
   ipTelefono?: Prisma.StringNullableFilter<"Activo"> | string | null
   macTelefono?: Prisma.StringNullableFilter<"Activo"> | string | null
   seguroLaptop?: Prisma.StringNullableFilter<"Activo"> | string | null
-  softwareInstalado?: Prisma.StringNullableFilter<"Activo"> | string | null
+  softwareSO?: Prisma.StringNullableFilter<"Activo"> | string | null
+  softwareCorporativo?: Prisma.StringNullableFilter<"Activo"> | string | null
+  softwareOtros?: Prisma.StringNullableFilter<"Activo"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Activo"> | Date | string
   oficina?: Prisma.XOR<Prisma.OficinaScalarRelationFilter, Prisma.OficinaWhereInput>
   responsable?: Prisma.XOR<Prisma.EmpleadoNullableScalarRelationFilter, Prisma.EmpleadoWhereInput> | null
@@ -610,7 +626,9 @@ export type ActivoOrderByWithRelationInput = {
   ipTelefono?: Prisma.SortOrderInput | Prisma.SortOrder
   macTelefono?: Prisma.SortOrderInput | Prisma.SortOrder
   seguroLaptop?: Prisma.SortOrderInput | Prisma.SortOrder
-  softwareInstalado?: Prisma.SortOrderInput | Prisma.SortOrder
+  softwareSO?: Prisma.SortOrderInput | Prisma.SortOrder
+  softwareCorporativo?: Prisma.SortOrderInput | Prisma.SortOrder
+  softwareOtros?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   oficina?: Prisma.OficinaOrderByWithRelationInput
   responsable?: Prisma.EmpleadoOrderByWithRelationInput
@@ -665,7 +683,9 @@ export type ActivoWhereUniqueInput = Prisma.AtLeast<{
   ipTelefono?: Prisma.StringNullableFilter<"Activo"> | string | null
   macTelefono?: Prisma.StringNullableFilter<"Activo"> | string | null
   seguroLaptop?: Prisma.StringNullableFilter<"Activo"> | string | null
-  softwareInstalado?: Prisma.StringNullableFilter<"Activo"> | string | null
+  softwareSO?: Prisma.StringNullableFilter<"Activo"> | string | null
+  softwareCorporativo?: Prisma.StringNullableFilter<"Activo"> | string | null
+  softwareOtros?: Prisma.StringNullableFilter<"Activo"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Activo"> | Date | string
   oficina?: Prisma.XOR<Prisma.OficinaScalarRelationFilter, Prisma.OficinaWhereInput>
   responsable?: Prisma.XOR<Prisma.EmpleadoNullableScalarRelationFilter, Prisma.EmpleadoWhereInput> | null
@@ -717,7 +737,9 @@ export type ActivoOrderByWithAggregationInput = {
   ipTelefono?: Prisma.SortOrderInput | Prisma.SortOrder
   macTelefono?: Prisma.SortOrderInput | Prisma.SortOrder
   seguroLaptop?: Prisma.SortOrderInput | Prisma.SortOrder
-  softwareInstalado?: Prisma.SortOrderInput | Prisma.SortOrder
+  softwareSO?: Prisma.SortOrderInput | Prisma.SortOrder
+  softwareCorporativo?: Prisma.SortOrderInput | Prisma.SortOrder
+  softwareOtros?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   _count?: Prisma.ActivoCountOrderByAggregateInput
   _avg?: Prisma.ActivoAvgOrderByAggregateInput
@@ -775,7 +797,9 @@ export type ActivoScalarWhereWithAggregatesInput = {
   ipTelefono?: Prisma.StringNullableWithAggregatesFilter<"Activo"> | string | null
   macTelefono?: Prisma.StringNullableWithAggregatesFilter<"Activo"> | string | null
   seguroLaptop?: Prisma.StringNullableWithAggregatesFilter<"Activo"> | string | null
-  softwareInstalado?: Prisma.StringNullableWithAggregatesFilter<"Activo"> | string | null
+  softwareSO?: Prisma.StringNullableWithAggregatesFilter<"Activo"> | string | null
+  softwareCorporativo?: Prisma.StringNullableWithAggregatesFilter<"Activo"> | string | null
+  softwareOtros?: Prisma.StringNullableWithAggregatesFilter<"Activo"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Activo"> | Date | string
 }
 
@@ -822,7 +846,9 @@ export type ActivoCreateInput = {
   ipTelefono?: string | null
   macTelefono?: string | null
   seguroLaptop?: string | null
-  softwareInstalado?: string | null
+  softwareSO?: string | null
+  softwareCorporativo?: string | null
+  softwareOtros?: string | null
   createdAt?: Date | string
   oficina: Prisma.OficinaCreateNestedOneWithoutActivosInput
   responsable?: Prisma.EmpleadoCreateNestedOneWithoutActivosInput
@@ -874,7 +900,9 @@ export type ActivoUncheckedCreateInput = {
   ipTelefono?: string | null
   macTelefono?: string | null
   seguroLaptop?: string | null
-  softwareInstalado?: string | null
+  softwareSO?: string | null
+  softwareCorporativo?: string | null
+  softwareOtros?: string | null
   createdAt?: Date | string
 }
 
@@ -921,7 +949,9 @@ export type ActivoUpdateInput = {
   ipTelefono?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   macTelefono?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   seguroLaptop?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  softwareInstalado?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  softwareSO?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  softwareCorporativo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  softwareOtros?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   oficina?: Prisma.OficinaUpdateOneRequiredWithoutActivosNestedInput
   responsable?: Prisma.EmpleadoUpdateOneWithoutActivosNestedInput
@@ -973,7 +1003,9 @@ export type ActivoUncheckedUpdateInput = {
   ipTelefono?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   macTelefono?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   seguroLaptop?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  softwareInstalado?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  softwareSO?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  softwareCorporativo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  softwareOtros?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -1023,7 +1055,9 @@ export type ActivoCreateManyInput = {
   ipTelefono?: string | null
   macTelefono?: string | null
   seguroLaptop?: string | null
-  softwareInstalado?: string | null
+  softwareSO?: string | null
+  softwareCorporativo?: string | null
+  softwareOtros?: string | null
   createdAt?: Date | string
 }
 
@@ -1070,7 +1104,9 @@ export type ActivoUpdateManyMutationInput = {
   ipTelefono?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   macTelefono?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   seguroLaptop?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  softwareInstalado?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  softwareSO?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  softwareCorporativo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  softwareOtros?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -1120,7 +1156,9 @@ export type ActivoUncheckedUpdateManyInput = {
   ipTelefono?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   macTelefono?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   seguroLaptop?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  softwareInstalado?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  softwareSO?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  softwareCorporativo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  softwareOtros?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -1180,7 +1218,9 @@ export type ActivoCountOrderByAggregateInput = {
   ipTelefono?: Prisma.SortOrder
   macTelefono?: Prisma.SortOrder
   seguroLaptop?: Prisma.SortOrder
-  softwareInstalado?: Prisma.SortOrder
+  softwareSO?: Prisma.SortOrder
+  softwareCorporativo?: Prisma.SortOrder
+  softwareOtros?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
 
@@ -1236,7 +1276,9 @@ export type ActivoMaxOrderByAggregateInput = {
   ipTelefono?: Prisma.SortOrder
   macTelefono?: Prisma.SortOrder
   seguroLaptop?: Prisma.SortOrder
-  softwareInstalado?: Prisma.SortOrder
+  softwareSO?: Prisma.SortOrder
+  softwareCorporativo?: Prisma.SortOrder
+  softwareOtros?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
 
@@ -1286,7 +1328,9 @@ export type ActivoMinOrderByAggregateInput = {
   ipTelefono?: Prisma.SortOrder
   macTelefono?: Prisma.SortOrder
   seguroLaptop?: Prisma.SortOrder
-  softwareInstalado?: Prisma.SortOrder
+  softwareSO?: Prisma.SortOrder
+  softwareCorporativo?: Prisma.SortOrder
+  softwareOtros?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
 
@@ -1435,7 +1479,9 @@ export type ActivoCreateWithoutOficinaInput = {
   ipTelefono?: string | null
   macTelefono?: string | null
   seguroLaptop?: string | null
-  softwareInstalado?: string | null
+  softwareSO?: string | null
+  softwareCorporativo?: string | null
+  softwareOtros?: string | null
   createdAt?: Date | string
   responsable?: Prisma.EmpleadoCreateNestedOneWithoutActivosInput
 }
@@ -1485,7 +1531,9 @@ export type ActivoUncheckedCreateWithoutOficinaInput = {
   ipTelefono?: string | null
   macTelefono?: string | null
   seguroLaptop?: string | null
-  softwareInstalado?: string | null
+  softwareSO?: string | null
+  softwareCorporativo?: string | null
+  softwareOtros?: string | null
   createdAt?: Date | string
 }
 
@@ -1564,7 +1612,9 @@ export type ActivoScalarWhereInput = {
   ipTelefono?: Prisma.StringNullableFilter<"Activo"> | string | null
   macTelefono?: Prisma.StringNullableFilter<"Activo"> | string | null
   seguroLaptop?: Prisma.StringNullableFilter<"Activo"> | string | null
-  softwareInstalado?: Prisma.StringNullableFilter<"Activo"> | string | null
+  softwareSO?: Prisma.StringNullableFilter<"Activo"> | string | null
+  softwareCorporativo?: Prisma.StringNullableFilter<"Activo"> | string | null
+  softwareOtros?: Prisma.StringNullableFilter<"Activo"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Activo"> | Date | string
 }
 
@@ -1611,7 +1661,9 @@ export type ActivoCreateWithoutResponsableInput = {
   ipTelefono?: string | null
   macTelefono?: string | null
   seguroLaptop?: string | null
-  softwareInstalado?: string | null
+  softwareSO?: string | null
+  softwareCorporativo?: string | null
+  softwareOtros?: string | null
   createdAt?: Date | string
   oficina: Prisma.OficinaCreateNestedOneWithoutActivosInput
 }
@@ -1661,7 +1713,9 @@ export type ActivoUncheckedCreateWithoutResponsableInput = {
   ipTelefono?: string | null
   macTelefono?: string | null
   seguroLaptop?: string | null
-  softwareInstalado?: string | null
+  softwareSO?: string | null
+  softwareCorporativo?: string | null
+  softwareOtros?: string | null
   createdAt?: Date | string
 }
 
@@ -1736,7 +1790,9 @@ export type ActivoCreateManyOficinaInput = {
   ipTelefono?: string | null
   macTelefono?: string | null
   seguroLaptop?: string | null
-  softwareInstalado?: string | null
+  softwareSO?: string | null
+  softwareCorporativo?: string | null
+  softwareOtros?: string | null
   createdAt?: Date | string
 }
 
@@ -1783,7 +1839,9 @@ export type ActivoUpdateWithoutOficinaInput = {
   ipTelefono?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   macTelefono?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   seguroLaptop?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  softwareInstalado?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  softwareSO?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  softwareCorporativo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  softwareOtros?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   responsable?: Prisma.EmpleadoUpdateOneWithoutActivosNestedInput
 }
@@ -1833,7 +1891,9 @@ export type ActivoUncheckedUpdateWithoutOficinaInput = {
   ipTelefono?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   macTelefono?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   seguroLaptop?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  softwareInstalado?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  softwareSO?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  softwareCorporativo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  softwareOtros?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -1882,7 +1942,9 @@ export type ActivoUncheckedUpdateManyWithoutOficinaInput = {
   ipTelefono?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   macTelefono?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   seguroLaptop?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  softwareInstalado?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  softwareSO?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  softwareCorporativo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  softwareOtros?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -1931,7 +1993,9 @@ export type ActivoCreateManyResponsableInput = {
   ipTelefono?: string | null
   macTelefono?: string | null
   seguroLaptop?: string | null
-  softwareInstalado?: string | null
+  softwareSO?: string | null
+  softwareCorporativo?: string | null
+  softwareOtros?: string | null
   createdAt?: Date | string
 }
 
@@ -1978,7 +2042,9 @@ export type ActivoUpdateWithoutResponsableInput = {
   ipTelefono?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   macTelefono?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   seguroLaptop?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  softwareInstalado?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  softwareSO?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  softwareCorporativo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  softwareOtros?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   oficina?: Prisma.OficinaUpdateOneRequiredWithoutActivosNestedInput
 }
@@ -2028,7 +2094,9 @@ export type ActivoUncheckedUpdateWithoutResponsableInput = {
   ipTelefono?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   macTelefono?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   seguroLaptop?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  softwareInstalado?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  softwareSO?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  softwareCorporativo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  softwareOtros?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -2077,7 +2145,9 @@ export type ActivoUncheckedUpdateManyWithoutResponsableInput = {
   ipTelefono?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   macTelefono?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   seguroLaptop?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  softwareInstalado?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  softwareSO?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  softwareCorporativo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  softwareOtros?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -2129,7 +2199,9 @@ export type ActivoSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   ipTelefono?: boolean
   macTelefono?: boolean
   seguroLaptop?: boolean
-  softwareInstalado?: boolean
+  softwareSO?: boolean
+  softwareCorporativo?: boolean
+  softwareOtros?: boolean
   createdAt?: boolean
   oficina?: boolean | Prisma.OficinaDefaultArgs<ExtArgs>
   responsable?: boolean | Prisma.Activo$responsableArgs<ExtArgs>
@@ -2181,7 +2253,9 @@ export type ActivoSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extens
   ipTelefono?: boolean
   macTelefono?: boolean
   seguroLaptop?: boolean
-  softwareInstalado?: boolean
+  softwareSO?: boolean
+  softwareCorporativo?: boolean
+  softwareOtros?: boolean
   createdAt?: boolean
   oficina?: boolean | Prisma.OficinaDefaultArgs<ExtArgs>
   responsable?: boolean | Prisma.Activo$responsableArgs<ExtArgs>
@@ -2233,7 +2307,9 @@ export type ActivoSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extens
   ipTelefono?: boolean
   macTelefono?: boolean
   seguroLaptop?: boolean
-  softwareInstalado?: boolean
+  softwareSO?: boolean
+  softwareCorporativo?: boolean
+  softwareOtros?: boolean
   createdAt?: boolean
   oficina?: boolean | Prisma.OficinaDefaultArgs<ExtArgs>
   responsable?: boolean | Prisma.Activo$responsableArgs<ExtArgs>
@@ -2285,11 +2361,13 @@ export type ActivoSelectScalar = {
   ipTelefono?: boolean
   macTelefono?: boolean
   seguroLaptop?: boolean
-  softwareInstalado?: boolean
+  softwareSO?: boolean
+  softwareCorporativo?: boolean
+  softwareOtros?: boolean
   createdAt?: boolean
 }
 
-export type ActivoOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "codigo" | "tipo" | "ip" | "macAddress" | "puertoRed" | "departamento" | "marca" | "claseEquipo" | "numeroSerie" | "monitor" | "serieMonitor" | "codigoContable" | "parlantes" | "placaMadre" | "procesador" | "ram" | "disco" | "estadoRaton" | "estadoTeclado" | "estadoDisco" | "sistemaOperativo" | "mantenimiento" | "actualizable" | "anydesk" | "upgrade" | "recomendacion" | "saleA" | "entraA" | "estado" | "antivirus" | "criterio" | "oficinaId" | "responsableId" | "cargador" | "tecladoSerial" | "mouseSerial" | "adaptadorCorriente" | "impresoraConfigurada" | "serialImpresora" | "macComputador" | "telefonoMarcaModelo" | "ipTelefono" | "macTelefono" | "seguroLaptop" | "softwareInstalado" | "createdAt", ExtArgs["result"]["activo"]>
+export type ActivoOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "codigo" | "tipo" | "ip" | "macAddress" | "puertoRed" | "departamento" | "marca" | "claseEquipo" | "numeroSerie" | "monitor" | "serieMonitor" | "codigoContable" | "parlantes" | "placaMadre" | "procesador" | "ram" | "disco" | "estadoRaton" | "estadoTeclado" | "estadoDisco" | "sistemaOperativo" | "mantenimiento" | "actualizable" | "anydesk" | "upgrade" | "recomendacion" | "saleA" | "entraA" | "estado" | "antivirus" | "criterio" | "oficinaId" | "responsableId" | "cargador" | "tecladoSerial" | "mouseSerial" | "adaptadorCorriente" | "impresoraConfigurada" | "serialImpresora" | "macComputador" | "telefonoMarcaModelo" | "ipTelefono" | "macTelefono" | "seguroLaptop" | "softwareSO" | "softwareCorporativo" | "softwareOtros" | "createdAt", ExtArgs["result"]["activo"]>
 export type ActivoInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   oficina?: boolean | Prisma.OficinaDefaultArgs<ExtArgs>
   responsable?: boolean | Prisma.Activo$responsableArgs<ExtArgs>
@@ -2355,7 +2433,9 @@ export type $ActivoPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
     ipTelefono: string | null
     macTelefono: string | null
     seguroLaptop: string | null
-    softwareInstalado: string | null
+    softwareSO: string | null
+    softwareCorporativo: string | null
+    softwareOtros: string | null
     createdAt: Date
   }, ExtArgs["result"]["activo"]>
   composites: {}
@@ -2827,7 +2907,9 @@ export interface ActivoFieldRefs {
   readonly ipTelefono: Prisma.FieldRef<"Activo", 'String'>
   readonly macTelefono: Prisma.FieldRef<"Activo", 'String'>
   readonly seguroLaptop: Prisma.FieldRef<"Activo", 'String'>
-  readonly softwareInstalado: Prisma.FieldRef<"Activo", 'String'>
+  readonly softwareSO: Prisma.FieldRef<"Activo", 'String'>
+  readonly softwareCorporativo: Prisma.FieldRef<"Activo", 'String'>
+  readonly softwareOtros: Prisma.FieldRef<"Activo", 'String'>
   readonly createdAt: Prisma.FieldRef<"Activo", 'DateTime'>
 }
     

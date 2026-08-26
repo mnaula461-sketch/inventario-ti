@@ -46,6 +46,20 @@ interface Activo {
   estado: string;
   antivirus: string | null;
   criterio: string | null;
+  cargador: string | null;
+  tecladoSerial: string | null;
+  mouseSerial: string | null;
+  adaptadorCorriente: string | null;
+  impresoraConfigurada: string | null;
+  serialImpresora: string | null;
+  macComputador: string | null;
+  telefonoMarcaModelo: string | null;
+  ipTelefono: string | null;
+  macTelefono: string | null;
+  seguroLaptop: string | null;
+  softwareSO: string | null;
+  softwareCorporativo: string | null;
+  softwareOtros: string | null;
   oficinaId: number;
   responsableId: number | null;
   oficina: Oficina;
@@ -60,6 +74,10 @@ const camposIniciales = {
   disco: '', estadoRaton: '', estadoTeclado: '', estadoDisco: '', sistemaOperativo: '',
   mantenimiento: '', actualizable: '', anydesk: '', upgrade: '', recomendacion: '',
   saleA: '', entraA: '', estado: 'activo', antivirus: '', criterio: '',
+  cargador: '', tecladoSerial: '', mouseSerial: '', adaptadorCorriente: '',
+  impresoraConfigurada: '', serialImpresora: '', macComputador: '', telefonoMarcaModelo: '',
+  ipTelefono: '', macTelefono: '', seguroLaptop: '',
+  softwareSO: '', softwareCorporativo: '', softwareOtros: '',
   oficinaId: '', responsableId: '',
 };
 
@@ -200,6 +218,20 @@ function Activos() {
       estado: activo.estado ?? 'activo',
       antivirus: activo.antivirus ?? '',
       criterio: activo.criterio ?? '',
+      cargador: activo.cargador ?? '',
+      tecladoSerial: activo.tecladoSerial ?? '',
+      mouseSerial: activo.mouseSerial ?? '',
+      adaptadorCorriente: activo.adaptadorCorriente ?? '',
+      impresoraConfigurada: activo.impresoraConfigurada ?? '',
+      serialImpresora: activo.serialImpresora ?? '',
+      macComputador: activo.macComputador ?? '',
+      telefonoMarcaModelo: activo.telefonoMarcaModelo ?? '',
+      ipTelefono: activo.ipTelefono ?? '',
+      macTelefono: activo.macTelefono ?? '',
+      seguroLaptop: activo.seguroLaptop ?? '',
+      softwareSO: activo.softwareSO ?? '',
+      softwareCorporativo: activo.softwareCorporativo ?? '',
+      softwareOtros: activo.softwareOtros ?? '',
       oficinaId: String(activo.oficinaId),
       responsableId: activo.responsableId ? String(activo.responsableId) : '',
     });
@@ -398,6 +430,40 @@ function Activos() {
             <Campo label="RAM" valor={form.ram} onChange={(v) => actualizarCampo('ram', v)} />
             <Campo label="Disco" valor={form.disco} onChange={(v) => actualizarCampo('disco', v)} />
             <Campo label="Sistema operativo" valor={form.sistemaOperativo} onChange={(v) => actualizarCampo('sistemaOperativo', v)} />
+          </div>
+
+          <h3 style={{ color: '#2c2560' }}>Datos adicionales para acta de entrega</h3>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '0.8rem' }}>
+            <Campo label="Cargador/adaptador" valor={form.cargador} onChange={(v) => actualizarCampo('cargador', v)} />
+            <Campo label="Teclado serial" valor={form.tecladoSerial} onChange={(v) => actualizarCampo('tecladoSerial', v)} />
+            <Campo label="Mouse serial" valor={form.mouseSerial} onChange={(v) => actualizarCampo('mouseSerial', v)} />
+            <Campo label="Adaptador de corriente" valor={form.adaptadorCorriente} onChange={(v) => actualizarCampo('adaptadorCorriente', v)} />
+            <Campo label="Impresora configurada" valor={form.impresoraConfigurada} onChange={(v) => actualizarCampo('impresoraConfigurada', v)} />
+            <Campo label="Serial impresora" valor={form.serialImpresora} onChange={(v) => actualizarCampo('serialImpresora', v)} />
+            <Campo label="MAC computador" valor={form.macComputador} onChange={(v) => actualizarCampo('macComputador', v)} />
+            <Campo label="Teléfono marca/modelo" valor={form.telefonoMarcaModelo} onChange={(v) => actualizarCampo('telefonoMarcaModelo', v)} />
+            <Campo label="IP teléfono" valor={form.ipTelefono} onChange={(v) => actualizarCampo('ipTelefono', v)} />
+            <Campo label="MAC teléfono" valor={form.macTelefono} onChange={(v) => actualizarCampo('macTelefono', v)} />
+            <div style={campoStyle}>
+              <label style={labelStyle}>Seguro laptop</label>
+              <select value={form.seguroLaptop} onChange={(e) => actualizarCampo('seguroLaptop', e.target.value)} style={inputStyle}>
+                <option value="">-- Sin especificar --</option>
+                <option value="SI">SI</option>
+                <option value="NO">NO</option>
+              </select>
+            </div>
+                        <div style={{ ...campoStyle, gridColumn: 'span 3' }}>
+              <label style={labelStyle}>Software S.O</label>
+              <input type="text" value={form.softwareSO} onChange={(e) => actualizarCampo('softwareSO', e.target.value)} style={inputStyle} placeholder="Windows 11 PRO" />
+            </div>
+            <div style={{ ...campoStyle, gridColumn: 'span 3' }}>
+              <label style={labelStyle}>Software estándar corporativo (separados por coma)</label>
+              <input type="text" value={form.softwareCorporativo} onChange={(e) => actualizarCampo('softwareCorporativo', e.target.value)} style={inputStyle} placeholder="Office 365, Onedrive, Anydesk" />
+            </div>
+            <div style={{ ...campoStyle, gridColumn: 'span 3' }}>
+              <label style={labelStyle}>Otro software solicitado (separados por coma)</label>
+              <input type="text" value={form.softwareOtros} onChange={(e) => actualizarCampo('softwareOtros', e.target.value)} style={inputStyle} placeholder="Zoom, Webex" />
+            </div>
           </div>
 
           <h3 style={{ color: '#2c2560' }}>Estado y mantenimiento</h3>

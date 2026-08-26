@@ -78,7 +78,9 @@ model Activo {
   ipTelefono        String?
   macTelefono       String?
   seguroLaptop      String?
-  softwareInstalado String?
+  softwareSO             String?
+  softwareCorporativo    String?
+  softwareOtros          String?
   createdAt         DateTime  @default(now())
 }
 
