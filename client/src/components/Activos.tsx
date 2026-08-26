@@ -318,9 +318,12 @@ function Activos() {
           empezarEdicion(activoViendo);
           setActivoViendo(null);
         }}
-        onGenerarActa={() => {
+          onGenerarActa={() => {
+          const sugerido = localStorage.getItem('nombreUsuario') ?? '';
+          const nombreEntrega = window.prompt('¿Quién entrega el equipo?', sugerido);
+          if (nombreEntrega === null) return;
           const token = localStorage.getItem('token');
-          window.open(`http://localhost:3000/activos/${activoViendo.id}/acta?token=${token}`, '_blank');
+          window.open(`http://localhost:3000/activos/${activoViendo.id}/acta?token=${token}&entrega=${encodeURIComponent(nombreEntrega)}`, '_blank');
         }}
       />
     );

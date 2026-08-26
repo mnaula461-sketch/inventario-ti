@@ -202,6 +202,7 @@ app.get('/plantilla-acta', verificarToken, async (req, res) => {
 // Generar el PDF del acta de entrega para un activo
 app.get('/activos/:id/acta', verificarToken, async (req, res) => {
   const { id } = req.params;
+  const nombreEntrega = (req.query.entrega as string) || '';
   const activo = await prisma.activo.findUnique({
     where: { id: Number(id) },
     include: { oficina: true, responsable: true },
@@ -410,57 +411,43 @@ app.get('/activos/:id/acta', verificarToken, async (req, res) => {
     [activo.macComputador ?? '', activo.telefonoMarcaModelo ?? '', activo.ipTelefono ?? '', activo.macTelefono ?? '', activo.seguroLaptop ?? '']
   );
 
-  // ===== SOFTWARE =====
     // ===== SOFTWARE =====
   sectionTitle('SOFTWARE');
 
-  const softwareSO = ['Windows 10 PRO', 'Windows 11 PRO'];
-  const softwareCorporativo = [
-    'Office 365 (Teams, Outlook, Word, Excel, etc.)', 'Onedrive', 'Adobe Reader DC',
-    'Google Chrome', 'Compresor WinRAR', 'Anydesk', 'Forticlient', 'Pardus QQ',
-  ];
-  const softwareOtros = [
-    'Zoom', 'Webex', 'R Studio', 'Filezilla', 'SafeNet (Token BCE)',
-    'Firma EC', 'WebClientPrint', 'Mozilla Firefox',
-  ];
-
-  const softwareSeleccionado = (activo.softwareInstalado ?? '').split(',').map((s) => s.trim());
-
-  const nameColW = contentWidth * 0.28;
-  const boxColW = contentWidth / 3 - nameColW;
+  const swColW = contentWidth / 3;
   const swHeaderH = 14;
 
-  // Encabezados de las 3 categorías
   let hx = marginX;
-  [
-    ['Software S.O', nameColW + boxColW],
-    ['Software estándar corporativo', nameColW + boxColW],
-    ['Otros Software solicitada', nameColW + boxColW],
-  ].forEach(([titulo, w]) => {
-    drawRect(hx, y, w as number, swHeaderH, lightGray);
-    const tw = fontBold.widthOfTextAtSize(titulo as string, 7);
-    drawText(titulo as string, hx + ((w as number) - tw) / 2, y - swHeaderH / 2 - 3, 7, true);
-    hx += w as number;
+  ['Software S.O', 'Software estándar corporativo', 'Otro software solicitado'].forEach((titulo) => {
+    drawRect(hx, y, swColW, swHeaderH, lightGray);
+    const tw = fontBold.widthOfTextAtSize(titulo, 7);
+    drawText(titulo, hx + (swColW - tw) / 2, y - swHeaderH / 2 - 3, 7, true);
+    hx += swColW;
   });
   y -= swHeaderH;
 
-  const maxFilas = Math.max(softwareSO.length, softwareCorporativo.length, softwareOtros.length);
+  function separarEnItems(texto: string | null): string[] {
+    if (!texto) return [];
+    return texto.split(',').map((s) => s.trim()).filter((s) => s.length > 0);
+  }
+
+  const itemsSO = separarEnItems(activo.softwareSO);
+  const itemsCorporativo = separarEnItems(activo.softwareCorporativo);
+  const itemsOtros = separarEnItems(activo.softwareOtros);
+
+  const swMaxFilas = Math.max(itemsSO.length, itemsCorporativo.length, itemsOtros.length, 1);
   const swRowH = 12;
 
-  for (let fila = 0; fila < maxFilas; fila++) {
-    let x = marginX;
-    [softwareSO, softwareCorporativo, softwareOtros].forEach((lista) => {
+  for (let fila = 0; fila < swMaxFilas; fila++) {
+    let sx = marginX;
+    [itemsSO, itemsCorporativo, itemsOtros].forEach((lista) => {
+      drawRect(sx, y, swColW, swRowH, white);
       const item = lista[fila];
-      drawRect(x, y, nameColW, swRowH, white);
-      drawRect(x + nameColW, y, boxColW, swRowH, white);
       if (item) {
-        const lines = wrapText(item, nameColW - 6, 6, font);
-        drawText(lines[0] ?? '', x + 3, y - 8, 6);
-        const marcado = softwareSeleccionado.includes(item);
-        const box = marcado ? '[X]' : '[ ]';
-        drawText(box, x + nameColW + 3, y - 8, 7, marcado);
+        const lines = wrapText(item, swColW - 8, 6.5, font);
+        drawText(lines[0] ?? '', sx + 4, y - 8, 6.5);
       }
-      x += nameColW + boxColW;
+      sx += swColW;
     });
     y -= swRowH;
   }
@@ -491,7 +478,7 @@ app.get('/activos/:id/acta', verificarToken, async (req, res) => {
 
   const hoy = new Date().toLocaleDateString('es-EC');
   const firmaRows = [
-    ['Nombre', respNombre, 'Nombre', ''],
+    ['Nombre', respNombre, 'Nombre', nombreEntrega],
     ['Firma', '', 'Firma', ''],
     ['Fecha', hoy, 'Fecha', hoy],
   ];
