@@ -15,27 +15,35 @@ function App() {
   const [vista, setVista] = useState<Vista>('dashboard');
   const [token, setToken] = useState<string | null>(null);
   const [nombreUsuario, setNombreUsuario] = useState<string>('');
+  const [errorConexion, setErrorConexion] = useState(false);
 
   useEffect(() => {
-    const tokenGuardado = localStorage.getItem('token');
-    const nombreGuardado = localStorage.getItem('nombreUsuario');
+    const tokenGuardado = sessionStorage.getItem('token');
+    const nombreGuardado = sessionStorage.getItem('nombreUsuario');
     if (tokenGuardado) {
       setToken(tokenGuardado);
       setNombreUsuario(nombreGuardado ?? '');
     }
   }, []);
 
+  useEffect(() => {
+    if (!token) return;
+    fetch(import.meta.env.VITE_API_URL || 'http://localhost:3000')
+      .then(() => setErrorConexion(false))
+      .catch(() => setErrorConexion(true));
+  }, [token]);
+
   const manejarLogin = (nuevoToken: string, nombre: string) => {
-    localStorage.setItem('token', nuevoToken);
-    localStorage.setItem('nombreUsuario', nombre);
+    sessionStorage.setItem('token', nuevoToken);
+    sessionStorage.setItem('nombreUsuario', nombre);
     setToken(nuevoToken);
     setNombreUsuario(nombre);
     setVista('dashboard');
   };
 
   const cerrarSesion = () => {
-    localStorage.removeItem('token');
-    localStorage.removeItem('nombreUsuario');
+    sessionStorage.removeItem('token');
+    sessionStorage.removeItem('nombreUsuario');
     setToken(null);
     setNombreUsuario('');
   };
@@ -54,6 +62,11 @@ function App() {
 
   return (
     <div style={{ minHeight: '100vh' }}>
+      {errorConexion && (
+        <div style={{ background: '#c0443f', color: 'white', padding: '0.7rem 1.5rem', textAlign: 'center', fontSize: '0.9rem' }}>
+          ⚠️ No se puede conectar con el servidor. Verifica que Docker y el backend estén corriendo, luego recarga la página.
+        </div>
+      )}
       <header style={{
         background: 'linear-gradient(90deg, #2c2560 0%, #3a2f7a 100%)',
         padding: '1rem 2rem',
@@ -74,7 +87,7 @@ function App() {
             COOPERATIVA GAÑANSOL
           </p>
         </div>
-                <BusquedaGlobal onIrA={setVista} />
+        <BusquedaGlobal onIrA={setVista} />
         <span style={{ color: 'white', fontSize: '0.85rem' }}>👤 {nombreUsuario}</span>
         <button onClick={cerrarSesion} className="btn-outline" style={{ backgroundColor: 'transparent', color: 'white', borderColor: 'white' }}>
           Cerrar sesión
@@ -98,7 +111,7 @@ function App() {
           <button style={tabStyle(vista === 'reportes')} onClick={() => setVista('reportes')}>
             Reportes
           </button>
-                    <button style={tabStyle(vista === 'perfil')} onClick={() => setVista('perfil')}>
+          <button style={tabStyle(vista === 'perfil')} onClick={() => setVista('perfil')}>
             Mi perfil
           </button>
         </nav>
@@ -109,7 +122,7 @@ function App() {
           {vista === 'empleados' && <Empleados />}
           {vista === 'activos' && <Activos />}
           {vista === 'reportes' && <Reportes />}
-                    {vista === 'perfil' && <Perfil nombreUsuario={nombreUsuario} />}
+          {vista === 'perfil' && <Perfil nombreUsuario={nombreUsuario} />}
         </div>
       </div>
     </div>

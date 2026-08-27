@@ -567,15 +567,21 @@ app.put('/activos/:id', verificarToken, async (req: any, res) => {
   } = req.body;
     const activoAnterior = await prisma.activo.findUnique({ where: { id: Number(id) } });
 
+  const [todasOficinas, todosEmpleados] = await Promise.all([
+    prisma.oficina.findMany(),
+    prisma.empleado.findMany(),
+  ]);
+  const nombreOficina = (idOf: any) => todasOficinas.find((o) => o.id === Number(idOf))?.nombre ?? '(vacío)';
+  const nombreEmpleado = (idEmp: any) => idEmp ? (todosEmpleados.find((e) => e.id === Number(idEmp))?.nombre ?? '(vacío)') : '(sin asignar)';
+
   const camposAComparar: Record<string, string> = {
     codigo: 'Código', tipo: 'Tipo', marca: 'Marca', claseEquipo: 'Clase de equipo',
-    numeroSerie: 'Número de serie', oficinaId: 'Oficina', responsableId: 'Responsable',
-    estado: 'Estado', ip: 'IP', procesador: 'Procesador', ram: 'RAM', disco: 'Disco',
+    numeroSerie: 'Número de serie', estado: 'Estado', ip: 'IP',
+    procesador: 'Procesador', ram: 'RAM', disco: 'Disco',
   };
   const cambios: string[] = [];
   const nuevosDatos: Record<string, any> = {
-    codigo, tipo, marca, claseEquipo, numeroSerie, oficinaId, responsableId,
-    estado, ip, procesador, ram, disco,
+    codigo, tipo, marca, claseEquipo, numeroSerie, estado, ip, procesador, ram, disco,
   };
   for (const campo in camposAComparar) {
     const valorViejo = (activoAnterior as any)?.[campo];
@@ -584,6 +590,14 @@ app.put('/activos/:id', verificarToken, async (req: any, res) => {
       cambios.push(`${camposAComparar[campo]}: "${valorViejo ?? '(vacío)'}" → "${valorNuevo ?? '(vacío)'}"`);
     }
   }
+
+  if (String(activoAnterior?.oficinaId ?? '') !== String(oficinaId ?? '')) {
+    cambios.push(`Oficina: "${nombreOficina(activoAnterior?.oficinaId)}" → "${nombreOficina(oficinaId)}"`);
+  }
+  if (String(activoAnterior?.responsableId ?? '') !== String(responsableId ?? '')) {
+    cambios.push(`Responsable: "${nombreEmpleado(activoAnterior?.responsableId)}" → "${nombreEmpleado(responsableId)}"`);
+  }
+
   const detalleCambios = cambios.length > 0 ? cambios.join('; ') : 'Sin cambios detectados en campos principales';
   const activo = await prisma.activo.update({
     where: { id: Number(id) },

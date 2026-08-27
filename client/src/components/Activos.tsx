@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react';
 import api from '../api';
 import * as XLSX from 'xlsx';
 import ActivoDetalle from './ActivoDetalle';
+import Notificacion from './Notificacion';
+import SelectorBusqueda from './SelectorBusqueda';
 
 interface Oficina {
   id: number;
@@ -124,6 +126,14 @@ function Activos() {
   const [editandoId, setEditandoId] = useState<number | null>(null);
   const [mostrarFormulario, setMostrarFormulario] = useState(false);
   const [activoViendo, setActivoViendo] = useState<Activo | null>(null);
+    const [notiVisible, setNotiVisible] = useState(false);
+  const [notiMensaje, setNotiMensaje] = useState('');
+
+  const mostrarNotificacion = (mensaje: string) => {
+    setNotiMensaje(mensaje);
+    setNotiVisible(true);
+    setTimeout(() => setNotiVisible(false), 3000);
+  };
 
   const [busquedaTexto, setBusquedaTexto] = useState('');
   const [filtroOficina, setFiltroOficina] = useState('');
@@ -176,8 +186,10 @@ function Activos() {
     };
     if (editandoId) {
       await api.put(`/activos/${editandoId}`, data);
+      mostrarNotificacion('Activo actualizado correctamente');
     } else {
       await api.post('/activos', data);
+      mostrarNotificacion('Activo agregado correctamente');
     }
     limpiarFormulario();
     cargarActivos();
@@ -242,6 +254,7 @@ function Activos() {
     const confirmar = window.confirm('¿Seguro que quieres eliminar este activo?');
     if (!confirmar) return;
     await api.delete(`/activos/${id}`);
+    mostrarNotificacion('Activo eliminado');
     cargarActivos();
   };
 
@@ -388,6 +401,7 @@ function Activos() {
 
   return (
     <div>
+      <Notificacion mensaje={notiMensaje} tipo="exito" visible={notiVisible} />
       <h2 style={{ color: '#1f1b3d' }}>Activos</h2>
 
       <div style={{ marginBottom: '1.2rem', display: 'flex', gap: '0.6rem', alignItems: 'center' }}>
@@ -468,10 +482,14 @@ function Activos() {
             </div>
             <div style={campoStyle}>
               <label style={labelStyle}>Responsable</label>
-              <select value={form.responsableId} onChange={(e) => actualizarCampo('responsableId', e.target.value)} style={inputStyle}>
-                <option value="">-- Sin asignar --</option>
-                {empleados.map((emp) => <option key={emp.id} value={emp.id}>{emp.nombre}</option>)}
-              </select>
+              <SelectorBusqueda
+                opciones={empleados.map((emp) => ({ id: emp.id, etiqueta: emp.nombre }))}
+                valorId={form.responsableId}
+                onSeleccionar={(id) => actualizarCampo('responsableId', id)}
+                placeholder="Escribe para buscar..."
+                permitirVacio
+                textoVacio="-- Sin asignar --"
+              />
             </div>
           </div>
 
