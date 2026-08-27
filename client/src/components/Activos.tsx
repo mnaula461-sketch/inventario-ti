@@ -128,6 +128,7 @@ function Activos() {
   const [activoViendo, setActivoViendo] = useState<Activo | null>(null);
   const [notiVisible, setNotiVisible] = useState(false);
   const [codigoDuplicado, setCodigoDuplicado] = useState(false);
+  const [soloSinResponsable, setSoloSinResponsable] = useState(false);
 
   useEffect(() => {
     if (!form.codigo.trim() || editandoId) {
@@ -373,7 +374,7 @@ function Activos() {
     setPaginaActual(1);
   };
 
-  const activosFiltrados = activos.filter((activo) => {
+    const activosFiltrados = activos.filter((activo) => {
     const coincideTexto = !busquedaAplicada || (
       activo.codigo.toLowerCase().includes(busquedaAplicada) ||
       activo.tipo.toLowerCase().includes(busquedaAplicada) ||
@@ -384,7 +385,8 @@ function Activos() {
     );
     const coincideOficina = !filtroOficina || activo.oficinaId === Number(filtroOficina);
     const coincideEstado = !filtroEstado || activo.estado === filtroEstado;
-    return coincideTexto && coincideOficina && coincideEstado;
+    const coincideResponsable = !soloSinResponsable || !activo.responsableId;
+    return coincideTexto && coincideOficina && coincideEstado && coincideResponsable;
   });
 
   const totalPaginas = Math.max(1, Math.ceil(activosFiltrados.length / porPagina));
@@ -471,6 +473,16 @@ function Activos() {
           </div>
           <button className="btn-primary" onClick={buscar}>Buscar</button>
           <button className="btn-outline" onClick={limpiarFiltros}>Limpiar</button>
+        </div>
+        <div style={{ marginTop: '0.8rem' }}>
+          <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.85rem', color: '#555', cursor: 'pointer' }}>
+            <input
+              type="checkbox"
+              checked={soloSinResponsable}
+              onChange={(e) => setSoloSinResponsable(e.target.checked)}
+            />
+            Mostrar solo equipos sin responsable asignado
+          </label>
         </div>
       </div>
 
