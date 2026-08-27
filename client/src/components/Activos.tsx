@@ -126,7 +126,21 @@ function Activos() {
   const [editandoId, setEditandoId] = useState<number | null>(null);
   const [mostrarFormulario, setMostrarFormulario] = useState(false);
   const [activoViendo, setActivoViendo] = useState<Activo | null>(null);
-    const [notiVisible, setNotiVisible] = useState(false);
+  const [notiVisible, setNotiVisible] = useState(false);
+  const [codigoDuplicado, setCodigoDuplicado] = useState(false);
+
+  useEffect(() => {
+    if (!form.codigo.trim() || editandoId) {
+      setCodigoDuplicado(false);
+      return;
+    }
+  const timeout = setTimeout(() => {
+      api.get(`/activos/verificar-codigo/${encodeURIComponent(form.codigo.trim())}`)
+        .then((res) => setCodigoDuplicado(res.data.existe))
+        .catch(() => {});
+    }, 400);
+    return () => clearTimeout(timeout);
+  }, [form.codigo, editandoId]);
   const [notiMensaje, setNotiMensaje] = useState('');
 
   const mostrarNotificacion = (mensaje: string) => {
@@ -179,6 +193,10 @@ function Activos() {
 
   const guardarActivo = async (e: React.FormEvent) => {
     e.preventDefault();
+        if (codigoDuplicado) {
+      alert('No se puede guardar: el código ya existe en otro activo.');
+      return;
+    }
     const data = {
       ...form,
       oficinaId: Number(form.oficinaId),
@@ -462,7 +480,18 @@ function Activos() {
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '0.8rem' }}>
             <div style={campoStyle}>
               <label style={labelStyle}>Código *</label>
-              <input type="text" value={form.codigo} onChange={(e) => actualizarCampo('codigo', e.target.value)} required style={inputStyle} />
+              <input
+                type="text"
+                value={form.codigo}
+                onChange={(e) => actualizarCampo('codigo', e.target.value)}
+                required
+                style={{ ...inputStyle, borderColor: codigoDuplicado ? '#c0443f' : undefined }}
+              />
+              {codigoDuplicado && (
+                <p style={{ color: '#c0443f', fontSize: '0.75rem', margin: '0.2rem 0 0' }}>
+                  ⚠️ Ya existe un activo con este código
+                </p>
+              )}
             </div>
             <div style={campoStyle}>
               <label style={labelStyle}>Tipo de equipo *</label>

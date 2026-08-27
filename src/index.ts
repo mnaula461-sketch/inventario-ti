@@ -553,6 +553,13 @@ app.get('/activos', verificarToken, async (req, res) => {
   res.json(activos);
 });
 
+// Verificar si un código de activo ya existe
+app.get('/activos/verificar-codigo/:codigo', verificarToken, async (req, res) => {
+  const { codigo } = req.params;
+  const existente = await prisma.activo.findUnique({ where: { codigo } });
+  res.json({ existe: !!existente });
+});
+
 // Actualizar un activo
 app.put('/activos/:id', verificarToken, async (req: any, res) => {
   const { id } = req.params;
