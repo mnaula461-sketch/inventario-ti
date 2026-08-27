@@ -149,3 +149,15 @@ tr:hover td {
   from { transform: translateX(100%); opacity: 0; }
   to { transform: translateX(0); opacity: 1; }
 }
+
+@media print {
+  header, nav, .no-imprimir {
+    display: none !important;
+  }
+  body {
+    background: white !important;
+  }
+  table {
+    box-shadow: none !important;
+  }
+}

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import api from '../api';
 import * as XLSX from 'xlsx';
 import ActivoDetalle from './ActivoDetalle';
@@ -87,6 +87,34 @@ const inputStyle = { width: '100%', padding: '0.4rem', fontSize: '0.9rem' };
 const labelStyle = { fontSize: '0.8rem', color: '#555', display: 'block', marginBottom: '0.2rem' };
 const campoStyle = { marginBottom: '0.6rem' };
 
+const TODAS_LAS_COLUMNAS = [
+  { campo: 'codigo', etiqueta: 'Código' },
+  { campo: 'tipo', etiqueta: 'Tipo' },
+  { campo: 'marca', etiqueta: 'Marca' },
+  { campo: 'claseEquipo', etiqueta: 'Clase de equipo' },
+  { campo: 'numeroSerie', etiqueta: 'Número de serie' },
+  { campo: 'oficina', etiqueta: 'Oficina' },
+  { campo: 'responsable', etiqueta: 'Responsable' },
+  { campo: 'departamento', etiqueta: 'Departamento' },
+  { campo: 'ip', etiqueta: 'IP' },
+  { campo: 'macAddress', etiqueta: 'MAC Address' },
+  { campo: 'procesador', etiqueta: 'Procesador' },
+  { campo: 'ram', etiqueta: 'RAM' },
+  { campo: 'disco', etiqueta: 'Disco' },
+  { campo: 'sistemaOperativo', etiqueta: 'Sistema operativo' },
+  { campo: 'estado', etiqueta: 'Estado' },
+  { campo: 'antivirus', etiqueta: 'Antivirus' },
+  { campo: 'mantenimiento', etiqueta: 'Mantenimiento' },
+];
+
+const COLUMNAS_POR_DEFECTO = ['codigo', 'tipo', 'marca', 'oficina', 'responsable', 'estado'];
+
+function obtenerValorColumna(activo: Activo, campo: string): string {
+  if (campo === 'oficina') return activo.oficina?.nombre ?? '';
+  if (campo === 'responsable') return activo.responsable?.nombre ?? '—';
+  return String((activo as any)[campo] ?? '');
+}
+
 function Campo({ label, valor, onChange }: { label: string; valor: string; onChange: (v: string) => void }) {
   return (
     <div style={campoStyle}>
@@ -146,6 +174,36 @@ function Activos() {
 
   const [codigoDuplicado, setCodigoDuplicado] = useState(false);
   const [soloSinResponsable, setSoloSinResponsable] = useState(false);
+
+  const [columnasVisibles, setColumnasVisibles] = useState<string[]>(() => {
+    const guardadas = localStorage.getItem('columnasActivos');
+    return guardadas ? JSON.parse(guardadas) : COLUMNAS_POR_DEFECTO;
+  });
+  const [menuColumnasAbierto, setMenuColumnasAbierto] = useState(false);
+  const menuColumnasRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    function clickFuera(e: MouseEvent) {
+      if (menuColumnasRef.current && !menuColumnasRef.current.contains(e.target as Node)) {
+        setMenuColumnasAbierto(false);
+      }
+    }
+    document.addEventListener('mousedown', clickFuera);
+    return () => document.removeEventListener('mousedown', clickFuera);
+  }, []);
+
+  const alternarColumna = (campo: string) => {
+    setColumnasVisibles((prev) => {
+      const nuevo = prev.includes(campo) ? prev.filter((c) => c !== campo) : [...prev, campo];
+      localStorage.setItem('columnasActivos', JSON.stringify(nuevo));
+      return nuevo;
+    });
+  };
+
+  const restaurarColumnasDefecto = () => {
+    setColumnasVisibles(COLUMNAS_POR_DEFECTO);
+    localStorage.setItem('columnasActivos', JSON.stringify(COLUMNAS_POR_DEFECTO));
+  };
 
   const cargarActivos = () => {
     api.get('/activos')
@@ -402,6 +460,8 @@ function Activos() {
     setPaginaActual(1);
   };
 
+  const columnasAMostrar = TODAS_LAS_COLUMNAS.filter((col) => columnasVisibles.includes(col.campo));
+
   if (activoViendo) {
     return (
       <ActivoDetalle
@@ -427,7 +487,7 @@ function Activos() {
       <Notificacion mensaje={notiMensaje} tipo="exito" visible={notiVisible} />
       <h2 style={{ color: '#1f1b3d' }}>Activos</h2>
 
-      <div style={{ marginBottom: '1.2rem', display: 'flex', gap: '0.6rem', alignItems: 'center' }}>
+      <div className="no-imprimir" style={{ marginBottom: '1.2rem', display: 'flex', gap: '0.6rem', alignItems: 'center', flexWrap: 'wrap' }}>
         {!mostrarFormulario && (
           <button className="btn-primary" onClick={() => setMostrarFormulario(true)}>
             + Agregar activo
@@ -440,12 +500,60 @@ function Activos() {
         <button className="btn-outline" onClick={exportarExcel}>
           📊 Exportar a Excel
         </button>
+        <button className="btn-outline" onClick={() => window.print()}>
+          🖨️ Imprimir
+        </button>
+
+        <div ref={menuColumnasRef} style={{ position: 'relative' }}>
+          <button className="btn-outline" onClick={() => setMenuColumnasAbierto(!menuColumnasAbierto)}>
+            ⚙️ Columnas ({columnasVisibles.length})
+          </button>
+          {menuColumnasAbierto && (
+            <div style={{
+              position: 'absolute', top: '110%', left: 0,
+              background: 'white', border: '1px solid #e3ddd0', borderRadius: '10px',
+              boxShadow: '0 8px 24px rgba(0,0,0,0.15)', padding: '0.7rem',
+              zIndex: 100, width: '240px',
+            }}>
+              <div style={{ fontSize: '0.78rem', fontWeight: 700, color: '#1f1b3d', marginBottom: '0.5rem', textTransform: 'uppercase', letterSpacing: '0.3px' }}>
+                Columnas visibles
+              </div>
+              <div style={{ maxHeight: '260px', overflowY: 'auto' }}>
+                {TODAS_LAS_COLUMNAS.map((col) => (
+                  <label
+                    key={col.campo}
+                    style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0.35rem 0.2rem', fontSize: '0.85rem', cursor: 'pointer', borderRadius: '6px' }}
+                    onMouseEnter={(e) => (e.currentTarget.style.background = '#faf8f3')}
+                    onMouseLeave={(e) => (e.currentTarget.style.background = 'transparent')}
+                  >
+                    <input
+                      type="checkbox"
+                      checked={columnasVisibles.includes(col.campo)}
+                      onChange={() => alternarColumna(col.campo)}
+                    />
+                    {col.etiqueta}
+                  </label>
+                ))}
+              </div>
+              <div style={{ borderTop: '1px solid #f0eee6', marginTop: '0.5rem', paddingTop: '0.5rem' }}>
+                <button
+                  type="button"
+                  onClick={restaurarColumnasDefecto}
+                  style={{ background: 'none', border: 'none', color: '#b8842e', fontSize: '0.8rem', cursor: 'pointer', padding: 0 }}
+                >
+                  Restaurar columnas por defecto
+                </button>
+              </div>
+            </div>
+          )}
+        </div>
+
         <button className="btn-delete" onClick={eliminarTodos} style={{ marginLeft: 'auto' }}>
           🗑️ Eliminar todos
         </button>
       </div>
 
-      <div style={{ border: '1px solid #e2e0f0', borderRadius: '10px', padding: '1rem', marginBottom: '1.5rem', backgroundColor: '#fafaff' }}>
+      <div className="no-imprimir" style={{ border: '1px solid #e2e0f0', borderRadius: '10px', padding: '1rem', marginBottom: '1.5rem', backgroundColor: '#fafaff' }}>
         <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr auto auto', gap: '0.8rem', alignItems: 'end' }}>
           <div>
             <label style={labelStyle}>Buscar</label>
@@ -490,7 +598,7 @@ function Activos() {
       </div>
 
       {mostrarFormulario && (
-        <form onSubmit={guardarActivo} style={{ marginBottom: '2rem', border: '1px solid #e2e0f0', padding: '1.2rem', borderRadius: '10px', backgroundColor: '#fafaff' }}>
+        <form onSubmit={guardarActivo} className="no-imprimir" style={{ marginBottom: '2rem', border: '1px solid #e2e0f0', padding: '1.2rem', borderRadius: '10px', backgroundColor: '#fafaff' }}>
           <h3 style={{ color: '#1f1b3d' }}>Datos básicos</h3>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '0.8rem' }}>
             <div style={campoStyle}>
@@ -625,7 +733,7 @@ function Activos() {
         </form>
       )}
 
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.8rem' }}>
+      <div className="no-imprimir" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.8rem' }}>
         <p style={{ margin: 0, color: '#555', fontSize: '0.9rem' }}>
           Mostrando {activosPagina.length ? inicio + 1 : 0}–{inicio + activosPagina.length} de {activosFiltrados.length} activos
         </p>
@@ -647,27 +755,23 @@ function Activos() {
       <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.9rem', boxShadow: '0 1px 3px rgba(0,0,0,0.06)' }}>
         <thead>
           <tr>
-            <th style={{ textAlign: 'left', padding: '0.5rem' }}>Código</th>
-            <th style={{ textAlign: 'left', padding: '0.5rem' }}>Tipo</th>
-            <th style={{ textAlign: 'left', padding: '0.5rem' }}>Marca</th>
-            <th style={{ textAlign: 'left', padding: '0.5rem' }}>Oficina</th>
-            <th style={{ textAlign: 'left', padding: '0.5rem' }}>Responsable</th>
-            <th style={{ textAlign: 'left', padding: '0.5rem' }}>Estado</th>
-            <th style={{ padding: '0.5rem', width: '140px' }}>Acciones</th>
+            {columnasAMostrar.map((col) => (
+              <th key={col.campo} style={{ textAlign: 'left', padding: '0.5rem' }}>
+                {col.etiqueta}
+              </th>
+            ))}
+            <th className="no-imprimir" style={{ padding: '0.5rem', width: '140px' }}>Acciones</th>
           </tr>
         </thead>
         <tbody>
           {activosPagina.map((activo) => (
             <tr key={activo.id}>
-              <td style={{ padding: '0.6rem 0.5rem', borderBottom: '1px solid #eee' }}>{activo.codigo}</td>
-              <td style={{ padding: '0.6rem 0.5rem', borderBottom: '1px solid #eee' }}>{activo.tipo}</td>
-              <td style={{ padding: '0.6rem 0.5rem', borderBottom: '1px solid #eee' }}>{activo.marca}</td>
-              <td style={{ padding: '0.6rem 0.5rem', borderBottom: '1px solid #eee' }}>{activo.oficina?.nombre}</td>
-              <td style={{ padding: '0.6rem 0.5rem', borderBottom: '1px solid #eee' }}>{activo.responsable?.nombre ?? '—'}</td>
-              <td style={{ padding: '0.6rem 0.5rem', borderBottom: '1px solid #eee' }}>
-                <BadgeEstado estado={activo.estado} />
-              </td>
-              <td style={{ padding: '0.6rem 0.5rem', borderBottom: '1px solid #eee' }}>
+              {columnasAMostrar.map((col) => (
+                <td key={col.campo} style={{ padding: '0.6rem 0.5rem', borderBottom: '1px solid #eee' }}>
+                  {col.campo === 'estado' ? <BadgeEstado estado={activo.estado} /> : obtenerValorColumna(activo, col.campo)}
+                </td>
+              ))}
+              <td className="no-imprimir" style={{ padding: '0.6rem 0.5rem', borderBottom: '1px solid #eee' }}>
                 <div style={{ display: 'flex', gap: '0.4rem', flexWrap: 'nowrap', justifyContent: 'flex-end' }}>
                   <button className="btn-outline" onClick={() => setActivoViendo(activo)} style={{ padding: '0.35rem 0.6rem', fontSize: '0.8rem', whiteSpace: 'nowrap' }}>
                     👁️
@@ -685,7 +789,7 @@ function Activos() {
         </tbody>
       </table>
 
-      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '0.5rem', marginTop: '1.2rem' }}>
+      <div className="no-imprimir" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '0.5rem', marginTop: '1.2rem' }}>
         <button
           className="btn-outline"
           disabled={paginaSegura === 1}
