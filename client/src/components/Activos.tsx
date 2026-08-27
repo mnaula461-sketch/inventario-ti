@@ -126,29 +126,6 @@ function Activos() {
   const [editandoId, setEditandoId] = useState<number | null>(null);
   const [mostrarFormulario, setMostrarFormulario] = useState(false);
   const [activoViendo, setActivoViendo] = useState<Activo | null>(null);
-  const [notiVisible, setNotiVisible] = useState(false);
-  const [codigoDuplicado, setCodigoDuplicado] = useState(false);
-  const [soloSinResponsable, setSoloSinResponsable] = useState(false);
-
-  useEffect(() => {
-    if (!form.codigo.trim() || editandoId) {
-      setCodigoDuplicado(false);
-      return;
-    }
-  const timeout = setTimeout(() => {
-      api.get(`/activos/verificar-codigo/${encodeURIComponent(form.codigo.trim())}`)
-        .then((res) => setCodigoDuplicado(res.data.existe))
-        .catch(() => {});
-    }, 400);
-    return () => clearTimeout(timeout);
-  }, [form.codigo, editandoId]);
-  const [notiMensaje, setNotiMensaje] = useState('');
-
-  const mostrarNotificacion = (mensaje: string) => {
-    setNotiMensaje(mensaje);
-    setNotiVisible(true);
-    setTimeout(() => setNotiVisible(false), 3000);
-  };
 
   const [busquedaTexto, setBusquedaTexto] = useState('');
   const [filtroOficina, setFiltroOficina] = useState('');
@@ -157,6 +134,18 @@ function Activos() {
 
   const [porPagina, setPorPagina] = useState(20);
   const [paginaActual, setPaginaActual] = useState(1);
+
+  const [notiVisible, setNotiVisible] = useState(false);
+  const [notiMensaje, setNotiMensaje] = useState('');
+
+  const mostrarNotificacion = (mensaje: string) => {
+    setNotiMensaje(mensaje);
+    setNotiVisible(true);
+    setTimeout(() => setNotiVisible(false), 3000);
+  };
+
+  const [codigoDuplicado, setCodigoDuplicado] = useState(false);
+  const [soloSinResponsable, setSoloSinResponsable] = useState(false);
 
   const cargarActivos = () => {
     api.get('/activos')
@@ -182,6 +171,19 @@ function Activos() {
     cargarEmpleados();
   }, []);
 
+  useEffect(() => {
+    if (!form.codigo.trim() || editandoId) {
+      setCodigoDuplicado(false);
+      return;
+    }
+    const timeout = setTimeout(() => {
+      api.get(`/activos/verificar-codigo/${encodeURIComponent(form.codigo.trim())}`)
+        .then((res) => setCodigoDuplicado(res.data.existe))
+        .catch(() => {});
+    }, 400);
+    return () => clearTimeout(timeout);
+  }, [form.codigo, editandoId]);
+
   const actualizarCampo = (campo: string, valor: string) => {
     setForm((prev) => ({ ...prev, [campo]: valor }));
   };
@@ -194,7 +196,7 @@ function Activos() {
 
   const guardarActivo = async (e: React.FormEvent) => {
     e.preventDefault();
-        if (codigoDuplicado) {
+    if (codigoDuplicado) {
       alert('No se puede guardar: el código ya existe en otro activo.');
       return;
     }
@@ -371,10 +373,11 @@ function Activos() {
     setBusquedaAplicada('');
     setFiltroOficina('');
     setFiltroEstado('');
+    setSoloSinResponsable(false);
     setPaginaActual(1);
   };
 
-    const activosFiltrados = activos.filter((activo) => {
+  const activosFiltrados = activos.filter((activo) => {
     const coincideTexto = !busquedaAplicada || (
       activo.codigo.toLowerCase().includes(busquedaAplicada) ||
       activo.tipo.toLowerCase().includes(busquedaAplicada) ||
@@ -409,10 +412,10 @@ function Activos() {
           setActivoViendo(null);
         }}
         onGenerarActa={() => {
-          const sugerido = localStorage.getItem('nombreUsuario') ?? '';
+          const sugerido = sessionStorage.getItem('nombreUsuario') ?? '';
           const nombreEntrega = window.prompt('¿Quién entrega el equipo?', sugerido);
           if (nombreEntrega === null) return;
-          const token = localStorage.getItem('token');
+          const token = sessionStorage.getItem('token');
           window.open(`http://localhost:3000/activos/${activoViendo.id}/acta?token=${token}&entrega=${encodeURIComponent(nombreEntrega)}`, '_blank');
         }}
       />
