@@ -329,6 +329,61 @@ function Activos() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
+    const duplicarActivo = (activo: Activo) => {
+    setEditandoId(null);
+    setMostrarFormulario(true);
+    setForm({
+      codigo: '',
+      tipo: activo.tipo ?? '',
+      ip: '',
+      macAddress: '',
+      puertoRed: activo.puertoRed ?? '',
+      departamento: activo.departamento ?? '',
+      marca: activo.marca ?? '',
+      claseEquipo: activo.claseEquipo ?? '',
+      numeroSerie: '',
+      monitor: activo.monitor ?? '',
+      serieMonitor: '',
+      codigoContable: '',
+      parlantes: activo.parlantes ?? '',
+      placaMadre: activo.placaMadre ?? '',
+      procesador: activo.procesador ?? '',
+      ram: activo.ram ?? '',
+      disco: activo.disco ?? '',
+      estadoRaton: activo.estadoRaton ?? '',
+      estadoTeclado: activo.estadoTeclado ?? '',
+      estadoDisco: activo.estadoDisco ?? '',
+      sistemaOperativo: activo.sistemaOperativo ?? '',
+      mantenimiento: '',
+      actualizable: activo.actualizable ?? '',
+      anydesk: '',
+      upgrade: activo.upgrade ?? '',
+      recomendacion: '',
+      saleA: '',
+      entraA: '',
+      estado: 'activo',
+      antivirus: activo.antivirus ?? '',
+      criterio: activo.criterio ?? '',
+      cargador: activo.cargador ?? '',
+      tecladoSerial: '',
+      mouseSerial: '',
+      adaptadorCorriente: activo.adaptadorCorriente ?? '',
+      impresoraConfigurada: activo.impresoraConfigurada ?? '',
+      serialImpresora: '',
+      macComputador: '',
+      telefonoMarcaModelo: activo.telefonoMarcaModelo ?? '',
+      ipTelefono: '',
+      macTelefono: '',
+      seguroLaptop: activo.seguroLaptop ?? '',
+      softwareSO: activo.softwareSO ?? '',
+      softwareCorporativo: activo.softwareCorporativo ?? '',
+      softwareOtros: activo.softwareOtros ?? '',
+      oficinaId: String(activo.oficinaId),
+      responsableId: '',
+    });
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   const eliminarActivo = async (id: number) => {
     const confirmar = window.confirm('¿Seguro que quieres eliminar este activo?');
     if (!confirmar) return;
@@ -773,13 +828,16 @@ function Activos() {
               ))}
               <td className="no-imprimir" style={{ padding: '0.6rem 0.5rem', borderBottom: '1px solid #eee' }}>
                 <div style={{ display: 'flex', gap: '0.4rem', flexWrap: 'nowrap', justifyContent: 'flex-end' }}>
-                  <button className="btn-outline" onClick={() => setActivoViendo(activo)} style={{ padding: '0.35rem 0.6rem', fontSize: '0.8rem', whiteSpace: 'nowrap' }}>
+                  <button className="btn-outline" onClick={() => setActivoViendo(activo)} style={{ padding: '0.35rem 0.6rem', fontSize: '0.8rem', whiteSpace: 'nowrap' }} title="Ver detalle completo">
                     👁️
                   </button>
-                  <button className="btn-edit" onClick={() => empezarEdicion(activo)} style={{ padding: '0.35rem 0.6rem', fontSize: '0.8rem', whiteSpace: 'nowrap' }}>
+                  <button className="btn-edit" onClick={() => empezarEdicion(activo)} style={{ padding: '0.35rem 0.6rem', fontSize: '0.8rem', whiteSpace: 'nowrap' }} title="Editar este activo">
                     ✏️
                   </button>
-                  <button className="btn-delete" onClick={() => eliminarActivo(activo.id)} style={{ padding: '0.35rem 0.6rem', fontSize: '0.8rem', whiteSpace: 'nowrap' }}>
+                  <button className="btn-outline" onClick={() => duplicarActivo(activo)} style={{ padding: '0.35rem 0.6rem', fontSize: '0.8rem', whiteSpace: 'nowrap' }} title="Duplicar (crear copia con los mismos datos)">
+                    📋
+                  </button>
+                  <button className="btn-delete" onClick={() => eliminarActivo(activo.id)} style={{ padding: '0.35rem 0.6rem', fontSize: '0.8rem', whiteSpace: 'nowrap' }} title="Eliminar este activo">
                     🗑️
                   </button>
                 </div>
