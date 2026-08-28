@@ -4,6 +4,7 @@ import * as XLSX from 'xlsx';
 import ActivoDetalle from './ActivoDetalle';
 import Notificacion from './Notificacion';
 import ModalConfirmar from './ModalConfirmar';
+import CompararActivos from './CompararActivos';
 import SelectorBusqueda from './SelectorBusqueda';
 
 interface Oficina {
@@ -190,6 +191,8 @@ function Activos() {
     const ids = seleccionados.join(',');
     window.open(`http://localhost:3000/activos/actas-lote?ids=${ids}&entrega=${encodeURIComponent(nombreEntrega)}&token=${token}`, '_blank');
   };
+
+  const [comparando, setComparando] = useState(false);
 
   const [notiVisible, setNotiVisible] = useState(false);
   const [notiMensaje, setNotiMensaje] = useState('');
@@ -557,6 +560,20 @@ function Activos() {
 
   const columnasAMostrar = TODAS_LAS_COLUMNAS.filter((col) => columnasVisibles.includes(col.campo));
 
+  if (comparando && seleccionados.length === 2) {
+    const activoA = activos.find((a) => a.id === seleccionados[0]);
+    const activoB = activos.find((a) => a.id === seleccionados[1]);
+    if (activoA && activoB) {
+      return (
+        <CompararActivos
+          activoA={activoA}
+          activoB={activoB}
+          onVolver={() => setComparando(false)}
+        />
+      );
+    }
+  }
+
   if (activoViendo) {
     return (
       <ActivoDetalle
@@ -648,6 +665,12 @@ function Activos() {
             📄 Generar actas ({seleccionados.length})
           </button>
         )}
+        {seleccionados.length === 2 && (
+          <button className="btn-outline" onClick={() => setComparando(true)}>
+            ⚖️ Comparar
+          </button>
+        )}
+
         <button className="btn-delete" onClick={eliminarTodos} style={{ marginLeft: 'auto' }}>
           🗑️ Eliminar todos
         </button>
