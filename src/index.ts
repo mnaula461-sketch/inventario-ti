@@ -170,6 +170,17 @@ app.get('/empleados', verificarToken, async (req, res) => {
   res.json(empleados);
 });
 
+// Obtener los activos asignados a un empleado
+app.get('/empleados/:id/activos', verificarToken, async (req, res) => {
+  const { id } = req.params;
+  const activos = await prisma.activo.findMany({
+    where: { responsableId: Number(id), eliminado: false },
+    include: { oficina: true },
+    orderBy: { codigo: 'asc' },
+  });
+  res.json(activos);
+});
+
 // Actualizar un empleado
 app.put('/empleados/:id', verificarToken, async (req, res) => {
   const { id } = req.params;

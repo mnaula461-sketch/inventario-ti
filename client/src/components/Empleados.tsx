@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import api from '../api';
+import EmpleadoDetalle from './EmpleadoDetalle';
 
 interface Oficina {
   id: number;
@@ -28,6 +29,7 @@ function Empleados() {
   const [editandoId, setEditandoId] = useState<number | null>(null);
   const [mostrarFormulario, setMostrarFormulario] = useState(false);
   const [busqueda, setBusqueda] = useState('');
+  const [empleadoViendo, setEmpleadoViendo] = useState<Empleado | null>(null);
 
   const cargarEmpleados = () => {
     api.get('/empleados')
@@ -56,6 +58,7 @@ function Empleados() {
     }
     setNombre('');
     setCargo('');
+    setCorreo('');
     setOficinaId('');
     setEditandoId(null);
     setMostrarFormulario(false);
@@ -97,9 +100,22 @@ function Empleados() {
     );
   });
 
+  if (empleadoViendo) {
+    return (
+      <EmpleadoDetalle
+        empleado={empleadoViendo}
+        onVolver={() => setEmpleadoViendo(null)}
+        onEditar={() => {
+          empezarEdicion(empleadoViendo);
+          setEmpleadoViendo(null);
+        }}
+      />
+    );
+  }
+
   return (
     <div>
-      <h2 style={{ color: '#2c2560' }}>Empleados</h2>
+      <h2 style={{ color: '#1f1b3d' }}>Empleados</h2>
 
       <div style={{ marginBottom: '1.2rem', display: 'flex', gap: '0.6rem' }}>
         {!mostrarFormulario && (
@@ -181,7 +197,7 @@ function Empleados() {
             <th style={{ textAlign: 'left', padding: '0.5rem' }}>Cargo</th>
             <th style={{ textAlign: 'left', padding: '0.5rem' }}>Correo</th>
             <th style={{ textAlign: 'left', padding: '0.5rem' }}>Oficina</th>
-            <th style={{ padding: '0.5rem' }}>Acciones</th>
+            <th style={{ padding: '0.5rem', width: '140px' }}>Acciones</th>
           </tr>
         </thead>
         <tbody>
@@ -191,13 +207,18 @@ function Empleados() {
               <td style={{ padding: '0.6rem 0.5rem', borderBottom: '1px solid #eee' }}>{empleado.cargo}</td>
               <td style={{ padding: '0.6rem 0.5rem', borderBottom: '1px solid #eee' }}>{empleado.correo}</td>
               <td style={{ padding: '0.6rem 0.5rem', borderBottom: '1px solid #eee' }}>{empleado.oficina?.nombre}</td>
-              <td style={{ padding: '0.6rem 0.5rem', borderBottom: '1px solid #eee', textAlign: 'center' }}>
-                <button className="btn-edit" onClick={() => empezarEdicion(empleado)} style={{ marginRight: '0.4rem' }}>
-                  ✏️ Editar
-                </button>
-                <button className="btn-delete" onClick={() => eliminarEmpleado(empleado.id)}>
-                  🗑️ Eliminar
-                </button>
+              <td style={{ padding: '0.6rem 0.5rem', borderBottom: '1px solid #eee' }}>
+                <div style={{ display: 'flex', gap: '0.4rem', flexWrap: 'nowrap', justifyContent: 'flex-end' }}>
+                  <button className="btn-outline" onClick={() => setEmpleadoViendo(empleado)} style={{ padding: '0.35rem 0.6rem', fontSize: '0.8rem', whiteSpace: 'nowrap' }} title="Ver detalle">
+                    👁️
+                  </button>
+                  <button className="btn-edit" onClick={() => empezarEdicion(empleado)} style={{ padding: '0.35rem 0.6rem', fontSize: '0.8rem', whiteSpace: 'nowrap' }} title="Editar">
+                    ✏️
+                  </button>
+                  <button className="btn-delete" onClick={() => eliminarEmpleado(empleado.id)} style={{ padding: '0.35rem 0.6rem', fontSize: '0.8rem', whiteSpace: 'nowrap' }} title="Eliminar">
+                    🗑️
+                  </button>
+                </div>
               </td>
             </tr>
           ))}
