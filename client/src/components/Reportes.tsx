@@ -118,7 +118,7 @@ function Reportes() {
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis dataKey="nombre" tick={{ fontSize: 11 }} />
               <YAxis tickFormatter={(v) => `$${v}`} />
-              <Tooltip formatter={(value: number) => [`$${value.toFixed(2)}`, 'Valor']} />
+              <Tooltip formatter={(value: any) => [`$${Number(value).toFixed(2)}`, 'Valor']} />
               <Bar dataKey="valor" fill="#b8842e" radius={[4, 4, 0, 0]} />
             </BarChart>
           </ResponsiveContainer>
