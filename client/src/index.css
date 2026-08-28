@@ -160,4 +160,10 @@ tr:hover td {
   table {
     box-shadow: none !important;
   }
+  
+}
+.tabla-compacta td,
+.tabla-compacta th {
+  padding: 0.25rem 0.4rem !important;
+  font-size: 0.82rem !important;
 }

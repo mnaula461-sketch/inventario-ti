@@ -166,6 +166,15 @@ function Activos() {
   const [paginaActual, setPaginaActual] = useState(1);
 
   const [seleccionados, setSeleccionados] = useState<number[]>([]);
+    const [vistaCompacta, setVistaCompacta] = useState(() => localStorage.getItem('vistaCompactaActivos') === 'true');
+
+  const alternarDensidad = () => {
+    setVistaCompacta((prev) => {
+      const nuevo = !prev;
+      localStorage.setItem('vistaCompactaActivos', String(nuevo));
+      return nuevo;
+    });
+  };
 
   const alternarSeleccion = (id: number) => {
     setSeleccionados((prev) => prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]);
@@ -837,6 +846,14 @@ function Activos() {
           Mostrando {activosPagina.length ? inicio + 1 : 0}–{inicio + activosPagina.length} de {activosFiltrados.length} activos
         </p>
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+          <button
+            onClick={alternarDensidad}
+            className="btn-outline"
+            style={{ padding: '0.35rem 0.7rem', fontSize: '0.8rem' }}
+            title={vistaCompacta ? 'Cambiar a vista cómoda' : 'Cambiar a vista compacta'}
+          >
+            {vistaCompacta ? '☰ Compacta' : '☰ Cómoda'}
+          </button>
           <span style={{ fontSize: '0.85rem', color: '#555' }}>Mostrar:</span>
           {[10, 20, 30, 50].map((n) => (
             <button
@@ -851,7 +868,7 @@ function Activos() {
         </div>
       </div>
 
-      <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.9rem', boxShadow: '0 1px 3px rgba(0,0,0,0.06)' }}>
+      <table className={vistaCompacta ? 'tabla-compacta' : ''} style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.9rem', boxShadow: '0 1px 3px rgba(0,0,0,0.06)' }}>
         <thead>
           <tr>
             <th className="no-imprimir" style={{ padding: '0.5rem', width: '32px' }}></th>
