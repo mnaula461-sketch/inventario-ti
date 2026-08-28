@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import api from '../api';
+import ModalConfirmar from './ModalConfirmar';
 
 interface Oficina {
   id: number;
@@ -88,11 +89,18 @@ function Oficinas() {
     setMostrarFormulario(false);
   };
 
-  const eliminarOficina = async (id: number) => {
-    const confirmar = window.confirm('¿Seguro que quieres eliminar esta oficina?');
-    if (!confirmar) return;
-    await api.delete(`/oficinas/${id}`);
-    cargarOficinas();
+  const [oficinaAEliminar, setOficinaAEliminar] = useState<Oficina | null>(null);
+
+  const confirmarEliminarOficina = async () => {
+    if (!oficinaAEliminar) return;
+    try {
+      await api.delete(`/oficinas/${oficinaAEliminar.id}`);
+      setOficinaAEliminar(null);
+      cargarOficinas();
+    } catch (error: any) {
+      setOficinaAEliminar(null);
+      alert(error.response?.data?.error ?? 'Error al eliminar la oficina');
+    }
   };
 
   const oficinasFiltradas = oficinas.filter((of) => {
@@ -194,7 +202,7 @@ function Oficinas() {
                   <button className="btn-edit" onClick={() => empezarEdicion(oficina)} style={{ padding: '0.35rem 0.6rem', fontSize: '0.8rem', whiteSpace: 'nowrap' }} title="Editar">
                     ✏️
                   </button>
-                  <button className="btn-delete" onClick={() => eliminarOficina(oficina.id)} style={{ padding: '0.35rem 0.6rem', fontSize: '0.8rem', whiteSpace: 'nowrap' }} title="Eliminar">
+                  <button className="btn-delete" onClick={() => setOficinaAEliminar(oficina)} style={{ padding: '0.35rem 0.6rem', fontSize: '0.8rem', whiteSpace: 'nowrap' }} title="Eliminar">
                     🗑️
                   </button>
                 </div>
@@ -203,6 +211,15 @@ function Oficinas() {
           ))}
         </tbody>
       </table>
+
+      <ModalConfirmar
+        abierto={!!oficinaAEliminar}
+        titulo="Eliminar oficina"
+        mensaje={`¿Seguro que quieres eliminar "${oficinaAEliminar?.nombre}"? Esta acción no se puede deshacer.`}
+        textoConfirmar="Eliminar"
+        onConfirmar={confirmarEliminarOficina}
+        onCancelar={() => setOficinaAEliminar(null)}
+      />
     </div>
   );
 }

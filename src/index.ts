@@ -195,10 +195,18 @@ app.put('/empleados/:id', verificarToken, async (req, res) => {
 // Eliminar un empleado
 app.delete('/empleados/:id', verificarToken, async (req, res) => {
   const { id } = req.params;
-  await prisma.empleado.delete({
-    where: { id: Number(id) },
-  });
-  res.json({ mensaje: 'Empleado eliminado' });
+  try {
+    await prisma.empleado.delete({
+      where: { id: Number(id) },
+    });
+    res.json({ mensaje: 'Empleado eliminado' });
+  } catch (error: any) {
+    if (error.code === 'P2003') {
+      res.status(400).json({ error: 'No se puede eliminar este empleado porque tiene equipos asignados como responsable. Reasígnalos primero.' });
+      return;
+    }
+    res.status(500).json({ error: 'Error al eliminar el empleado' });
+  }
 });
 
 // Crear un activo

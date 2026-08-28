@@ -3,6 +3,7 @@ import api from '../api';
 import * as XLSX from 'xlsx';
 import ActivoDetalle from './ActivoDetalle';
 import Notificacion from './Notificacion';
+import ModalConfirmar from './ModalConfirmar';
 import SelectorBusqueda from './SelectorBusqueda';
 
 interface Oficina {
@@ -403,11 +404,17 @@ function Activos() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  const eliminarActivo = async (id: number) => {
-    const confirmar = window.confirm('¿Seguro que quieres eliminar este activo?');
-    if (!confirmar) return;
-    await api.delete(`/activos/${id}`);
-    mostrarNotificacion('Activo eliminado');
+  const [activoAEliminar, setActivoAEliminar] = useState<Activo | null>(null);
+
+  const pedirEliminar = (activo: Activo) => {
+    setActivoAEliminar(activo);
+  };
+
+  const confirmarEliminar = async () => {
+    if (!activoAEliminar) return;
+    await api.delete(`/activos/${activoAEliminar.id}`);
+    mostrarNotificacion('Activo movido a la papelera');
+    setActivoAEliminar(null);
     cargarActivos();
   };
 
@@ -878,7 +885,7 @@ function Activos() {
                   <button className="btn-outline" onClick={() => duplicarActivo(activo)} style={{ padding: '0.35rem 0.6rem', fontSize: '0.8rem', whiteSpace: 'nowrap' }} title="Duplicar (crear copia con los mismos datos)">
                     📋
                   </button>
-                  <button className="btn-delete" onClick={() => eliminarActivo(activo.id)} style={{ padding: '0.35rem 0.6rem', fontSize: '0.8rem', whiteSpace: 'nowrap' }} title="Eliminar este activo">
+                  <button className="btn-delete" onClick={() => pedirEliminar(activo)} style={{ padding: '0.35rem 0.6rem', fontSize: '0.8rem', whiteSpace: 'nowrap' }} title="Eliminar este activo">
                     🗑️
                   </button>
                 </div>
@@ -909,6 +916,15 @@ function Activos() {
           Siguiente →
         </button>
       </div>
+
+      <ModalConfirmar
+        abierto={!!activoAEliminar}
+        titulo="Mover a la papelera"
+        mensaje={`¿Seguro que quieres mover "${activoAEliminar?.codigo}" a la papelera? Podrás restaurarlo después si fue un error.`}
+        textoConfirmar="Mover a papelera"
+        onConfirmar={confirmarEliminar}
+        onCancelar={() => setActivoAEliminar(null)}
+      />
     </div>
   );
 }

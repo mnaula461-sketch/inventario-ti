@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import api from '../api';
 import EmpleadoDetalle from './EmpleadoDetalle';
+import ModalConfirmar from './ModalConfirmar';
 
 interface Oficina {
   id: number;
@@ -122,11 +123,18 @@ function Empleados() {
     setMostrarFormulario(false);
   };
 
-  const eliminarEmpleado = async (id: number) => {
-    const confirmar = window.confirm('¿Seguro que quieres eliminar este empleado?');
-    if (!confirmar) return;
-    await api.delete(`/empleados/${id}`);
-    cargarEmpleados();
+  const [empleadoAEliminar, setEmpleadoAEliminar] = useState<Empleado | null>(null);
+
+  const confirmarEliminarEmpleado = async () => {
+    if (!empleadoAEliminar) return;
+    try {
+      await api.delete(`/empleados/${empleadoAEliminar.id}`);
+      setEmpleadoAEliminar(null);
+      cargarEmpleados();
+    } catch (error: any) {
+      setEmpleadoAEliminar(null);
+      alert(error.response?.data?.error ?? 'Error al eliminar el empleado');
+    }
   };
 
   const empleadosFiltrados = empleados.filter((emp) => {
@@ -277,7 +285,7 @@ function Empleados() {
                   <button className="btn-edit" onClick={() => empezarEdicion(empleado)} style={{ padding: '0.35rem 0.6rem', fontSize: '0.8rem', whiteSpace: 'nowrap' }} title="Editar">
                     ✏️
                   </button>
-                  <button className="btn-delete" onClick={() => eliminarEmpleado(empleado.id)} style={{ padding: '0.35rem 0.6rem', fontSize: '0.8rem', whiteSpace: 'nowrap' }} title="Eliminar">
+                  <button className="btn-delete" onClick={() => setEmpleadoAEliminar(empleado)} style={{ padding: '0.35rem 0.6rem', fontSize: '0.8rem', whiteSpace: 'nowrap' }} title="Eliminar">
                     🗑️
                   </button>
                 </div>
@@ -286,6 +294,15 @@ function Empleados() {
           ))}
         </tbody>
       </table>
+
+      <ModalConfirmar
+        abierto={!!empleadoAEliminar}
+        titulo="Eliminar empleado"
+        mensaje={`¿Seguro que quieres eliminar a "${empleadoAEliminar?.nombre}"? Esta acción no se puede deshacer.`}
+        textoConfirmar="Eliminar"
+        onConfirmar={confirmarEliminarEmpleado}
+        onCancelar={() => setEmpleadoAEliminar(null)}
+      />
     </div>
   );
 }
