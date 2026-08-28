@@ -167,3 +167,12 @@ tr:hover td {
   padding: 0.25rem 0.4rem !important;
   font-size: 0.82rem !important;
 }
+
+@keyframes resaltarFila {
+  0% { background-color: #fdf3d8; }
+  100% { background-color: transparent; }
+}
+
+.fila-resaltada {
+  animation: resaltarFila 2.5s ease-out;
+}

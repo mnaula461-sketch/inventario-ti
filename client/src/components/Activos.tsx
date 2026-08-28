@@ -166,7 +166,8 @@ function Activos() {
   const [paginaActual, setPaginaActual] = useState(1);
 
   const [seleccionados, setSeleccionados] = useState<number[]>([]);
-    const [vistaCompacta, setVistaCompacta] = useState(() => localStorage.getItem('vistaCompactaActivos') === 'true');
+  const [vistaCompacta, setVistaCompacta] = useState(() => localStorage.getItem('vistaCompactaActivos') === 'true');
+  const [recienEditadoId, setRecienEditadoId] = useState<number | null>(null);
 
   const alternarDensidad = () => {
     setVistaCompacta((prev) => {
@@ -292,11 +293,15 @@ function Activos() {
       responsableId: form.responsableId ? Number(form.responsableId) : null,
     };
     if (editandoId) {
-      await api.put(`/activos/${editandoId}`, data);
+      const res = await api.put(`/activos/${editandoId}`, data);
       mostrarNotificacion('Activo actualizado correctamente');
+      setRecienEditadoId(res.data.id);
+      setTimeout(() => setRecienEditadoId(null), 2500);
     } else {
-      await api.post('/activos', data);
+      const res = await api.post('/activos', data);
       mostrarNotificacion('Activo agregado correctamente');
+      setRecienEditadoId(res.data.id);
+      setTimeout(() => setRecienEditadoId(null), 2500);
     }
     limpiarFormulario();
     cargarActivos();
@@ -882,7 +887,7 @@ function Activos() {
         </thead>
         <tbody>
           {activosPagina.map((activo) => (
-            <tr key={activo.id}>
+            <tr key={activo.id} className={activo.id === recienEditadoId ? 'fila-resaltada' : ''}>
               <td className="no-imprimir" style={{ padding: '0.6rem 0.5rem', borderBottom: '1px solid #eee' }}>
                 <input type="checkbox" checked={seleccionados.includes(activo.id)} onChange={() => alternarSeleccion(activo.id)} />
               </td>
