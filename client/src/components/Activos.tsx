@@ -723,7 +723,16 @@ function Activos() {
             <Campo label="Sistema operativo" valor={form.sistemaOperativo} onChange={(v) => actualizarCampo('sistemaOperativo', v)} />
             <div style={campoStyle}>
               <label style={labelStyle}>Costo de adquisición (USD)</label>
-              <input type="number" step="0.01" min="0" value={form.costo} onChange={(e) => actualizarCampo('costo', e.target.value)} style={inputStyle} placeholder="0.00" />
+              <input
+                type="number"
+                step="0.01"
+                min="0"
+                value={form.costo}
+                onChange={(e) => actualizarCampo('costo', e.target.value)}
+                onWheel={(e) => e.currentTarget.blur()}
+                style={inputStyle}
+                placeholder="0.00"
+              />
             </div>
           </div>
 
