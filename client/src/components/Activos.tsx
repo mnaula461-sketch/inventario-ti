@@ -434,6 +434,7 @@ function Activos({ esAdmin, filtroOficinaInicial, onFiltroOficinaAplicado }: Act
       softwareSO: activo.softwareSO ?? '',
       softwareCorporativo: activo.softwareCorporativo ?? '',
       softwareOtros: activo.softwareOtros ?? '',
+      costo: '',
       oficinaId: String(activo.oficinaId),
       responsableId: '',
     });
