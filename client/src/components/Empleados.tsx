@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import api from '../api';
 import EmpleadoDetalle from './EmpleadoDetalle';
 
@@ -19,6 +19,19 @@ interface Empleado {
 const inputStyle = { width: '100%', padding: '0.5rem', fontSize: '0.9rem' };
 const labelStyle = { fontSize: '0.8rem', color: '#555', display: 'block', marginBottom: '0.2rem' };
 
+const TODAS_LAS_COLUMNAS_EMP = [
+  { campo: 'nombre', etiqueta: 'Nombre' },
+  { campo: 'cargo', etiqueta: 'Cargo' },
+  { campo: 'correo', etiqueta: 'Correo' },
+  { campo: 'oficina', etiqueta: 'Oficina' },
+];
+const COLUMNAS_EMP_DEFECTO = ['nombre', 'cargo', 'correo', 'oficina'];
+
+function obtenerValorColumnaEmp(emp: Empleado, campo: string): string {
+  if (campo === 'oficina') return emp.oficina?.nombre ?? '';
+  return String((emp as any)[campo] ?? '');
+}
+
 function Empleados() {
   const [empleados, setEmpleados] = useState<Empleado[]>([]);
   const [oficinas, setOficinas] = useState<Oficina[]>([]);
@@ -30,6 +43,31 @@ function Empleados() {
   const [mostrarFormulario, setMostrarFormulario] = useState(false);
   const [busqueda, setBusqueda] = useState('');
   const [empleadoViendo, setEmpleadoViendo] = useState<Empleado | null>(null);
+
+  const [columnasVisibles, setColumnasVisibles] = useState<string[]>(() => {
+    const guardadas = localStorage.getItem('columnasEmpleados');
+    return guardadas ? JSON.parse(guardadas) : COLUMNAS_EMP_DEFECTO;
+  });
+  const [menuColumnasAbierto, setMenuColumnasAbierto] = useState(false);
+  const menuColumnasRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    function clickFuera(e: MouseEvent) {
+      if (menuColumnasRef.current && !menuColumnasRef.current.contains(e.target as Node)) {
+        setMenuColumnasAbierto(false);
+      }
+    }
+    document.addEventListener('mousedown', clickFuera);
+    return () => document.removeEventListener('mousedown', clickFuera);
+  }, []);
+
+  const alternarColumna = (campo: string) => {
+    setColumnasVisibles((prev) => {
+      const nuevo = prev.includes(campo) ? prev.filter((c) => c !== campo) : [...prev, campo];
+      localStorage.setItem('columnasEmpleados', JSON.stringify(nuevo));
+      return nuevo;
+    });
+  };
 
   const cargarEmpleados = () => {
     api.get('/empleados')
@@ -123,6 +161,30 @@ function Empleados() {
             + Agregar empleado
           </button>
         )}
+        <div ref={menuColumnasRef} style={{ position: 'relative' }}>
+          <button className="btn-outline" onClick={() => setMenuColumnasAbierto(!menuColumnasAbierto)}>
+            ⚙️ Columnas ({columnasVisibles.length})
+          </button>
+          {menuColumnasAbierto && (
+            <div style={{
+              position: 'absolute', top: '110%', left: 0,
+              background: 'white', border: '1px solid #e3ddd0', borderRadius: '10px',
+              boxShadow: '0 8px 24px rgba(0,0,0,0.15)', padding: '0.7rem',
+              zIndex: 100, width: '200px',
+            }}>
+              {TODAS_LAS_COLUMNAS_EMP.map((col) => (
+                <label key={col.campo} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0.35rem 0.2rem', fontSize: '0.85rem', cursor: 'pointer' }}>
+                  <input
+                    type="checkbox"
+                    checked={columnasVisibles.includes(col.campo)}
+                    onChange={() => alternarColumna(col.campo)}
+                  />
+                  {col.etiqueta}
+                </label>
+              ))}
+            </div>
+          )}
+        </div>
       </div>
 
       {mostrarFormulario && (
@@ -193,20 +255,20 @@ function Empleados() {
       <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.9rem', boxShadow: '0 1px 3px rgba(0,0,0,0.06)' }}>
         <thead>
           <tr>
-            <th style={{ textAlign: 'left', padding: '0.5rem' }}>Nombre</th>
-            <th style={{ textAlign: 'left', padding: '0.5rem' }}>Cargo</th>
-            <th style={{ textAlign: 'left', padding: '0.5rem' }}>Correo</th>
-            <th style={{ textAlign: 'left', padding: '0.5rem' }}>Oficina</th>
+            {TODAS_LAS_COLUMNAS_EMP.filter((col) => columnasVisibles.includes(col.campo)).map((col) => (
+              <th key={col.campo} style={{ textAlign: 'left', padding: '0.5rem' }}>{col.etiqueta}</th>
+            ))}
             <th style={{ padding: '0.5rem', width: '140px' }}>Acciones</th>
           </tr>
         </thead>
         <tbody>
           {empleadosFiltrados.map((empleado) => (
             <tr key={empleado.id}>
-              <td style={{ padding: '0.6rem 0.5rem', borderBottom: '1px solid #eee' }}>{empleado.nombre}</td>
-              <td style={{ padding: '0.6rem 0.5rem', borderBottom: '1px solid #eee' }}>{empleado.cargo}</td>
-              <td style={{ padding: '0.6rem 0.5rem', borderBottom: '1px solid #eee' }}>{empleado.correo}</td>
-              <td style={{ padding: '0.6rem 0.5rem', borderBottom: '1px solid #eee' }}>{empleado.oficina?.nombre}</td>
+              {TODAS_LAS_COLUMNAS_EMP.filter((col) => columnasVisibles.includes(col.campo)).map((col) => (
+                <td key={col.campo} style={{ padding: '0.6rem 0.5rem', borderBottom: '1px solid #eee' }}>
+                  {obtenerValorColumnaEmp(empleado, col.campo)}
+                </td>
+              ))}
               <td style={{ padding: '0.6rem 0.5rem', borderBottom: '1px solid #eee' }}>
                 <div style={{ display: 'flex', gap: '0.4rem', flexWrap: 'nowrap', justifyContent: 'flex-end' }}>
                   <button className="btn-outline" onClick={() => setEmpleadoViendo(empleado)} style={{ padding: '0.35rem 0.6rem', fontSize: '0.8rem', whiteSpace: 'nowrap' }} title="Ver detalle">
