@@ -6,10 +6,11 @@ import Activos from './components/Activos';
 import Reportes from './components/Reportes';
 import Perfil from './components/Perfil';
 import BusquedaGlobal from './components/BusquedaGlobal';
+import Papelera from './components/Papelera';
 import Login from './components/Login';
 import logo from './assets/logo.png';
 
-type Vista = 'dashboard' | 'oficinas' | 'empleados' | 'activos' | 'reportes' | 'perfil';
+type Vista = 'dashboard' | 'oficinas' | 'empleados' | 'activos' | 'reportes' | 'perfil' | 'papelera';
 
 function App() {
   const [vista, setVista] = useState<Vista>('dashboard');
@@ -114,6 +115,9 @@ function App() {
           <button style={tabStyle(vista === 'perfil')} onClick={() => setVista('perfil')}>
             Mi perfil
           </button>
+          <button style={tabStyle(vista === 'papelera')} onClick={() => setVista('papelera')}>
+            🗑️ Papelera
+          </button>
         </nav>
 
         <div style={{ backgroundColor: vista === 'dashboard' ? 'transparent' : 'white', borderRadius: '12px', padding: vista === 'dashboard' ? '0' : '1.5rem', boxShadow: vista === 'dashboard' ? 'none' : '0 1px 4px rgba(0,0,0,0.08)' }}>
@@ -123,6 +127,7 @@ function App() {
           {vista === 'activos' && <Activos />}
           {vista === 'reportes' && <Reportes />}
           {vista === 'perfil' && <Perfil nombreUsuario={nombreUsuario} />}
+          {vista === 'papelera' && <Papelera />}
         </div>
       </div>
     </div>

@@ -82,6 +82,8 @@ model Activo {
   softwareCorporativo    String?
   softwareOtros          String?
   createdAt         DateTime  @default(now())
+    eliminado         Boolean   @default(false)
+  fechaEliminado    DateTime?
 }
 
 model Usuario {

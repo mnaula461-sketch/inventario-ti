@@ -88,6 +88,8 @@ export type ActivoMinAggregateOutputType = {
   softwareCorporativo: string | null
   softwareOtros: string | null
   createdAt: Date | null
+  eliminado: boolean | null
+  fechaEliminado: Date | null
 }
 
 export type ActivoMaxAggregateOutputType = {
@@ -140,6 +142,8 @@ export type ActivoMaxAggregateOutputType = {
   softwareCorporativo: string | null
   softwareOtros: string | null
   createdAt: Date | null
+  eliminado: boolean | null
+  fechaEliminado: Date | null
 }
 
 export type ActivoCountAggregateOutputType = {
@@ -192,6 +196,8 @@ export type ActivoCountAggregateOutputType = {
   softwareCorporativo: number
   softwareOtros: number
   createdAt: number
+  eliminado: number
+  fechaEliminado: number
   _all: number
 }
 
@@ -258,6 +264,8 @@ export type ActivoMinAggregateInputType = {
   softwareCorporativo?: true
   softwareOtros?: true
   createdAt?: true
+  eliminado?: true
+  fechaEliminado?: true
 }
 
 export type ActivoMaxAggregateInputType = {
@@ -310,6 +318,8 @@ export type ActivoMaxAggregateInputType = {
   softwareCorporativo?: true
   softwareOtros?: true
   createdAt?: true
+  eliminado?: true
+  fechaEliminado?: true
 }
 
 export type ActivoCountAggregateInputType = {
@@ -362,6 +372,8 @@ export type ActivoCountAggregateInputType = {
   softwareCorporativo?: true
   softwareOtros?: true
   createdAt?: true
+  eliminado?: true
+  fechaEliminado?: true
   _all?: true
 }
 
@@ -501,6 +513,8 @@ export type ActivoGroupByOutputType = {
   softwareCorporativo: string | null
   softwareOtros: string | null
   createdAt: Date
+  eliminado: boolean
+  fechaEliminado: Date | null
   _count: ActivoCountAggregateOutputType | null
   _avg: ActivoAvgAggregateOutputType | null
   _sum: ActivoSumAggregateOutputType | null
@@ -576,6 +590,8 @@ export type ActivoWhereInput = {
   softwareCorporativo?: Prisma.StringNullableFilter<"Activo"> | string | null
   softwareOtros?: Prisma.StringNullableFilter<"Activo"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Activo"> | Date | string
+  eliminado?: Prisma.BoolFilter<"Activo"> | boolean
+  fechaEliminado?: Prisma.DateTimeNullableFilter<"Activo"> | Date | string | null
   oficina?: Prisma.XOR<Prisma.OficinaScalarRelationFilter, Prisma.OficinaWhereInput>
   responsable?: Prisma.XOR<Prisma.EmpleadoNullableScalarRelationFilter, Prisma.EmpleadoWhereInput> | null
 }
@@ -630,6 +646,8 @@ export type ActivoOrderByWithRelationInput = {
   softwareCorporativo?: Prisma.SortOrderInput | Prisma.SortOrder
   softwareOtros?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  eliminado?: Prisma.SortOrder
+  fechaEliminado?: Prisma.SortOrderInput | Prisma.SortOrder
   oficina?: Prisma.OficinaOrderByWithRelationInput
   responsable?: Prisma.EmpleadoOrderByWithRelationInput
 }
@@ -687,6 +705,8 @@ export type ActivoWhereUniqueInput = Prisma.AtLeast<{
   softwareCorporativo?: Prisma.StringNullableFilter<"Activo"> | string | null
   softwareOtros?: Prisma.StringNullableFilter<"Activo"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Activo"> | Date | string
+  eliminado?: Prisma.BoolFilter<"Activo"> | boolean
+  fechaEliminado?: Prisma.DateTimeNullableFilter<"Activo"> | Date | string | null
   oficina?: Prisma.XOR<Prisma.OficinaScalarRelationFilter, Prisma.OficinaWhereInput>
   responsable?: Prisma.XOR<Prisma.EmpleadoNullableScalarRelationFilter, Prisma.EmpleadoWhereInput> | null
 }, "id" | "codigo">
@@ -741,6 +761,8 @@ export type ActivoOrderByWithAggregationInput = {
   softwareCorporativo?: Prisma.SortOrderInput | Prisma.SortOrder
   softwareOtros?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  eliminado?: Prisma.SortOrder
+  fechaEliminado?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.ActivoCountOrderByAggregateInput
   _avg?: Prisma.ActivoAvgOrderByAggregateInput
   _max?: Prisma.ActivoMaxOrderByAggregateInput
@@ -801,6 +823,8 @@ export type ActivoScalarWhereWithAggregatesInput = {
   softwareCorporativo?: Prisma.StringNullableWithAggregatesFilter<"Activo"> | string | null
   softwareOtros?: Prisma.StringNullableWithAggregatesFilter<"Activo"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Activo"> | Date | string
+  eliminado?: Prisma.BoolWithAggregatesFilter<"Activo"> | boolean
+  fechaEliminado?: Prisma.DateTimeNullableWithAggregatesFilter<"Activo"> | Date | string | null
 }
 
 export type ActivoCreateInput = {
@@ -850,6 +874,8 @@ export type ActivoCreateInput = {
   softwareCorporativo?: string | null
   softwareOtros?: string | null
   createdAt?: Date | string
+  eliminado?: boolean
+  fechaEliminado?: Date | string | null
   oficina: Prisma.OficinaCreateNestedOneWithoutActivosInput
   responsable?: Prisma.EmpleadoCreateNestedOneWithoutActivosInput
 }
@@ -904,6 +930,8 @@ export type ActivoUncheckedCreateInput = {
   softwareCorporativo?: string | null
   softwareOtros?: string | null
   createdAt?: Date | string
+  eliminado?: boolean
+  fechaEliminado?: Date | string | null
 }
 
 export type ActivoUpdateInput = {
@@ -953,6 +981,8 @@ export type ActivoUpdateInput = {
   softwareCorporativo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   softwareOtros?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  eliminado?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  fechaEliminado?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   oficina?: Prisma.OficinaUpdateOneRequiredWithoutActivosNestedInput
   responsable?: Prisma.EmpleadoUpdateOneWithoutActivosNestedInput
 }
@@ -1007,6 +1037,8 @@ export type ActivoUncheckedUpdateInput = {
   softwareCorporativo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   softwareOtros?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  eliminado?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  fechaEliminado?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type ActivoCreateManyInput = {
@@ -1059,6 +1091,8 @@ export type ActivoCreateManyInput = {
   softwareCorporativo?: string | null
   softwareOtros?: string | null
   createdAt?: Date | string
+  eliminado?: boolean
+  fechaEliminado?: Date | string | null
 }
 
 export type ActivoUpdateManyMutationInput = {
@@ -1108,6 +1142,8 @@ export type ActivoUpdateManyMutationInput = {
   softwareCorporativo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   softwareOtros?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  eliminado?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  fechaEliminado?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type ActivoUncheckedUpdateManyInput = {
@@ -1160,6 +1196,8 @@ export type ActivoUncheckedUpdateManyInput = {
   softwareCorporativo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   softwareOtros?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  eliminado?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  fechaEliminado?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type ActivoListRelationFilter = {
@@ -1222,6 +1260,8 @@ export type ActivoCountOrderByAggregateInput = {
   softwareCorporativo?: Prisma.SortOrder
   softwareOtros?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  eliminado?: Prisma.SortOrder
+  fechaEliminado?: Prisma.SortOrder
 }
 
 export type ActivoAvgOrderByAggregateInput = {
@@ -1280,6 +1320,8 @@ export type ActivoMaxOrderByAggregateInput = {
   softwareCorporativo?: Prisma.SortOrder
   softwareOtros?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  eliminado?: Prisma.SortOrder
+  fechaEliminado?: Prisma.SortOrder
 }
 
 export type ActivoMinOrderByAggregateInput = {
@@ -1332,6 +1374,8 @@ export type ActivoMinOrderByAggregateInput = {
   softwareCorporativo?: Prisma.SortOrder
   softwareOtros?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  eliminado?: Prisma.SortOrder
+  fechaEliminado?: Prisma.SortOrder
 }
 
 export type ActivoSumOrderByAggregateInput = {
@@ -1428,6 +1472,14 @@ export type DateTimeFieldUpdateOperationsInput = {
   set?: Date | string
 }
 
+export type BoolFieldUpdateOperationsInput = {
+  set?: boolean
+}
+
+export type NullableDateTimeFieldUpdateOperationsInput = {
+  set?: Date | string | null
+}
+
 export type NullableIntFieldUpdateOperationsInput = {
   set?: number | null
   increment?: number
@@ -1483,6 +1535,8 @@ export type ActivoCreateWithoutOficinaInput = {
   softwareCorporativo?: string | null
   softwareOtros?: string | null
   createdAt?: Date | string
+  eliminado?: boolean
+  fechaEliminado?: Date | string | null
   responsable?: Prisma.EmpleadoCreateNestedOneWithoutActivosInput
 }
 
@@ -1535,6 +1589,8 @@ export type ActivoUncheckedCreateWithoutOficinaInput = {
   softwareCorporativo?: string | null
   softwareOtros?: string | null
   createdAt?: Date | string
+  eliminado?: boolean
+  fechaEliminado?: Date | string | null
 }
 
 export type ActivoCreateOrConnectWithoutOficinaInput = {
@@ -1616,6 +1672,8 @@ export type ActivoScalarWhereInput = {
   softwareCorporativo?: Prisma.StringNullableFilter<"Activo"> | string | null
   softwareOtros?: Prisma.StringNullableFilter<"Activo"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Activo"> | Date | string
+  eliminado?: Prisma.BoolFilter<"Activo"> | boolean
+  fechaEliminado?: Prisma.DateTimeNullableFilter<"Activo"> | Date | string | null
 }
 
 export type ActivoCreateWithoutResponsableInput = {
@@ -1665,6 +1723,8 @@ export type ActivoCreateWithoutResponsableInput = {
   softwareCorporativo?: string | null
   softwareOtros?: string | null
   createdAt?: Date | string
+  eliminado?: boolean
+  fechaEliminado?: Date | string | null
   oficina: Prisma.OficinaCreateNestedOneWithoutActivosInput
 }
 
@@ -1717,6 +1777,8 @@ export type ActivoUncheckedCreateWithoutResponsableInput = {
   softwareCorporativo?: string | null
   softwareOtros?: string | null
   createdAt?: Date | string
+  eliminado?: boolean
+  fechaEliminado?: Date | string | null
 }
 
 export type ActivoCreateOrConnectWithoutResponsableInput = {
@@ -1794,6 +1856,8 @@ export type ActivoCreateManyOficinaInput = {
   softwareCorporativo?: string | null
   softwareOtros?: string | null
   createdAt?: Date | string
+  eliminado?: boolean
+  fechaEliminado?: Date | string | null
 }
 
 export type ActivoUpdateWithoutOficinaInput = {
@@ -1843,6 +1907,8 @@ export type ActivoUpdateWithoutOficinaInput = {
   softwareCorporativo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   softwareOtros?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  eliminado?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  fechaEliminado?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   responsable?: Prisma.EmpleadoUpdateOneWithoutActivosNestedInput
 }
 
@@ -1895,6 +1961,8 @@ export type ActivoUncheckedUpdateWithoutOficinaInput = {
   softwareCorporativo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   softwareOtros?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  eliminado?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  fechaEliminado?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type ActivoUncheckedUpdateManyWithoutOficinaInput = {
@@ -1946,6 +2014,8 @@ export type ActivoUncheckedUpdateManyWithoutOficinaInput = {
   softwareCorporativo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   softwareOtros?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  eliminado?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  fechaEliminado?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type ActivoCreateManyResponsableInput = {
@@ -1997,6 +2067,8 @@ export type ActivoCreateManyResponsableInput = {
   softwareCorporativo?: string | null
   softwareOtros?: string | null
   createdAt?: Date | string
+  eliminado?: boolean
+  fechaEliminado?: Date | string | null
 }
 
 export type ActivoUpdateWithoutResponsableInput = {
@@ -2046,6 +2118,8 @@ export type ActivoUpdateWithoutResponsableInput = {
   softwareCorporativo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   softwareOtros?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  eliminado?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  fechaEliminado?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   oficina?: Prisma.OficinaUpdateOneRequiredWithoutActivosNestedInput
 }
 
@@ -2098,6 +2172,8 @@ export type ActivoUncheckedUpdateWithoutResponsableInput = {
   softwareCorporativo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   softwareOtros?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  eliminado?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  fechaEliminado?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type ActivoUncheckedUpdateManyWithoutResponsableInput = {
@@ -2149,6 +2225,8 @@ export type ActivoUncheckedUpdateManyWithoutResponsableInput = {
   softwareCorporativo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   softwareOtros?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  eliminado?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  fechaEliminado?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 
@@ -2203,6 +2281,8 @@ export type ActivoSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   softwareCorporativo?: boolean
   softwareOtros?: boolean
   createdAt?: boolean
+  eliminado?: boolean
+  fechaEliminado?: boolean
   oficina?: boolean | Prisma.OficinaDefaultArgs<ExtArgs>
   responsable?: boolean | Prisma.Activo$responsableArgs<ExtArgs>
 }, ExtArgs["result"]["activo"]>
@@ -2257,6 +2337,8 @@ export type ActivoSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extens
   softwareCorporativo?: boolean
   softwareOtros?: boolean
   createdAt?: boolean
+  eliminado?: boolean
+  fechaEliminado?: boolean
   oficina?: boolean | Prisma.OficinaDefaultArgs<ExtArgs>
   responsable?: boolean | Prisma.Activo$responsableArgs<ExtArgs>
 }, ExtArgs["result"]["activo"]>
@@ -2311,6 +2393,8 @@ export type ActivoSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extens
   softwareCorporativo?: boolean
   softwareOtros?: boolean
   createdAt?: boolean
+  eliminado?: boolean
+  fechaEliminado?: boolean
   oficina?: boolean | Prisma.OficinaDefaultArgs<ExtArgs>
   responsable?: boolean | Prisma.Activo$responsableArgs<ExtArgs>
 }, ExtArgs["result"]["activo"]>
@@ -2365,9 +2449,11 @@ export type ActivoSelectScalar = {
   softwareCorporativo?: boolean
   softwareOtros?: boolean
   createdAt?: boolean
+  eliminado?: boolean
+  fechaEliminado?: boolean
 }
 
-export type ActivoOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "codigo" | "tipo" | "ip" | "macAddress" | "puertoRed" | "departamento" | "marca" | "claseEquipo" | "numeroSerie" | "monitor" | "serieMonitor" | "codigoContable" | "parlantes" | "placaMadre" | "procesador" | "ram" | "disco" | "estadoRaton" | "estadoTeclado" | "estadoDisco" | "sistemaOperativo" | "mantenimiento" | "actualizable" | "anydesk" | "upgrade" | "recomendacion" | "saleA" | "entraA" | "estado" | "antivirus" | "criterio" | "oficinaId" | "responsableId" | "cargador" | "tecladoSerial" | "mouseSerial" | "adaptadorCorriente" | "impresoraConfigurada" | "serialImpresora" | "macComputador" | "telefonoMarcaModelo" | "ipTelefono" | "macTelefono" | "seguroLaptop" | "softwareSO" | "softwareCorporativo" | "softwareOtros" | "createdAt", ExtArgs["result"]["activo"]>
+export type ActivoOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "codigo" | "tipo" | "ip" | "macAddress" | "puertoRed" | "departamento" | "marca" | "claseEquipo" | "numeroSerie" | "monitor" | "serieMonitor" | "codigoContable" | "parlantes" | "placaMadre" | "procesador" | "ram" | "disco" | "estadoRaton" | "estadoTeclado" | "estadoDisco" | "sistemaOperativo" | "mantenimiento" | "actualizable" | "anydesk" | "upgrade" | "recomendacion" | "saleA" | "entraA" | "estado" | "antivirus" | "criterio" | "oficinaId" | "responsableId" | "cargador" | "tecladoSerial" | "mouseSerial" | "adaptadorCorriente" | "impresoraConfigurada" | "serialImpresora" | "macComputador" | "telefonoMarcaModelo" | "ipTelefono" | "macTelefono" | "seguroLaptop" | "softwareSO" | "softwareCorporativo" | "softwareOtros" | "createdAt" | "eliminado" | "fechaEliminado", ExtArgs["result"]["activo"]>
 export type ActivoInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   oficina?: boolean | Prisma.OficinaDefaultArgs<ExtArgs>
   responsable?: boolean | Prisma.Activo$responsableArgs<ExtArgs>
@@ -2437,6 +2523,8 @@ export type $ActivoPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
     softwareCorporativo: string | null
     softwareOtros: string | null
     createdAt: Date
+    eliminado: boolean
+    fechaEliminado: Date | null
   }, ExtArgs["result"]["activo"]>
   composites: {}
 }
@@ -2911,6 +2999,8 @@ export interface ActivoFieldRefs {
   readonly softwareCorporativo: Prisma.FieldRef<"Activo", 'String'>
   readonly softwareOtros: Prisma.FieldRef<"Activo", 'String'>
   readonly createdAt: Prisma.FieldRef<"Activo", 'DateTime'>
+  readonly eliminado: Prisma.FieldRef<"Activo", 'Boolean'>
+  readonly fechaEliminado: Prisma.FieldRef<"Activo", 'DateTime'>
 }
     
 

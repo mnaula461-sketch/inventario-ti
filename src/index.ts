@@ -547,6 +547,7 @@ app.put('/plantilla-acta/:id', verificarToken, async (req, res) => {
 // Listar todos los activos (con oficina y responsable incluidos)
 app.get('/activos', verificarToken, async (req, res) => {
   const activos = await prisma.activo.findMany({
+    where: { eliminado: false },
     include: { oficina: true, responsable: true },
     orderBy: { codigo: 'asc' },
   });
@@ -629,22 +630,57 @@ app.put('/activos/:id', verificarToken, async (req: any, res) => {
   res.json(activo);
 });
 
-// Eliminar un activo
+// Eliminar un activo (mover a papelera)
 app.delete('/activos/:id', verificarToken, async (req: any, res) => {
   const { id } = req.params;
-  const activo = await prisma.activo.findUnique({ where: { id: Number(id) } });
-  await prisma.activo.delete({
+  const activo = await prisma.activo.update({
     where: { id: Number(id) },
+    data: { eliminado: true, fechaEliminado: new Date() },
   });
   await prisma.historialActivo.create({
     data: {
       activoId: Number(id),
-      accion: 'eliminado',
-      detalle: `Activo ${activo?.codigo ?? id} eliminado`,
+      accion: 'movido a papelera',
+      detalle: `Activo ${activo.codigo} movido a la papelera`,
       usuario: req.usuarioActual?.nombre ?? 'Desconocido',
     },
   });
-  res.json({ mensaje: 'Activo eliminado' });
+  res.json({ mensaje: 'Activo movido a la papelera' });
+});
+
+// Listar activos en la papelera
+app.get('/activos/papelera', verificarToken, async (req, res) => {
+  const activos = await prisma.activo.findMany({
+    where: { eliminado: true },
+    include: { oficina: true, responsable: true },
+    orderBy: { fechaEliminado: 'desc' },
+  });
+  res.json(activos);
+});
+
+// Restaurar un activo desde la papelera
+app.put('/activos/:id/restaurar', verificarToken, async (req: any, res) => {
+  const { id } = req.params;
+  const activo = await prisma.activo.update({
+    where: { id: Number(id) },
+    data: { eliminado: false, fechaEliminado: null },
+  });
+  await prisma.historialActivo.create({
+    data: {
+      activoId: Number(id),
+      accion: 'restaurado',
+      detalle: `Activo ${activo.codigo} restaurado desde la papelera`,
+      usuario: req.usuarioActual?.nombre ?? 'Desconocido',
+    },
+  });
+  res.json(activo);
+});
+
+// Eliminar definitivamente un activo (borra de verdad)
+app.delete('/activos/:id/definitivo', verificarToken, async (req, res) => {
+  const { id } = req.params;
+  await prisma.activo.delete({ where: { id: Number(id) } });
+  res.json({ mensaje: 'Activo eliminado definitivamente' });
 });
 // Obtener el historial de cambios de un activo
 app.get('/activos/:id/historial', verificarToken, async (req, res) => {

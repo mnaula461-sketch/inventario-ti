@@ -974,7 +974,9 @@ export const ActivoScalarFieldEnum = {
   softwareSO: 'softwareSO',
   softwareCorporativo: 'softwareCorporativo',
   softwareOtros: 'softwareOtros',
-  createdAt: 'createdAt'
+  createdAt: 'createdAt',
+  eliminado: 'eliminado',
+  fechaEliminado: 'fechaEliminado'
 } as const
 
 export type ActivoScalarFieldEnum = (typeof ActivoScalarFieldEnum)[keyof typeof ActivoScalarFieldEnum]
@@ -1089,6 +1091,13 @@ export type DateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel
  * Reference to a field of type 'DateTime[]'
  */
 export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime[]'>
+    
+
+
+/**
+ * Reference to a field of type 'Boolean'
+ */
+export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
     
 
 

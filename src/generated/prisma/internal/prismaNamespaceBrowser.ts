@@ -144,7 +144,9 @@ export const ActivoScalarFieldEnum = {
   softwareSO: 'softwareSO',
   softwareCorporativo: 'softwareCorporativo',
   softwareOtros: 'softwareOtros',
-  createdAt: 'createdAt'
+  createdAt: 'createdAt',
+  eliminado: 'eliminado',
+  fechaEliminado: 'fechaEliminado'
 } as const
 
 export type ActivoScalarFieldEnum = (typeof ActivoScalarFieldEnum)[keyof typeof ActivoScalarFieldEnum]
