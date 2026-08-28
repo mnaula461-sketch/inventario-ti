@@ -151,9 +151,11 @@ function BadgeEstado({ estado }: { estado: string }) {
 
 interface ActivosProps {
   esAdmin: boolean;
+  filtroOficinaInicial?: number | null;
+  onFiltroOficinaAplicado?: () => void;
 }
 
-function Activos({ esAdmin }: ActivosProps) {
+function Activos({ esAdmin, filtroOficinaInicial, onFiltroOficinaAplicado }: ActivosProps) {
   const [activos, setActivos] = useState<Activo[]>([]);
   const [oficinas, setOficinas] = useState<Oficina[]>([]);
   const [empleados, setEmpleados] = useState<Empleado[]>([]);
@@ -166,6 +168,12 @@ function Activos({ esAdmin }: ActivosProps) {
   const [filtroOficina, setFiltroOficina] = useState('');
   const [filtroEstado, setFiltroEstado] = useState('');
   const [busquedaAplicada, setBusquedaAplicada] = useState('');
+    useEffect(() => {
+    if (filtroOficinaInicial != null) {
+      setFiltroOficina(String(filtroOficinaInicial));
+      onFiltroOficinaAplicado?.();
+    }
+  }, [filtroOficinaInicial]);
 
   const [porPagina, setPorPagina] = useState(20);
   const [paginaActual, setPaginaActual] = useState(1);

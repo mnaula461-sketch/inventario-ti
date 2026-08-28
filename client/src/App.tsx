@@ -19,6 +19,7 @@ function App() {
   const [nombreUsuario, setNombreUsuario] = useState<string>('');
   const [rol, setRol] = useState<string>('tecnico');
   const [errorConexion, setErrorConexion] = useState(false);
+  const [filtroOficinaInicial, setFiltroOficinaInicial] = useState<number | null>(null);
 
   useEffect(() => {
     const tokenGuardado = sessionStorage.getItem('token');
@@ -55,6 +56,11 @@ function App() {
     setToken(null);
     setNombreUsuario('');
     setRol('tecnico');
+  };
+
+  const irAActivosDeOficina = (oficinaId: number) => {
+    setFiltroOficinaInicial(oficinaId);
+    setVista('activos');
   };
 
   // Ruta pública: /equipo/CODIGO - no requiere login
@@ -139,9 +145,9 @@ function App() {
 
         <div style={{ backgroundColor: vista === 'dashboard' ? 'transparent' : 'white', borderRadius: '12px', padding: vista === 'dashboard' ? '0' : '1.5rem', boxShadow: vista === 'dashboard' ? 'none' : '0 1px 4px rgba(0,0,0,0.08)' }}>
           {vista === 'dashboard' && <Dashboard nombreUsuario={nombreUsuario} onNavegar={setVista} />}
-          {vista === 'oficinas' && <Oficinas />}
+          {vista === 'oficinas' && <Oficinas onVerEnActivos={irAActivosDeOficina} />}
           {vista === 'empleados' && <Empleados />}
-          {vista === 'activos' && <Activos esAdmin={esAdmin} />}
+          {vista === 'activos' && <Activos esAdmin={esAdmin} filtroOficinaInicial={filtroOficinaInicial} onFiltroOficinaAplicado={() => setFiltroOficinaInicial(null)} />}
           {vista === 'reportes' && <Reportes />}
           {vista === 'perfil' && <Perfil nombreUsuario={nombreUsuario} />}
           {vista === 'papelera' && <Papelera esAdmin={esAdmin} />}
