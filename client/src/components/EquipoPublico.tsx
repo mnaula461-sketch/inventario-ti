@@ -33,7 +33,7 @@ function EquipoPublico() {
 
   useEffect(() => {
     const codigo = window.location.pathname.split('/equipo/')[1];
-    axios.get(`http://localhost:3000/publico/equipo/${codigo}`)
+    axios.get(`${import.meta.env.VITE_API_URL || 'http://localhost:3000'}/publico/equipo/${codigo}`)
       .then((res) => setDatos(res.data))
       .catch(() => setError(true));
   }, []);

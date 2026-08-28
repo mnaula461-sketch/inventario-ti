@@ -201,7 +201,7 @@ function Activos({ esAdmin, filtroOficinaInicial, onFiltroOficinaAplicado }: Act
     if (nombreEntrega === null) return;
     const token = sessionStorage.getItem('token');
     const ids = seleccionados.join(',');
-    window.open(`http://localhost:3000/activos/actas-lote?ids=${ids}&entrega=${encodeURIComponent(nombreEntrega)}&token=${token}`, '_blank');
+    window.open(`${import.meta.env.VITE_API_URL || 'http://localhost:3000'}/activos/actas-lote?ids=${ids}&entrega=${encodeURIComponent(nombreEntrega)}&token=${token}`, '_blank');
   };
 
   const [comparando, setComparando] = useState(false);
@@ -210,7 +210,7 @@ function Activos({ esAdmin, filtroOficinaInicial, onFiltroOficinaAplicado }: Act
     const token = sessionStorage.getItem('token');
     const ids = seleccionados.join(',');
     const urlBase = window.location.origin;
-    window.open(`http://localhost:3000/activos/etiquetas-qr?ids=${ids}&urlBase=${encodeURIComponent(urlBase)}&token=${token}`, '_blank');
+    window.open(`${import.meta.env.VITE_API_URL || 'http://localhost:3000'}/activos/etiquetas-qr?ids=${ids}&urlBase=${encodeURIComponent(urlBase)}&token=${token}`, '_blank');
   };
 
   const [notiVisible, setNotiVisible] = useState(false);
@@ -607,7 +607,7 @@ function Activos({ esAdmin, filtroOficinaInicial, onFiltroOficinaAplicado }: Act
           const nombreEntrega = window.prompt('¿Quién entrega el equipo?', sugerido);
           if (nombreEntrega === null) return;
           const token = sessionStorage.getItem('token');
-          window.open(`http://localhost:3000/activos/${activoViendo.id}/acta?token=${token}&entrega=${encodeURIComponent(nombreEntrega)}`, '_blank');
+          window.open(`${import.meta.env.VITE_API_URL || 'http://localhost:3000'}/activos/${activoViendo.id}/acta?token=${token}&entrega=${encodeURIComponent(nombreEntrega)}`, '_blank');
         }}
       />
     );
