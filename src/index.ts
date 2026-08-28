@@ -10,6 +10,7 @@ import { parse } from 'csv-parse/sync';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import { PDFDocument, rgb, StandardFonts } from 'pdf-lib';
+import QRCode from 'qrcode';
 import path from 'path';
 
 
@@ -46,6 +47,93 @@ app.use(express.json());
 
 app.get('/', (req, res) => {
   res.send('¡El servidor de Inventario TI está funcionando! 🚀');
+});
+
+// Consulta pública de un equipo por código (para el QR) - sin autenticación
+app.get('/publico/equipo/:codigo', async (req, res) => {
+  const { codigo } = req.params;
+  const activo = await prisma.activo.findUnique({
+    where: { codigo, eliminado: false },
+    include: { oficina: true, responsable: true },
+  });
+
+  if (!activo) {
+    res.status(404).json({ error: 'Equipo no encontrado' });
+    return;
+  }
+
+  res.json({
+    codigo: activo.codigo,
+    tipo: activo.tipo,
+    marca: activo.marca,
+    claseEquipo: activo.claseEquipo,
+    numeroSerie: activo.numeroSerie,
+    estado: activo.estado,
+    oficina: activo.oficina?.nombre,
+    responsable: activo.responsable?.nombre ?? 'Sin asignar',
+  });
+});
+
+// Generar hoja de etiquetas QR para varios equipos
+app.get('/activos/etiquetas-qr', verificarToken, async (req, res) => {
+  const idsParam = (req.query.ids as string) || '';
+  const ids = idsParam.split(',').map((s) => Number(s.trim())).filter((n) => !isNaN(n));
+
+  if (ids.length === 0) {
+    res.status(400).json({ error: 'No se especificaron equipos' });
+    return;
+  }
+
+  const activosSeleccionados = await prisma.activo.findMany({
+    where: { id: { in: ids } },
+    orderBy: { codigo: 'asc' },
+  });
+
+  const pdfDoc = await PDFDocument.create();
+  const fontBold = await pdfDoc.embedFont(StandardFonts.HelveticaBold);
+  const font = await pdfDoc.embedFont(StandardFonts.Helvetica);
+
+  const urlBase = (req.query.urlBase as string) || 'http://localhost:5173';
+
+  const etiquetasPorFila = 3;
+  const etiquetasPorColumna = 8;
+  const etiquetaW = 180;
+  const etiquetaH = 90;
+  const margen = 20;
+
+  let page = pdfDoc.addPage([595.28, 841.89]);
+  let contador = 0;
+
+  for (const activo of activosSeleccionados) {
+    const fila = Math.floor(contador / etiquetasPorFila) % etiquetasPorColumna;
+    const columna = contador % etiquetasPorFila;
+
+    if (contador > 0 && contador % (etiquetasPorFila * etiquetasPorColumna) === 0) {
+      page = pdfDoc.addPage([595.28, 841.89]);
+    }
+
+    const x = margen + columna * etiquetaW;
+    const y = 841.89 - margen - (fila + 1) * etiquetaH;
+
+    const urlEquipo = `${urlBase}/equipo/${activo.codigo}`;
+    const qrDataUrl = await QRCode.toDataURL(urlEquipo, { margin: 1, width: 200 });
+    const qrImageBytes = Buffer.from(qrDataUrl.split(',')[1], 'base64');
+    const qrImage = await pdfDoc.embedPng(qrImageBytes);
+
+    page.drawRectangle({ x, y, width: etiquetaW - 4, height: etiquetaH - 4, borderColor: rgb(0.7, 0.7, 0.7), borderWidth: 0.5 });
+    page.drawImage(qrImage, { x: x + 6, y: y + 8, width: 70, height: 70 });
+    page.drawText('GAÑANSOL', { x: x + 84, y: y + 68, size: 8, font: fontBold, color: rgb(0.12, 0.11, 0.24) });
+    page.drawText(activo.codigo, { x: x + 84, y: y + 52, size: 11, font: fontBold, color: rgb(0, 0, 0) });
+    page.drawText(activo.tipo ?? '', { x: x + 84, y: y + 38, size: 8, font, color: rgb(0.3, 0.3, 0.3) });
+    page.drawText((activo.marca ?? '').slice(0, 22), { x: x + 84, y: y + 26, size: 7, font, color: rgb(0.4, 0.4, 0.4) });
+
+    contador++;
+  }
+
+  const pdfBytes = await pdfDoc.save();
+  res.setHeader('Content-Type', 'application/pdf');
+  res.setHeader('Content-Disposition', 'attachment; filename="etiquetas-qr.pdf"');
+  res.send(Buffer.from(pdfBytes));
 });
 
 // Crear una oficina

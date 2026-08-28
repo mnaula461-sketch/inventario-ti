@@ -193,6 +193,13 @@ function Activos() {
   };
 
   const [comparando, setComparando] = useState(false);
+    const generarEtiquetas = () => {
+    if (seleccionados.length === 0) return;
+    const token = sessionStorage.getItem('token');
+    const ids = seleccionados.join(',');
+    const urlBase = window.location.origin;
+    window.open(`http://localhost:3000/activos/etiquetas-qr?ids=${ids}&urlBase=${encodeURIComponent(urlBase)}&token=${token}`, '_blank');
+  };
 
   const [notiVisible, setNotiVisible] = useState(false);
   const [notiMensaje, setNotiMensaje] = useState('');
@@ -668,6 +675,12 @@ function Activos() {
         {seleccionados.length === 2 && (
           <button className="btn-outline" onClick={() => setComparando(true)}>
             ⚖️ Comparar
+          </button>
+        )}
+
+                {seleccionados.length > 0 && (
+          <button className="btn-outline" onClick={generarEtiquetas}>
+            🏷️ Etiquetas QR ({seleccionados.length})
           </button>
         )}
 

@@ -8,6 +8,7 @@ import Perfil from './components/Perfil';
 import BusquedaGlobal from './components/BusquedaGlobal';
 import Papelera from './components/Papelera';
 import Login from './components/Login';
+import EquipoPublico from './components/EquipoPublico';
 import logo from './assets/logo.png';
 
 type Vista = 'dashboard' | 'oficinas' | 'empleados' | 'activos' | 'reportes' | 'perfil' | 'papelera';
@@ -48,6 +49,11 @@ function App() {
     setToken(null);
     setNombreUsuario('');
   };
+
+  // Ruta pública: /equipo/CODIGO - no requiere login
+  if (window.location.pathname.startsWith('/equipo/')) {
+    return <EquipoPublico />;
+  }
 
   if (!token) {
     return <Login onLogin={manejarLogin} />;
