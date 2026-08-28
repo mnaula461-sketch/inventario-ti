@@ -62,6 +62,7 @@ interface Activo {
   softwareSO: string | null;
   softwareCorporativo: string | null;
   softwareOtros: string | null;
+  costo: number | null;
   oficinaId: number;
   responsableId: number | null;
   oficina: Oficina;
@@ -79,7 +80,7 @@ const camposIniciales = {
   cargador: '', tecladoSerial: '', mouseSerial: '', adaptadorCorriente: '',
   impresoraConfigurada: '', serialImpresora: '', macComputador: '', telefonoMarcaModelo: '',
   ipTelefono: '', macTelefono: '', seguroLaptop: '',
-  softwareSO: '', softwareCorporativo: '', softwareOtros: '',
+  softwareSO: '', softwareCorporativo: '', softwareOtros: '', costo: '',
   oficinaId: '', responsableId: '',
 };
 
@@ -260,6 +261,7 @@ function Activos() {
     }
     const data = {
       ...form,
+      costo: form.costo ? Number(form.costo) : null,
       oficinaId: Number(form.oficinaId),
       responsableId: form.responsableId ? Number(form.responsableId) : null,
     };
@@ -323,6 +325,7 @@ function Activos() {
       softwareSO: activo.softwareSO ?? '',
       softwareCorporativo: activo.softwareCorporativo ?? '',
       softwareOtros: activo.softwareOtros ?? '',
+      costo: activo.costo != null ? String(activo.costo) : '',
       oficinaId: String(activo.oficinaId),
       responsableId: activo.responsableId ? String(activo.responsableId) : '',
     });
@@ -718,6 +721,10 @@ function Activos() {
             <Campo label="RAM" valor={form.ram} onChange={(v) => actualizarCampo('ram', v)} />
             <Campo label="Disco" valor={form.disco} onChange={(v) => actualizarCampo('disco', v)} />
             <Campo label="Sistema operativo" valor={form.sistemaOperativo} onChange={(v) => actualizarCampo('sistemaOperativo', v)} />
+            <div style={campoStyle}>
+              <label style={labelStyle}>Costo de adquisición (USD)</label>
+              <input type="number" step="0.01" min="0" value={form.costo} onChange={(e) => actualizarCampo('costo', e.target.value)} style={inputStyle} placeholder="0.00" />
+            </div>
           </div>
 
           <h3 style={{ color: '#1f1b3d' }}>Datos adicionales para acta de entrega</h3>

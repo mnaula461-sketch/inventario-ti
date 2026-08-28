@@ -11,6 +11,7 @@ function Dashboard({ nombreUsuario, onNavegar }: DashboardProps) {
   const [totalEmpleados, setTotalEmpleados] = useState(0);
   const [totalActivos, setTotalActivos] = useState(0);
   const [pendientes, setPendientes] = useState(0);
+  const [valorTotal, setValorTotal] = useState(0);
 
   useEffect(() => {
     api.get('/oficinas').then((res) => setTotalOficinas(res.data.length)).catch(() => {});
@@ -18,6 +19,8 @@ function Dashboard({ nombreUsuario, onNavegar }: DashboardProps) {
     api.get('/activos').then((res) => {
       setTotalActivos(res.data.length);
       setPendientes(res.data.filter((a: any) => !a.responsableId).length);
+      const suma = res.data.reduce((acc: number, a: any) => acc + (a.costo ?? 0), 0);
+      setValorTotal(suma);
     }).catch(() => {});
   }, []);
 
@@ -29,7 +32,7 @@ function Dashboard({ nombreUsuario, onNavegar }: DashboardProps) {
       descripcion: 'Agencias y sucursales de la cooperativa',
       contador: totalOficinas,
       etiqueta: totalOficinas === 1 ? 'oficina' : 'oficinas',
-      color: '#2c2560',
+      color: '#1f1b3d',
       fondoIcono: '#eceafc',
     },
     {
@@ -39,7 +42,7 @@ function Dashboard({ nombreUsuario, onNavegar }: DashboardProps) {
       descripcion: 'Personal registrado por oficina',
       contador: totalEmpleados,
       etiqueta: totalEmpleados === 1 ? 'empleado' : 'empleados',
-      color: '#d4a24c',
+      color: '#b8842e',
       fondoIcono: '#fdf3e2',
     },
     {
@@ -54,10 +57,12 @@ function Dashboard({ nombreUsuario, onNavegar }: DashboardProps) {
     },
   ];
 
+  const valorFormateado = valorTotal.toLocaleString('es-EC', { style: 'currency', currency: 'USD' });
+
   return (
     <div>
       <div style={{ marginBottom: '2rem' }}>
-        <h2 style={{ fontSize: '1.6rem', color: '#2c2560', marginBottom: '0.4rem' }}>
+        <h2 style={{ fontSize: '1.6rem', color: '#1f1b3d', marginBottom: '0.4rem' }}>
           Bienvenido, {nombreUsuario.split(' ')[0]} 👋
         </h2>
         <p style={{ color: '#666', fontSize: '0.95rem', maxWidth: '640px', lineHeight: 1.5 }}>
@@ -68,22 +73,26 @@ function Dashboard({ nombreUsuario, onNavegar }: DashboardProps) {
         </p>
       </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '1rem', marginBottom: '2.5rem' }}>
-        <div style={{ background: 'white', borderRadius: '12px', padding: '1.2rem', boxShadow: '0 1px 4px rgba(0,0,0,0.06)', borderLeft: '4px solid #d4a24c' }}>
-          <div style={{ fontSize: '1.6rem', fontWeight: 700, color: '#2c2560' }}>{totalActivos}</div>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: '1rem', marginBottom: '2.5rem' }}>
+        <div style={{ background: 'white', borderRadius: '12px', padding: '1.2rem', boxShadow: '0 1px 4px rgba(0,0,0,0.06)', borderLeft: '4px solid #b8842e' }}>
+          <div style={{ fontSize: '1.6rem', fontWeight: 700, color: '#1f1b3d' }}>{totalActivos}</div>
           <div style={{ fontSize: '0.78rem', color: '#888', marginTop: '0.2rem' }}>Equipos registrados</div>
         </div>
-        <div style={{ background: 'white', borderRadius: '12px', padding: '1.2rem', boxShadow: '0 1px 4px rgba(0,0,0,0.06)', borderLeft: '4px solid #d4a24c' }}>
-          <div style={{ fontSize: '1.6rem', fontWeight: 700, color: '#2c2560' }}>{totalOficinas}</div>
+        <div style={{ background: 'white', borderRadius: '12px', padding: '1.2rem', boxShadow: '0 1px 4px rgba(0,0,0,0.06)', borderLeft: '4px solid #b8842e' }}>
+          <div style={{ fontSize: '1.6rem', fontWeight: 700, color: '#1f1b3d' }}>{totalOficinas}</div>
           <div style={{ fontSize: '0.78rem', color: '#888', marginTop: '0.2rem' }}>Oficinas activas</div>
         </div>
-        <div style={{ background: 'white', borderRadius: '12px', padding: '1.2rem', boxShadow: '0 1px 4px rgba(0,0,0,0.06)', borderLeft: '4px solid #d4a24c' }}>
-          <div style={{ fontSize: '1.6rem', fontWeight: 700, color: '#2c2560' }}>{totalEmpleados}</div>
+        <div style={{ background: 'white', borderRadius: '12px', padding: '1.2rem', boxShadow: '0 1px 4px rgba(0,0,0,0.06)', borderLeft: '4px solid #b8842e' }}>
+          <div style={{ fontSize: '1.6rem', fontWeight: 700, color: '#1f1b3d' }}>{totalEmpleados}</div>
           <div style={{ fontSize: '0.78rem', color: '#888', marginTop: '0.2rem' }}>Empleados registrados</div>
         </div>
-        <div style={{ background: 'white', borderRadius: '12px', padding: '1.2rem', boxShadow: '0 1px 4px rgba(0,0,0,0.06)', borderLeft: '4px solid #d4a24c' }}>
-          <div style={{ fontSize: '1.6rem', fontWeight: 700, color: '#2c2560' }}>{pendientes}</div>
+        <div style={{ background: 'white', borderRadius: '12px', padding: '1.2rem', boxShadow: '0 1px 4px rgba(0,0,0,0.06)', borderLeft: '4px solid #b8842e' }}>
+          <div style={{ fontSize: '1.6rem', fontWeight: 700, color: '#1f1b3d' }}>{pendientes}</div>
           <div style={{ fontSize: '0.78rem', color: '#888', marginTop: '0.2rem' }}>Sin responsable asignado</div>
+        </div>
+        <div style={{ background: 'white', borderRadius: '12px', padding: '1.2rem', boxShadow: '0 1px 4px rgba(0,0,0,0.06)', borderLeft: '4px solid #2f8f6b' }}>
+          <div style={{ fontSize: '1.4rem', fontWeight: 700, color: '#1f1b3d' }}>{valorFormateado}</div>
+          <div style={{ fontSize: '0.78rem', color: '#888', marginTop: '0.2rem' }}>Valor total del inventario</div>
         </div>
       </div>
 
@@ -116,7 +125,7 @@ function Dashboard({ nombreUsuario, onNavegar }: DashboardProps) {
             }}>
               {m.icono}
             </div>
-            <h3 style={{ color: '#2c2560', fontSize: '1.15rem', marginBottom: '0.4rem' }}>{m.titulo}</h3>
+            <h3 style={{ color: '#1f1b3d', fontSize: '1.15rem', marginBottom: '0.4rem' }}>{m.titulo}</h3>
             <p style={{ color: '#888', fontSize: '0.85rem', marginBottom: '1rem' }}>{m.descripcion}</p>
             <div style={{ fontSize: '1.4rem', fontWeight: 700, color: '#333' }}>
               {m.contador} {m.etiqueta}

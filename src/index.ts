@@ -210,7 +210,7 @@ app.post('/activos', verificarToken, async (req: any, res) => {
     mantenimiento, actualizable, anydesk, upgrade, recomendacion, saleA, entraA,
     estado, antivirus, criterio, cargador, tecladoSerial, mouseSerial, adaptadorCorriente,
     impresoraConfigurada, serialImpresora, macComputador, telefonoMarcaModelo, ipTelefono,
-    macTelefono, seguroLaptop, softwareSO, softwareCorporativo, softwareOtros, oficinaId, responsableId,
+    macTelefono, seguroLaptop, softwareSO, softwareCorporativo, softwareOtros, costo, oficinaId, responsableId,
   } = req.body;
   const activo = await prisma.activo.create({
     data: {
@@ -220,7 +220,7 @@ app.post('/activos', verificarToken, async (req: any, res) => {
       mantenimiento, actualizable, anydesk, upgrade, recomendacion, saleA, entraA,
       estado, antivirus, criterio, cargador, tecladoSerial, mouseSerial, adaptadorCorriente,
       impresoraConfigurada, serialImpresora, macComputador, telefonoMarcaModelo, ipTelefono,
-      macTelefono, seguroLaptop, softwareSO, softwareCorporativo, softwareOtros, oficinaId, responsableId,
+      macTelefono, seguroLaptop, softwareSO, softwareCorporativo, softwareOtros, costo, oficinaId, responsableId,
     },
   });
   await prisma.historialActivo.create({
@@ -582,7 +582,7 @@ app.put('/activos/:id', verificarToken, async (req: any, res) => {
     mantenimiento, actualizable, anydesk, upgrade, recomendacion, saleA, entraA,
     estado, antivirus, criterio, cargador, tecladoSerial, mouseSerial, adaptadorCorriente,
     impresoraConfigurada, serialImpresora, macComputador, telefonoMarcaModelo, ipTelefono,
-    macTelefono, seguroLaptop, softwareSO, softwareCorporativo, softwareOtros, oficinaId, responsableId,
+    macTelefono, seguroLaptop, softwareSO, softwareCorporativo, softwareOtros, costo, oficinaId, responsableId,
   } = req.body;
     const activoAnterior = await prisma.activo.findUnique({ where: { id: Number(id) } });
 
@@ -627,7 +627,7 @@ app.put('/activos/:id', verificarToken, async (req: any, res) => {
       mantenimiento, actualizable, anydesk, upgrade, recomendacion, saleA, entraA,
       estado, antivirus, criterio, cargador, tecladoSerial, mouseSerial, adaptadorCorriente,
       impresoraConfigurada, serialImpresora, macComputador, telefonoMarcaModelo, ipTelefono,
-      macTelefono, seguroLaptop, softwareSO, softwareCorporativo, softwareOtros, oficinaId, responsableId,
+      macTelefono, seguroLaptop, softwareSO, softwareCorporativo, softwareOtros, costo, oficinaId, responsableId,
     },
   });
   await prisma.historialActivo.create({

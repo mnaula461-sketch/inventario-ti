@@ -44,6 +44,7 @@ model Activo {
   monitor           String?
   serieMonitor      String?
   codigoContable    String?
+  costo             Float?
   parlantes         String?
   placaMadre        String?
   procesador        String?

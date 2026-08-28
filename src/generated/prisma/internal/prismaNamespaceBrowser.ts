@@ -109,6 +109,7 @@ export const ActivoScalarFieldEnum = {
   monitor: 'monitor',
   serieMonitor: 'serieMonitor',
   codigoContable: 'codigoContable',
+  costo: 'costo',
   parlantes: 'parlantes',
   placaMadre: 'placaMadre',
   procesador: 'procesador',

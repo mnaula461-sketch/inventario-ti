@@ -28,12 +28,14 @@ export type AggregateActivo = {
 
 export type ActivoAvgAggregateOutputType = {
   id: number | null
+  costo: number | null
   oficinaId: number | null
   responsableId: number | null
 }
 
 export type ActivoSumAggregateOutputType = {
   id: number | null
+  costo: number | null
   oficinaId: number | null
   responsableId: number | null
 }
@@ -52,6 +54,7 @@ export type ActivoMinAggregateOutputType = {
   monitor: string | null
   serieMonitor: string | null
   codigoContable: string | null
+  costo: number | null
   parlantes: string | null
   placaMadre: string | null
   procesador: string | null
@@ -106,6 +109,7 @@ export type ActivoMaxAggregateOutputType = {
   monitor: string | null
   serieMonitor: string | null
   codigoContable: string | null
+  costo: number | null
   parlantes: string | null
   placaMadre: string | null
   procesador: string | null
@@ -160,6 +164,7 @@ export type ActivoCountAggregateOutputType = {
   monitor: number
   serieMonitor: number
   codigoContable: number
+  costo: number
   parlantes: number
   placaMadre: number
   procesador: number
@@ -204,12 +209,14 @@ export type ActivoCountAggregateOutputType = {
 
 export type ActivoAvgAggregateInputType = {
   id?: true
+  costo?: true
   oficinaId?: true
   responsableId?: true
 }
 
 export type ActivoSumAggregateInputType = {
   id?: true
+  costo?: true
   oficinaId?: true
   responsableId?: true
 }
@@ -228,6 +235,7 @@ export type ActivoMinAggregateInputType = {
   monitor?: true
   serieMonitor?: true
   codigoContable?: true
+  costo?: true
   parlantes?: true
   placaMadre?: true
   procesador?: true
@@ -282,6 +290,7 @@ export type ActivoMaxAggregateInputType = {
   monitor?: true
   serieMonitor?: true
   codigoContable?: true
+  costo?: true
   parlantes?: true
   placaMadre?: true
   procesador?: true
@@ -336,6 +345,7 @@ export type ActivoCountAggregateInputType = {
   monitor?: true
   serieMonitor?: true
   codigoContable?: true
+  costo?: true
   parlantes?: true
   placaMadre?: true
   procesador?: true
@@ -477,6 +487,7 @@ export type ActivoGroupByOutputType = {
   monitor: string | null
   serieMonitor: string | null
   codigoContable: string | null
+  costo: number | null
   parlantes: string | null
   placaMadre: string | null
   procesador: string | null
@@ -554,6 +565,7 @@ export type ActivoWhereInput = {
   monitor?: Prisma.StringNullableFilter<"Activo"> | string | null
   serieMonitor?: Prisma.StringNullableFilter<"Activo"> | string | null
   codigoContable?: Prisma.StringNullableFilter<"Activo"> | string | null
+  costo?: Prisma.FloatNullableFilter<"Activo"> | number | null
   parlantes?: Prisma.StringNullableFilter<"Activo"> | string | null
   placaMadre?: Prisma.StringNullableFilter<"Activo"> | string | null
   procesador?: Prisma.StringNullableFilter<"Activo"> | string | null
@@ -610,6 +622,7 @@ export type ActivoOrderByWithRelationInput = {
   monitor?: Prisma.SortOrderInput | Prisma.SortOrder
   serieMonitor?: Prisma.SortOrderInput | Prisma.SortOrder
   codigoContable?: Prisma.SortOrderInput | Prisma.SortOrder
+  costo?: Prisma.SortOrderInput | Prisma.SortOrder
   parlantes?: Prisma.SortOrderInput | Prisma.SortOrder
   placaMadre?: Prisma.SortOrderInput | Prisma.SortOrder
   procesador?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -669,6 +682,7 @@ export type ActivoWhereUniqueInput = Prisma.AtLeast<{
   monitor?: Prisma.StringNullableFilter<"Activo"> | string | null
   serieMonitor?: Prisma.StringNullableFilter<"Activo"> | string | null
   codigoContable?: Prisma.StringNullableFilter<"Activo"> | string | null
+  costo?: Prisma.FloatNullableFilter<"Activo"> | number | null
   parlantes?: Prisma.StringNullableFilter<"Activo"> | string | null
   placaMadre?: Prisma.StringNullableFilter<"Activo"> | string | null
   procesador?: Prisma.StringNullableFilter<"Activo"> | string | null
@@ -725,6 +739,7 @@ export type ActivoOrderByWithAggregationInput = {
   monitor?: Prisma.SortOrderInput | Prisma.SortOrder
   serieMonitor?: Prisma.SortOrderInput | Prisma.SortOrder
   codigoContable?: Prisma.SortOrderInput | Prisma.SortOrder
+  costo?: Prisma.SortOrderInput | Prisma.SortOrder
   parlantes?: Prisma.SortOrderInput | Prisma.SortOrder
   placaMadre?: Prisma.SortOrderInput | Prisma.SortOrder
   procesador?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -787,6 +802,7 @@ export type ActivoScalarWhereWithAggregatesInput = {
   monitor?: Prisma.StringNullableWithAggregatesFilter<"Activo"> | string | null
   serieMonitor?: Prisma.StringNullableWithAggregatesFilter<"Activo"> | string | null
   codigoContable?: Prisma.StringNullableWithAggregatesFilter<"Activo"> | string | null
+  costo?: Prisma.FloatNullableWithAggregatesFilter<"Activo"> | number | null
   parlantes?: Prisma.StringNullableWithAggregatesFilter<"Activo"> | string | null
   placaMadre?: Prisma.StringNullableWithAggregatesFilter<"Activo"> | string | null
   procesador?: Prisma.StringNullableWithAggregatesFilter<"Activo"> | string | null
@@ -840,6 +856,7 @@ export type ActivoCreateInput = {
   monitor?: string | null
   serieMonitor?: string | null
   codigoContable?: string | null
+  costo?: number | null
   parlantes?: string | null
   placaMadre?: string | null
   procesador?: string | null
@@ -894,6 +911,7 @@ export type ActivoUncheckedCreateInput = {
   monitor?: string | null
   serieMonitor?: string | null
   codigoContable?: string | null
+  costo?: number | null
   parlantes?: string | null
   placaMadre?: string | null
   procesador?: string | null
@@ -947,6 +965,7 @@ export type ActivoUpdateInput = {
   monitor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   serieMonitor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   codigoContable?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  costo?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   parlantes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   placaMadre?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   procesador?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1001,6 +1020,7 @@ export type ActivoUncheckedUpdateInput = {
   monitor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   serieMonitor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   codigoContable?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  costo?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   parlantes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   placaMadre?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   procesador?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1055,6 +1075,7 @@ export type ActivoCreateManyInput = {
   monitor?: string | null
   serieMonitor?: string | null
   codigoContable?: string | null
+  costo?: number | null
   parlantes?: string | null
   placaMadre?: string | null
   procesador?: string | null
@@ -1108,6 +1129,7 @@ export type ActivoUpdateManyMutationInput = {
   monitor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   serieMonitor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   codigoContable?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  costo?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   parlantes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   placaMadre?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   procesador?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1160,6 +1182,7 @@ export type ActivoUncheckedUpdateManyInput = {
   monitor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   serieMonitor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   codigoContable?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  costo?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   parlantes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   placaMadre?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   procesador?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1224,6 +1247,7 @@ export type ActivoCountOrderByAggregateInput = {
   monitor?: Prisma.SortOrder
   serieMonitor?: Prisma.SortOrder
   codigoContable?: Prisma.SortOrder
+  costo?: Prisma.SortOrder
   parlantes?: Prisma.SortOrder
   placaMadre?: Prisma.SortOrder
   procesador?: Prisma.SortOrder
@@ -1266,6 +1290,7 @@ export type ActivoCountOrderByAggregateInput = {
 
 export type ActivoAvgOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  costo?: Prisma.SortOrder
   oficinaId?: Prisma.SortOrder
   responsableId?: Prisma.SortOrder
 }
@@ -1284,6 +1309,7 @@ export type ActivoMaxOrderByAggregateInput = {
   monitor?: Prisma.SortOrder
   serieMonitor?: Prisma.SortOrder
   codigoContable?: Prisma.SortOrder
+  costo?: Prisma.SortOrder
   parlantes?: Prisma.SortOrder
   placaMadre?: Prisma.SortOrder
   procesador?: Prisma.SortOrder
@@ -1338,6 +1364,7 @@ export type ActivoMinOrderByAggregateInput = {
   monitor?: Prisma.SortOrder
   serieMonitor?: Prisma.SortOrder
   codigoContable?: Prisma.SortOrder
+  costo?: Prisma.SortOrder
   parlantes?: Prisma.SortOrder
   placaMadre?: Prisma.SortOrder
   procesador?: Prisma.SortOrder
@@ -1380,6 +1407,7 @@ export type ActivoMinOrderByAggregateInput = {
 
 export type ActivoSumOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  costo?: Prisma.SortOrder
   oficinaId?: Prisma.SortOrder
   responsableId?: Prisma.SortOrder
 }
@@ -1468,6 +1496,14 @@ export type ActivoUncheckedUpdateManyWithoutResponsableNestedInput = {
   deleteMany?: Prisma.ActivoScalarWhereInput | Prisma.ActivoScalarWhereInput[]
 }
 
+export type NullableFloatFieldUpdateOperationsInput = {
+  set?: number | null
+  increment?: number
+  decrement?: number
+  multiply?: number
+  divide?: number
+}
+
 export type DateTimeFieldUpdateOperationsInput = {
   set?: Date | string
 }
@@ -1501,6 +1537,7 @@ export type ActivoCreateWithoutOficinaInput = {
   monitor?: string | null
   serieMonitor?: string | null
   codigoContable?: string | null
+  costo?: number | null
   parlantes?: string | null
   placaMadre?: string | null
   procesador?: string | null
@@ -1554,6 +1591,7 @@ export type ActivoUncheckedCreateWithoutOficinaInput = {
   monitor?: string | null
   serieMonitor?: string | null
   codigoContable?: string | null
+  costo?: number | null
   parlantes?: string | null
   placaMadre?: string | null
   procesador?: string | null
@@ -1636,6 +1674,7 @@ export type ActivoScalarWhereInput = {
   monitor?: Prisma.StringNullableFilter<"Activo"> | string | null
   serieMonitor?: Prisma.StringNullableFilter<"Activo"> | string | null
   codigoContable?: Prisma.StringNullableFilter<"Activo"> | string | null
+  costo?: Prisma.FloatNullableFilter<"Activo"> | number | null
   parlantes?: Prisma.StringNullableFilter<"Activo"> | string | null
   placaMadre?: Prisma.StringNullableFilter<"Activo"> | string | null
   procesador?: Prisma.StringNullableFilter<"Activo"> | string | null
@@ -1689,6 +1728,7 @@ export type ActivoCreateWithoutResponsableInput = {
   monitor?: string | null
   serieMonitor?: string | null
   codigoContable?: string | null
+  costo?: number | null
   parlantes?: string | null
   placaMadre?: string | null
   procesador?: string | null
@@ -1742,6 +1782,7 @@ export type ActivoUncheckedCreateWithoutResponsableInput = {
   monitor?: string | null
   serieMonitor?: string | null
   codigoContable?: string | null
+  costo?: number | null
   parlantes?: string | null
   placaMadre?: string | null
   procesador?: string | null
@@ -1821,6 +1862,7 @@ export type ActivoCreateManyOficinaInput = {
   monitor?: string | null
   serieMonitor?: string | null
   codigoContable?: string | null
+  costo?: number | null
   parlantes?: string | null
   placaMadre?: string | null
   procesador?: string | null
@@ -1873,6 +1915,7 @@ export type ActivoUpdateWithoutOficinaInput = {
   monitor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   serieMonitor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   codigoContable?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  costo?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   parlantes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   placaMadre?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   procesador?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1926,6 +1969,7 @@ export type ActivoUncheckedUpdateWithoutOficinaInput = {
   monitor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   serieMonitor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   codigoContable?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  costo?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   parlantes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   placaMadre?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   procesador?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1979,6 +2023,7 @@ export type ActivoUncheckedUpdateManyWithoutOficinaInput = {
   monitor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   serieMonitor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   codigoContable?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  costo?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   parlantes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   placaMadre?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   procesador?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2032,6 +2077,7 @@ export type ActivoCreateManyResponsableInput = {
   monitor?: string | null
   serieMonitor?: string | null
   codigoContable?: string | null
+  costo?: number | null
   parlantes?: string | null
   placaMadre?: string | null
   procesador?: string | null
@@ -2084,6 +2130,7 @@ export type ActivoUpdateWithoutResponsableInput = {
   monitor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   serieMonitor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   codigoContable?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  costo?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   parlantes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   placaMadre?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   procesador?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2137,6 +2184,7 @@ export type ActivoUncheckedUpdateWithoutResponsableInput = {
   monitor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   serieMonitor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   codigoContable?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  costo?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   parlantes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   placaMadre?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   procesador?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2190,6 +2238,7 @@ export type ActivoUncheckedUpdateManyWithoutResponsableInput = {
   monitor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   serieMonitor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   codigoContable?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  costo?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   parlantes?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   placaMadre?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   procesador?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2245,6 +2294,7 @@ export type ActivoSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   monitor?: boolean
   serieMonitor?: boolean
   codigoContable?: boolean
+  costo?: boolean
   parlantes?: boolean
   placaMadre?: boolean
   procesador?: boolean
@@ -2301,6 +2351,7 @@ export type ActivoSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extens
   monitor?: boolean
   serieMonitor?: boolean
   codigoContable?: boolean
+  costo?: boolean
   parlantes?: boolean
   placaMadre?: boolean
   procesador?: boolean
@@ -2357,6 +2408,7 @@ export type ActivoSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extens
   monitor?: boolean
   serieMonitor?: boolean
   codigoContable?: boolean
+  costo?: boolean
   parlantes?: boolean
   placaMadre?: boolean
   procesador?: boolean
@@ -2413,6 +2465,7 @@ export type ActivoSelectScalar = {
   monitor?: boolean
   serieMonitor?: boolean
   codigoContable?: boolean
+  costo?: boolean
   parlantes?: boolean
   placaMadre?: boolean
   procesador?: boolean
@@ -2453,7 +2506,7 @@ export type ActivoSelectScalar = {
   fechaEliminado?: boolean
 }
 
-export type ActivoOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "codigo" | "tipo" | "ip" | "macAddress" | "puertoRed" | "departamento" | "marca" | "claseEquipo" | "numeroSerie" | "monitor" | "serieMonitor" | "codigoContable" | "parlantes" | "placaMadre" | "procesador" | "ram" | "disco" | "estadoRaton" | "estadoTeclado" | "estadoDisco" | "sistemaOperativo" | "mantenimiento" | "actualizable" | "anydesk" | "upgrade" | "recomendacion" | "saleA" | "entraA" | "estado" | "antivirus" | "criterio" | "oficinaId" | "responsableId" | "cargador" | "tecladoSerial" | "mouseSerial" | "adaptadorCorriente" | "impresoraConfigurada" | "serialImpresora" | "macComputador" | "telefonoMarcaModelo" | "ipTelefono" | "macTelefono" | "seguroLaptop" | "softwareSO" | "softwareCorporativo" | "softwareOtros" | "createdAt" | "eliminado" | "fechaEliminado", ExtArgs["result"]["activo"]>
+export type ActivoOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "codigo" | "tipo" | "ip" | "macAddress" | "puertoRed" | "departamento" | "marca" | "claseEquipo" | "numeroSerie" | "monitor" | "serieMonitor" | "codigoContable" | "costo" | "parlantes" | "placaMadre" | "procesador" | "ram" | "disco" | "estadoRaton" | "estadoTeclado" | "estadoDisco" | "sistemaOperativo" | "mantenimiento" | "actualizable" | "anydesk" | "upgrade" | "recomendacion" | "saleA" | "entraA" | "estado" | "antivirus" | "criterio" | "oficinaId" | "responsableId" | "cargador" | "tecladoSerial" | "mouseSerial" | "adaptadorCorriente" | "impresoraConfigurada" | "serialImpresora" | "macComputador" | "telefonoMarcaModelo" | "ipTelefono" | "macTelefono" | "seguroLaptop" | "softwareSO" | "softwareCorporativo" | "softwareOtros" | "createdAt" | "eliminado" | "fechaEliminado", ExtArgs["result"]["activo"]>
 export type ActivoInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   oficina?: boolean | Prisma.OficinaDefaultArgs<ExtArgs>
   responsable?: boolean | Prisma.Activo$responsableArgs<ExtArgs>
@@ -2487,6 +2540,7 @@ export type $ActivoPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
     monitor: string | null
     serieMonitor: string | null
     codigoContable: string | null
+    costo: number | null
     parlantes: string | null
     placaMadre: string | null
     procesador: string | null
@@ -2963,6 +3017,7 @@ export interface ActivoFieldRefs {
   readonly monitor: Prisma.FieldRef<"Activo", 'String'>
   readonly serieMonitor: Prisma.FieldRef<"Activo", 'String'>
   readonly codigoContable: Prisma.FieldRef<"Activo", 'String'>
+  readonly costo: Prisma.FieldRef<"Activo", 'Float'>
   readonly parlantes: Prisma.FieldRef<"Activo", 'String'>
   readonly placaMadre: Prisma.FieldRef<"Activo", 'String'>
   readonly procesador: Prisma.FieldRef<"Activo", 'String'>
