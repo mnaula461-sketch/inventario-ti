@@ -58,6 +58,24 @@ function soloAdmin(req: any, res: express.Response, next: express.NextFunction) 
   next();
 }
 
+// Respaldo completo de todos los datos (solo admin)
+app.get('/backup/completo', verificarToken, soloAdmin, async (req, res) => {
+  const [oficinas, empleados, activos, historial] = await Promise.all([
+    prisma.oficina.findMany(),
+    prisma.empleado.findMany({ include: { oficina: true } }),
+    prisma.activo.findMany({ include: { oficina: true, responsable: true } }),
+    prisma.historialActivo.findMany({ orderBy: { fecha: 'desc' } }),
+  ]);
+
+  res.json({
+    fechaRespaldo: new Date().toISOString(),
+    oficinas,
+    empleados,
+    activos,
+    historial,
+  });
+});
+
 // Consulta pública de un equipo por código (para el QR) - sin autenticación
 app.get('/publico/equipo/:codigo', async (req, res) => {
   const { codigo } = req.params;

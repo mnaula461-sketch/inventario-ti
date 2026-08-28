@@ -149,7 +149,7 @@ function App() {
           {vista === 'empleados' && <Empleados />}
           {vista === 'activos' && <Activos esAdmin={esAdmin} filtroOficinaInicial={filtroOficinaInicial} onFiltroOficinaAplicado={() => setFiltroOficinaInicial(null)} />}
           {vista === 'reportes' && <Reportes />}
-          {vista === 'perfil' && <Perfil nombreUsuario={nombreUsuario} />}
+          {vista === 'perfil' && <Perfil nombreUsuario={nombreUsuario} esAdmin={esAdmin} />}
           {vista === 'papelera' && <Papelera esAdmin={esAdmin} />}
         </div>
       </div>
