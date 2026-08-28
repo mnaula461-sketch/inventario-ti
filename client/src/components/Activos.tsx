@@ -164,6 +164,22 @@ function Activos() {
   const [porPagina, setPorPagina] = useState(20);
   const [paginaActual, setPaginaActual] = useState(1);
 
+  const [seleccionados, setSeleccionados] = useState<number[]>([]);
+
+  const alternarSeleccion = (id: number) => {
+    setSeleccionados((prev) => prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]);
+  };
+
+  const generarActaLote = () => {
+    if (seleccionados.length === 0) return;
+    const sugerido = sessionStorage.getItem('nombreUsuario') ?? '';
+    const nombreEntrega = window.prompt('¿Quién entrega los equipos?', sugerido);
+    if (nombreEntrega === null) return;
+    const token = sessionStorage.getItem('token');
+    const ids = seleccionados.join(',');
+    window.open(`http://localhost:3000/activos/actas-lote?ids=${ids}&entrega=${encodeURIComponent(nombreEntrega)}&token=${token}`, '_blank');
+  };
+
   const [notiVisible, setNotiVisible] = useState(false);
   const [notiMensaje, setNotiMensaje] = useState('');
 
@@ -606,6 +622,11 @@ function Activos() {
           )}
         </div>
 
+        {seleccionados.length > 0 && (
+          <button className="btn-accent" onClick={generarActaLote}>
+            📄 Generar actas ({seleccionados.length})
+          </button>
+        )}
         <button className="btn-delete" onClick={eliminarTodos} style={{ marginLeft: 'auto' }}>
           🗑️ Eliminar todos
         </button>
@@ -826,6 +847,7 @@ function Activos() {
       <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.9rem', boxShadow: '0 1px 3px rgba(0,0,0,0.06)' }}>
         <thead>
           <tr>
+            <th className="no-imprimir" style={{ padding: '0.5rem', width: '32px' }}></th>
             {columnasAMostrar.map((col) => (
               <th key={col.campo} style={{ textAlign: 'left', padding: '0.5rem' }}>
                 {col.etiqueta}
@@ -837,6 +859,9 @@ function Activos() {
         <tbody>
           {activosPagina.map((activo) => (
             <tr key={activo.id}>
+              <td className="no-imprimir" style={{ padding: '0.6rem 0.5rem', borderBottom: '1px solid #eee' }}>
+                <input type="checkbox" checked={seleccionados.includes(activo.id)} onChange={() => alternarSeleccion(activo.id)} />
+              </td>
               {columnasAMostrar.map((col) => (
                 <td key={col.campo} style={{ padding: '0.6rem 0.5rem', borderBottom: '1px solid #eee' }}>
                   {col.campo === 'estado' ? <BadgeEstado estado={activo.estado} /> : obtenerValorColumna(activo, col.campo)}

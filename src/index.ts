@@ -243,36 +243,18 @@ app.get('/plantilla-acta', verificarToken, async (req, res) => {
   res.json(plantilla);
 });
 
-// Generar el PDF del acta de entrega para un activo
-// Generar el PDF del acta de entrega para un activo
-app.get('/activos/:id/acta', verificarToken, async (req, res) => {
-  const { id } = req.params;
-  const nombreEntrega = (req.query.entrega as string) || '';
-  const activo = await prisma.activo.findUnique({
-    where: { id: Number(id) },
-    include: { oficina: true, responsable: true },
-  });
-
-  if (!activo) {
-    res.status(404).json({ error: 'Activo no encontrado' });
-    return;
-  }
-
-  let plantilla = await prisma.plantillaActa.findFirst();
-  if (!plantilla) {
-    plantilla = await prisma.plantillaActa.create({ data: {} });
-  }
-
-  const pdfDoc = await PDFDocument.create();
+// Función reutilizable: dibuja una página de acta para un activo, dentro de un PDF ya existente
+async function dibujarPaginaActa(
+  pdfDoc: PDFDocument,
+  font: any,
+  fontBold: any,
+  logoImage: any,
+  activo: any,
+  plantilla: any,
+  nombreEntrega: string
+) {
   const page = pdfDoc.addPage([595.28, 841.89]);
   const { width, height } = page.getSize();
-
-  const font = await pdfDoc.embedFont(StandardFonts.Helvetica);
-  const fontBold = await pdfDoc.embedFont(StandardFonts.HelveticaBold);
-
-  const logoPath = path.join(__dirname, '..', 'client', 'src', 'assets', 'logo.png');
-  const logoBytes = require('fs').readFileSync(logoPath);
-  const logoImage = await pdfDoc.embedPng(logoBytes);
 
   const black = rgb(0, 0, 0);
   const lightGray = rgb(0.93, 0.93, 0.93);
@@ -456,7 +438,7 @@ app.get('/activos/:id/acta', verificarToken, async (req, res) => {
     [activo.macComputador ?? '', activo.telefonoMarcaModelo ?? '', activo.ipTelefono ?? '', activo.macTelefono ?? '', activo.seguroLaptop ?? '']
   );
 
-    // ===== SOFTWARE =====
+  // ===== SOFTWARE =====
   sectionTitle('SOFTWARE');
 
   const swColW = contentWidth / 3;
@@ -537,6 +519,35 @@ app.get('/activos/:id/acta', verificarToken, async (req, res) => {
     if (row[3]) drawText(row[3], marginX + halfW + 4, y - 20, 7, true);
     y -= rowH;
   });
+}
+
+// Generar el PDF del acta de entrega para un solo activo
+app.get('/activos/:id/acta', verificarToken, async (req, res) => {
+  const { id } = req.params;
+  const nombreEntrega = (req.query.entrega as string) || '';
+  const activo = await prisma.activo.findUnique({
+    where: { id: Number(id) },
+    include: { oficina: true, responsable: true },
+  });
+
+  if (!activo) {
+    res.status(404).json({ error: 'Activo no encontrado' });
+    return;
+  }
+
+  let plantilla = await prisma.plantillaActa.findFirst();
+  if (!plantilla) {
+    plantilla = await prisma.plantillaActa.create({ data: {} });
+  }
+
+  const pdfDoc = await PDFDocument.create();
+  const font = await pdfDoc.embedFont(StandardFonts.Helvetica);
+  const fontBold = await pdfDoc.embedFont(StandardFonts.HelveticaBold);
+  const logoPath = path.join(__dirname, '..', 'client', 'src', 'assets', 'logo.png');
+  const logoBytes = require('fs').readFileSync(logoPath);
+  const logoImage = await pdfDoc.embedPng(logoBytes);
+
+  await dibujarPaginaActa(pdfDoc, font, fontBold, logoImage, activo, plantilla, nombreEntrega);
 
   const pdfBytes = await pdfDoc.save();
   res.setHeader('Content-Type', 'application/pdf');
@@ -544,6 +555,48 @@ app.get('/activos/:id/acta', verificarToken, async (req, res) => {
   res.send(Buffer.from(pdfBytes));
 });
 
+// Generar el PDF de actas en LOTE (varios activos en un solo documento)
+app.get('/activos/actas-lote', verificarToken, async (req, res) => {
+  const idsParam = (req.query.ids as string) || '';
+  const nombreEntrega = (req.query.entrega as string) || '';
+  const ids = idsParam.split(',').map((s) => Number(s.trim())).filter((n) => !isNaN(n));
+
+  if (ids.length === 0) {
+    res.status(400).json({ error: 'No se especificaron equipos' });
+    return;
+  }
+
+  const activosSeleccionados = await prisma.activo.findMany({
+    where: { id: { in: ids } },
+    include: { oficina: true, responsable: true },
+  });
+
+  if (activosSeleccionados.length === 0) {
+    res.status(404).json({ error: 'No se encontraron los equipos seleccionados' });
+    return;
+  }
+
+  let plantilla = await prisma.plantillaActa.findFirst();
+  if (!plantilla) {
+    plantilla = await prisma.plantillaActa.create({ data: {} });
+  }
+
+  const pdfDoc = await PDFDocument.create();
+  const font = await pdfDoc.embedFont(StandardFonts.Helvetica);
+  const fontBold = await pdfDoc.embedFont(StandardFonts.HelveticaBold);
+  const logoPath = path.join(__dirname, '..', 'client', 'src', 'assets', 'logo.png');
+  const logoBytes = require('fs').readFileSync(logoPath);
+  const logoImage = await pdfDoc.embedPng(logoBytes);
+
+  for (const activo of activosSeleccionados) {
+    await dibujarPaginaActa(pdfDoc, font, fontBold, logoImage, activo, plantilla, nombreEntrega);
+  }
+
+  const pdfBytes = await pdfDoc.save();
+  res.setHeader('Content-Type', 'application/pdf');
+  res.setHeader('Content-Disposition', `attachment; filename="actas-lote-${new Date().toISOString().split('T')[0]}.pdf"`);
+  res.send(Buffer.from(pdfBytes));
+});
 // Actualizar la plantilla del acta
 app.put('/plantilla-acta/:id', verificarToken, async (req, res) => {
   const { id } = req.params;
