@@ -6,12 +6,38 @@ interface DashboardProps {
   onNavegar: (vista: 'oficinas' | 'empleados' | 'activos') => void;
 }
 
+interface MiEquipo {
+  id: number;
+  codigo: string;
+  tipo: string;
+  marca: string | null;
+  estado: string;
+  oficina: { nombre: string };
+}
+
+function BadgeEstadoMini({ estado }: { estado: string }) {
+  const config: Record<string, { bg: string; color: string; texto: string }> = {
+    activo: { bg: '#e7f6ee', color: '#1e8e5a', texto: 'Activo' },
+    mantenimiento: { bg: '#fff4e0', color: '#b8790a', texto: 'Mantenimiento' },
+    baja: { bg: '#fdeaea', color: '#dc3545', texto: 'Dado de baja' },
+  };
+  const c = config[estado] ?? { bg: '#eee', color: '#555', texto: estado };
+  return (
+    <span style={{ backgroundColor: c.bg, color: c.color, padding: '0.2rem 0.55rem', borderRadius: '20px', fontSize: '0.72rem', fontWeight: 600 }}>
+      {c.texto}
+    </span>
+  );
+}
+
 function Dashboard({ nombreUsuario, onNavegar }: DashboardProps) {
   const [totalOficinas, setTotalOficinas] = useState(0);
   const [totalEmpleados, setTotalEmpleados] = useState(0);
   const [totalActivos, setTotalActivos] = useState(0);
   const [pendientes, setPendientes] = useState(0);
   const [valorTotal, setValorTotal] = useState(0);
+
+  const [misEquipos, setMisEquipos] = useState<MiEquipo[]>([]);
+  const [vinculado, setVinculado] = useState(false);
 
   useEffect(() => {
     api.get('/oficinas').then((res) => setTotalOficinas(res.data.length)).catch(() => {});
@@ -21,6 +47,10 @@ function Dashboard({ nombreUsuario, onNavegar }: DashboardProps) {
       setPendientes(res.data.filter((a: any) => !a.responsableId).length);
       const suma = res.data.reduce((acc: number, a: any) => acc + (a.costo ?? 0), 0);
       setValorTotal(suma);
+    }).catch(() => {});
+    api.get('/auth/mis-equipos').then((res) => {
+      setVinculado(res.data.vinculado);
+      setMisEquipos(res.data.equipos ?? []);
     }).catch(() => {});
   }, []);
 
@@ -73,7 +103,7 @@ function Dashboard({ nombreUsuario, onNavegar }: DashboardProps) {
         </p>
       </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: '1rem', marginBottom: '2.5rem' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: '1rem', marginBottom: '2rem' }}>
         <div style={{ background: 'white', borderRadius: '12px', padding: '1.2rem', boxShadow: '0 1px 4px rgba(0,0,0,0.06)', borderLeft: '4px solid #b8842e' }}>
           <div style={{ fontSize: '1.6rem', fontWeight: 700, color: '#1f1b3d' }}>{totalActivos}</div>
           <div style={{ fontSize: '0.78rem', color: '#888', marginTop: '0.2rem' }}>Equipos registrados</div>
@@ -95,6 +125,34 @@ function Dashboard({ nombreUsuario, onNavegar }: DashboardProps) {
           <div style={{ fontSize: '0.78rem', color: '#888', marginTop: '0.2rem' }}>Valor total del inventario</div>
         </div>
       </div>
+
+      {vinculado && (
+        <div style={{ background: 'white', borderRadius: '12px', padding: '1.2rem 1.5rem', boxShadow: '0 1px 4px rgba(0,0,0,0.06)', marginBottom: '2rem' }}>
+          <h3 style={{ color: '#1f1b3d', fontSize: '1rem', marginBottom: '0.8rem' }}>
+            Mis equipos asignados ({misEquipos.length})
+          </h3>
+          {misEquipos.length === 0 ? (
+            <p style={{ color: '#888', fontSize: '0.85rem' }}>No tienes equipos asignados actualmente.</p>
+          ) : (
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))', gap: '0.7rem' }}>
+              {misEquipos.map((eq) => (
+                <div key={eq.id} style={{ border: '1px solid #f0eee6', borderRadius: '10px', padding: '0.8rem' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start' }}>
+                    <strong style={{ fontSize: '0.88rem', color: '#1f1b3d' }}>{eq.codigo}</strong>
+                    <BadgeEstadoMini estado={eq.estado} />
+                  </div>
+                  <p style={{ margin: '0.3rem 0 0', fontSize: '0.8rem', color: '#666' }}>
+                    {eq.tipo} {eq.marca ? `— ${eq.marca}` : ''}
+                  </p>
+                  <p style={{ margin: '0.15rem 0 0', fontSize: '0.75rem', color: '#999' }}>
+                    {eq.oficina?.nombre}
+                  </p>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      )}
 
       <div style={{ fontSize: '1rem', color: '#444', marginBottom: '1rem', fontWeight: 600 }}>
         Accede a un módulo

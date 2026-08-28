@@ -27,6 +27,7 @@ model Empleado {
   correo     String?
   oficina    Oficina  @relation(fields: [oficinaId], references: [id])
   oficinaId  Int
+  usuario       Usuario? @relation("UsuarioEmpleado")
   activos    Activo[]
 }
 
@@ -85,6 +86,7 @@ model Activo {
   createdAt         DateTime  @default(now())
     eliminado         Boolean   @default(false)
   fechaEliminado    DateTime?
+  
 }
 
 model Usuario {
@@ -94,6 +96,8 @@ model Usuario {
   password  String
   rol       String   @default("usuario")
   createdAt DateTime @default(now())
+  empleadoId    Int?     @unique
+  empleado      Empleado? @relation("UsuarioEmpleado", fields: [empleadoId], references: [id])
 }
 
 model PlantillaActa {

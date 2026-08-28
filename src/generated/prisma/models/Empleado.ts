@@ -221,6 +221,7 @@ export type EmpleadoWhereInput = {
   correo?: Prisma.StringNullableFilter<"Empleado"> | string | null
   oficinaId?: Prisma.IntFilter<"Empleado"> | number
   oficina?: Prisma.XOR<Prisma.OficinaScalarRelationFilter, Prisma.OficinaWhereInput>
+  usuario?: Prisma.XOR<Prisma.UsuarioNullableScalarRelationFilter, Prisma.UsuarioWhereInput> | null
   activos?: Prisma.ActivoListRelationFilter
 }
 
@@ -231,6 +232,7 @@ export type EmpleadoOrderByWithRelationInput = {
   correo?: Prisma.SortOrderInput | Prisma.SortOrder
   oficinaId?: Prisma.SortOrder
   oficina?: Prisma.OficinaOrderByWithRelationInput
+  usuario?: Prisma.UsuarioOrderByWithRelationInput
   activos?: Prisma.ActivoOrderByRelationAggregateInput
 }
 
@@ -244,6 +246,7 @@ export type EmpleadoWhereUniqueInput = Prisma.AtLeast<{
   correo?: Prisma.StringNullableFilter<"Empleado"> | string | null
   oficinaId?: Prisma.IntFilter<"Empleado"> | number
   oficina?: Prisma.XOR<Prisma.OficinaScalarRelationFilter, Prisma.OficinaWhereInput>
+  usuario?: Prisma.XOR<Prisma.UsuarioNullableScalarRelationFilter, Prisma.UsuarioWhereInput> | null
   activos?: Prisma.ActivoListRelationFilter
 }, "id">
 
@@ -276,6 +279,7 @@ export type EmpleadoCreateInput = {
   cargo?: string | null
   correo?: string | null
   oficina: Prisma.OficinaCreateNestedOneWithoutEmpleadosInput
+  usuario?: Prisma.UsuarioCreateNestedOneWithoutEmpleadoInput
   activos?: Prisma.ActivoCreateNestedManyWithoutResponsableInput
 }
 
@@ -285,6 +289,7 @@ export type EmpleadoUncheckedCreateInput = {
   cargo?: string | null
   correo?: string | null
   oficinaId: number
+  usuario?: Prisma.UsuarioUncheckedCreateNestedOneWithoutEmpleadoInput
   activos?: Prisma.ActivoUncheckedCreateNestedManyWithoutResponsableInput
 }
 
@@ -293,6 +298,7 @@ export type EmpleadoUpdateInput = {
   cargo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   oficina?: Prisma.OficinaUpdateOneRequiredWithoutEmpleadosNestedInput
+  usuario?: Prisma.UsuarioUpdateOneWithoutEmpleadoNestedInput
   activos?: Prisma.ActivoUpdateManyWithoutResponsableNestedInput
 }
 
@@ -302,6 +308,7 @@ export type EmpleadoUncheckedUpdateInput = {
   cargo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   oficinaId?: Prisma.IntFieldUpdateOperationsInput | number
+  usuario?: Prisma.UsuarioUncheckedUpdateOneWithoutEmpleadoNestedInput
   activos?: Prisma.ActivoUncheckedUpdateManyWithoutResponsableNestedInput
 }
 
@@ -434,10 +441,27 @@ export type EmpleadoUpdateOneWithoutActivosNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.EmpleadoUpdateToOneWithWhereWithoutActivosInput, Prisma.EmpleadoUpdateWithoutActivosInput>, Prisma.EmpleadoUncheckedUpdateWithoutActivosInput>
 }
 
+export type EmpleadoCreateNestedOneWithoutUsuarioInput = {
+  create?: Prisma.XOR<Prisma.EmpleadoCreateWithoutUsuarioInput, Prisma.EmpleadoUncheckedCreateWithoutUsuarioInput>
+  connectOrCreate?: Prisma.EmpleadoCreateOrConnectWithoutUsuarioInput
+  connect?: Prisma.EmpleadoWhereUniqueInput
+}
+
+export type EmpleadoUpdateOneWithoutUsuarioNestedInput = {
+  create?: Prisma.XOR<Prisma.EmpleadoCreateWithoutUsuarioInput, Prisma.EmpleadoUncheckedCreateWithoutUsuarioInput>
+  connectOrCreate?: Prisma.EmpleadoCreateOrConnectWithoutUsuarioInput
+  upsert?: Prisma.EmpleadoUpsertWithoutUsuarioInput
+  disconnect?: Prisma.EmpleadoWhereInput | boolean
+  delete?: Prisma.EmpleadoWhereInput | boolean
+  connect?: Prisma.EmpleadoWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.EmpleadoUpdateToOneWithWhereWithoutUsuarioInput, Prisma.EmpleadoUpdateWithoutUsuarioInput>, Prisma.EmpleadoUncheckedUpdateWithoutUsuarioInput>
+}
+
 export type EmpleadoCreateWithoutOficinaInput = {
   nombre: string
   cargo?: string | null
   correo?: string | null
+  usuario?: Prisma.UsuarioCreateNestedOneWithoutEmpleadoInput
   activos?: Prisma.ActivoCreateNestedManyWithoutResponsableInput
 }
 
@@ -446,6 +470,7 @@ export type EmpleadoUncheckedCreateWithoutOficinaInput = {
   nombre: string
   cargo?: string | null
   correo?: string | null
+  usuario?: Prisma.UsuarioUncheckedCreateNestedOneWithoutEmpleadoInput
   activos?: Prisma.ActivoUncheckedCreateNestedManyWithoutResponsableInput
 }
 
@@ -491,6 +516,7 @@ export type EmpleadoCreateWithoutActivosInput = {
   cargo?: string | null
   correo?: string | null
   oficina: Prisma.OficinaCreateNestedOneWithoutEmpleadosInput
+  usuario?: Prisma.UsuarioCreateNestedOneWithoutEmpleadoInput
 }
 
 export type EmpleadoUncheckedCreateWithoutActivosInput = {
@@ -499,6 +525,7 @@ export type EmpleadoUncheckedCreateWithoutActivosInput = {
   cargo?: string | null
   correo?: string | null
   oficinaId: number
+  usuario?: Prisma.UsuarioUncheckedCreateNestedOneWithoutEmpleadoInput
 }
 
 export type EmpleadoCreateOrConnectWithoutActivosInput = {
@@ -522,6 +549,7 @@ export type EmpleadoUpdateWithoutActivosInput = {
   cargo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   oficina?: Prisma.OficinaUpdateOneRequiredWithoutEmpleadosNestedInput
+  usuario?: Prisma.UsuarioUpdateOneWithoutEmpleadoNestedInput
 }
 
 export type EmpleadoUncheckedUpdateWithoutActivosInput = {
@@ -530,6 +558,57 @@ export type EmpleadoUncheckedUpdateWithoutActivosInput = {
   cargo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   oficinaId?: Prisma.IntFieldUpdateOperationsInput | number
+  usuario?: Prisma.UsuarioUncheckedUpdateOneWithoutEmpleadoNestedInput
+}
+
+export type EmpleadoCreateWithoutUsuarioInput = {
+  nombre: string
+  cargo?: string | null
+  correo?: string | null
+  oficina: Prisma.OficinaCreateNestedOneWithoutEmpleadosInput
+  activos?: Prisma.ActivoCreateNestedManyWithoutResponsableInput
+}
+
+export type EmpleadoUncheckedCreateWithoutUsuarioInput = {
+  id?: number
+  nombre: string
+  cargo?: string | null
+  correo?: string | null
+  oficinaId: number
+  activos?: Prisma.ActivoUncheckedCreateNestedManyWithoutResponsableInput
+}
+
+export type EmpleadoCreateOrConnectWithoutUsuarioInput = {
+  where: Prisma.EmpleadoWhereUniqueInput
+  create: Prisma.XOR<Prisma.EmpleadoCreateWithoutUsuarioInput, Prisma.EmpleadoUncheckedCreateWithoutUsuarioInput>
+}
+
+export type EmpleadoUpsertWithoutUsuarioInput = {
+  update: Prisma.XOR<Prisma.EmpleadoUpdateWithoutUsuarioInput, Prisma.EmpleadoUncheckedUpdateWithoutUsuarioInput>
+  create: Prisma.XOR<Prisma.EmpleadoCreateWithoutUsuarioInput, Prisma.EmpleadoUncheckedCreateWithoutUsuarioInput>
+  where?: Prisma.EmpleadoWhereInput
+}
+
+export type EmpleadoUpdateToOneWithWhereWithoutUsuarioInput = {
+  where?: Prisma.EmpleadoWhereInput
+  data: Prisma.XOR<Prisma.EmpleadoUpdateWithoutUsuarioInput, Prisma.EmpleadoUncheckedUpdateWithoutUsuarioInput>
+}
+
+export type EmpleadoUpdateWithoutUsuarioInput = {
+  nombre?: Prisma.StringFieldUpdateOperationsInput | string
+  cargo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  oficina?: Prisma.OficinaUpdateOneRequiredWithoutEmpleadosNestedInput
+  activos?: Prisma.ActivoUpdateManyWithoutResponsableNestedInput
+}
+
+export type EmpleadoUncheckedUpdateWithoutUsuarioInput = {
+  id?: Prisma.IntFieldUpdateOperationsInput | number
+  nombre?: Prisma.StringFieldUpdateOperationsInput | string
+  cargo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  oficinaId?: Prisma.IntFieldUpdateOperationsInput | number
+  activos?: Prisma.ActivoUncheckedUpdateManyWithoutResponsableNestedInput
 }
 
 export type EmpleadoCreateManyOficinaInput = {
@@ -543,6 +622,7 @@ export type EmpleadoUpdateWithoutOficinaInput = {
   nombre?: Prisma.StringFieldUpdateOperationsInput | string
   cargo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  usuario?: Prisma.UsuarioUpdateOneWithoutEmpleadoNestedInput
   activos?: Prisma.ActivoUpdateManyWithoutResponsableNestedInput
 }
 
@@ -551,6 +631,7 @@ export type EmpleadoUncheckedUpdateWithoutOficinaInput = {
   nombre?: Prisma.StringFieldUpdateOperationsInput | string
   cargo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   correo?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  usuario?: Prisma.UsuarioUncheckedUpdateOneWithoutEmpleadoNestedInput
   activos?: Prisma.ActivoUncheckedUpdateManyWithoutResponsableNestedInput
 }
 
@@ -599,6 +680,7 @@ export type EmpleadoSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   correo?: boolean
   oficinaId?: boolean
   oficina?: boolean | Prisma.OficinaDefaultArgs<ExtArgs>
+  usuario?: boolean | Prisma.Empleado$usuarioArgs<ExtArgs>
   activos?: boolean | Prisma.Empleado$activosArgs<ExtArgs>
   _count?: boolean | Prisma.EmpleadoCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["empleado"]>
@@ -632,6 +714,7 @@ export type EmpleadoSelectScalar = {
 export type EmpleadoOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "nombre" | "cargo" | "correo" | "oficinaId", ExtArgs["result"]["empleado"]>
 export type EmpleadoInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   oficina?: boolean | Prisma.OficinaDefaultArgs<ExtArgs>
+  usuario?: boolean | Prisma.Empleado$usuarioArgs<ExtArgs>
   activos?: boolean | Prisma.Empleado$activosArgs<ExtArgs>
   _count?: boolean | Prisma.EmpleadoCountOutputTypeDefaultArgs<ExtArgs>
 }
@@ -646,6 +729,7 @@ export type $EmpleadoPayload<ExtArgs extends runtime.Types.Extensions.InternalAr
   name: "Empleado"
   objects: {
     oficina: Prisma.$OficinaPayload<ExtArgs>
+    usuario: Prisma.$UsuarioPayload<ExtArgs> | null
     activos: Prisma.$ActivoPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
@@ -1049,6 +1133,7 @@ readonly fields: EmpleadoFieldRefs;
 export interface Prisma__EmpleadoClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   oficina<T extends Prisma.OficinaDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.OficinaDefaultArgs<ExtArgs>>): Prisma.Prisma__OficinaClient<runtime.Types.Result.GetResult<Prisma.$OficinaPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  usuario<T extends Prisma.Empleado$usuarioArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Empleado$usuarioArgs<ExtArgs>>): Prisma.Prisma__UsuarioClient<runtime.Types.Result.GetResult<Prisma.$UsuarioPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   activos<T extends Prisma.Empleado$activosArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Empleado$activosArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ActivoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -1482,6 +1567,25 @@ export type EmpleadoDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Inte
    * Limit how many Empleados to delete.
    */
   limit?: number
+}
+
+/**
+ * Empleado.usuario
+ */
+export type Empleado$usuarioArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Usuario
+   */
+  select?: Prisma.UsuarioSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Usuario
+   */
+  omit?: Prisma.UsuarioOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UsuarioInclude<ExtArgs> | null
+  where?: Prisma.UsuarioWhereInput
 }
 
 /**

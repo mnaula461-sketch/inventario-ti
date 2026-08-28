@@ -134,6 +134,38 @@ app.put('/auth/cambiar-password', verificarToken, async (req: any, res) => {
 
   res.json({ mensaje: 'Contraseña actualizada correctamente' });
 });
+
+// Vincular mi usuario con un empleado del inventario
+app.put('/auth/vincular-empleado', verificarToken, async (req: any, res) => {
+  const { empleadoId } = req.body;
+  const usuarioId = req.usuarioActual?.id;
+
+  const usuario = await prisma.usuario.update({
+    where: { id: usuarioId },
+    data: { empleadoId: empleadoId ? Number(empleadoId) : null },
+  });
+
+  res.json(usuario);
+});
+
+// Obtener mis equipos asignados (según el empleado vinculado a mi usuario)
+app.get('/auth/mis-equipos', verificarToken, async (req: any, res) => {
+  const usuarioId = req.usuarioActual?.id;
+  const usuario = await prisma.usuario.findUnique({ where: { id: usuarioId } });
+
+  if (!usuario?.empleadoId) {
+    res.json({ vinculado: false, equipos: [] });
+    return;
+  }
+
+  const equipos = await prisma.activo.findMany({
+    where: { responsableId: usuario.empleadoId, eliminado: false },
+    include: { oficina: true },
+    orderBy: { codigo: 'asc' },
+  });
+
+  res.json({ vinculado: true, equipos });
+});
 // Actualizar una oficina
 app.put('/oficinas/:id', verificarToken, async (req, res) => {
   const { id } = req.params;
