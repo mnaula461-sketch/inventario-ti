@@ -15,7 +15,7 @@ interface Oficina {
 interface Empleado {
   id: number;
   nombre: string;
-  cargo?: string | null;
+  cargo: string | null;
 }
 
 interface Activo {
