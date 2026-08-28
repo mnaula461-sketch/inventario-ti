@@ -21,7 +21,11 @@ interface Activo {
   responsable: Empleado | null;
 }
 
-function Papelera() {
+interface PapeleraProps {
+  esAdmin: boolean;
+}
+
+function Papelera({ esAdmin }: PapeleraProps) {
   const [activos, setActivos] = useState<Activo[]>([]);
 
   const cargar = () => {
@@ -42,15 +46,20 @@ function Papelera() {
   const eliminarDefinitivo = async (id: number, codigo: string) => {
     const confirmar = window.confirm(`¿Eliminar PERMANENTEMENTE el activo "${codigo}"? Esta acción no se puede deshacer.`);
     if (!confirmar) return;
-    await api.delete(`/activos/${id}/definitivo`);
-    cargar();
+    try {
+      await api.delete(`/activos/${id}/definitivo`);
+      cargar();
+    } catch (error: any) {
+      alert(error.response?.data?.error ?? 'Error al eliminar definitivamente');
+    }
   };
 
   return (
     <div>
       <h2 style={{ color: '#1f1b3d' }}>Papelera de reciclaje</h2>
       <p style={{ color: '#888', fontSize: '0.9rem', marginBottom: '1.2rem' }}>
-        Equipos eliminados. Puedes restaurarlos o borrarlos definitivamente.
+        Equipos eliminados. Puedes restaurarlos{esAdmin ? ' o borrarlos definitivamente' : ''}.
+        {!esAdmin && ' Solo un administrador puede borrar definitivamente.'}
       </p>
 
       {activos.length === 0 ? (
@@ -82,9 +91,11 @@ function Papelera() {
                     <button className="btn-edit" onClick={() => restaurar(activo.id)} style={{ padding: '0.35rem 0.6rem', fontSize: '0.78rem' }} title="Restaurar">
                       ♻️ Restaurar
                     </button>
-                    <button className="btn-delete" onClick={() => eliminarDefinitivo(activo.id, activo.codigo)} style={{ padding: '0.35rem 0.6rem', fontSize: '0.78rem' }} title="Eliminar definitivamente">
-                      🗑️ Borrar
-                    </button>
+                    {esAdmin && (
+                      <button className="btn-delete" onClick={() => eliminarDefinitivo(activo.id, activo.codigo)} style={{ padding: '0.35rem 0.6rem', fontSize: '0.78rem' }} title="Eliminar definitivamente">
+                        🗑️ Borrar
+                      </button>
+                    )}
                   </div>
                 </td>
               </tr>

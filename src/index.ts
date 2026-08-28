@@ -49,6 +49,15 @@ app.get('/', (req, res) => {
   res.send('¡El servidor de Inventario TI está funcionando! 🚀');
 });
 
+// Middleware: solo permite continuar si el usuario es admin
+function soloAdmin(req: any, res: express.Response, next: express.NextFunction) {
+  if (req.usuarioActual?.rol !== 'admin') {
+    res.status(403).json({ error: 'Esta acción requiere permisos de administrador.' });
+    return;
+  }
+  next();
+}
+
 // Consulta pública de un equipo por código (para el QR) - sin autenticación
 app.get('/publico/equipo/:codigo', async (req, res) => {
   const { codigo } = req.params;
@@ -186,12 +195,12 @@ app.post('/auth/login', async (req, res) => {
   }
 
   const token = jwt.sign(
-    { id: usuario.id, nombre: usuario.nombre, correo: usuario.correo },
+    { id: usuario.id, nombre: usuario.nombre, correo: usuario.correo, rol: usuario.rol },
     process.env.JWT_SECRET as string,
     { expiresIn: '8h' }
   );
 
-  res.json({ token, usuario: { id: usuario.id, nombre: usuario.nombre, correo: usuario.correo } });
+  res.json({ token, usuario: { id: usuario.id, nombre: usuario.nombre, correo: usuario.correo, rol: usuario.rol } });
 });
 
 app.listen(PORT, '0.0.0.0', () => {
@@ -726,7 +735,7 @@ app.get('/activos/actas-lote', verificarToken, async (req, res) => {
   res.send(Buffer.from(pdfBytes));
 });
 // Actualizar la plantilla del acta
-app.put('/plantilla-acta/:id', verificarToken, async (req, res) => {
+app.put('/plantilla-acta/:id', verificarToken, soloAdmin, async (req, res) => {
   const { id } = req.params;
   const { codigo, version, fechaAprobacion, responsable, tituloDocumento, clausula, observaciones, listaSoftware } = req.body;
   const plantilla = await prisma.plantillaActa.update({
@@ -869,7 +878,7 @@ app.put('/activos/:id/restaurar', verificarToken, async (req: any, res) => {
 });
 
 // Eliminar definitivamente un activo (borra de verdad)
-app.delete('/activos/:id/definitivo', verificarToken, async (req, res) => {
+app.delete('/activos/:id/definitivo', verificarToken, soloAdmin, async (req, res) => {
   const { id } = req.params;
   await prisma.activo.delete({ where: { id: Number(id) } });
   res.json({ mensaje: 'Activo eliminado definitivamente' });
@@ -885,7 +894,7 @@ app.get('/activos/:id/historial', verificarToken, async (req, res) => {
 });
 
 // Eliminar TODOS los activos
-app.delete('/activos', verificarToken, async (req, res) => {
+app.delete('/activos', verificarToken, soloAdmin, async (req, res) => {
   const resultado = await prisma.activo.deleteMany({});
   res.json({ mensaje: `${resultado.count} activos eliminados` });
 });

@@ -3,7 +3,7 @@ import axios from 'axios';
 import logo from '../assets/logo.png';
 
 interface LoginProps {
-  onLogin: (token: string, nombre: string) => void;
+  onLogin: (token: string, nombre: string, rol: string) => void;
 }
 
 function Login({ onLogin }: LoginProps) {
@@ -17,8 +17,8 @@ function Login({ onLogin }: LoginProps) {
     setError('');
     setCargando(true);
     try {
-                const res = await axios.post('http://localhost:3000/auth/login', { correo, password });
-      onLogin(res.data.token, res.data.usuario.nombre);
+      const res = await axios.post('http://localhost:3000/auth/login', { correo, password });
+      onLogin(res.data.token, res.data.usuario.nombre, res.data.usuario.rol ?? 'tecnico');
     } catch (err) {
       setError('Correo o contraseña incorrectos');
     } finally {
@@ -32,7 +32,7 @@ function Login({ onLogin }: LoginProps) {
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
-      background: 'linear-gradient(135deg, #2c2560 0%, #3a2f7a 100%)',
+      background: 'linear-gradient(135deg, #1f1b3d 0%, #14112b 100%)',
     }}>
       <div style={{
         backgroundColor: 'white',
@@ -43,7 +43,7 @@ function Login({ onLogin }: LoginProps) {
         textAlign: 'center',
       }}>
         <img src={logo} alt="Gañansol" style={{ width: '140px', marginBottom: '1.5rem' }} />
-        <h2 style={{ color: '#2c2560', marginBottom: '0.3rem' }}>Inventario TI</h2>
+        <h2 style={{ color: '#1f1b3d', marginBottom: '0.3rem', fontSize: '1.6rem', letterSpacing: '-0.5px' }}>Inventario TI</h2>
         <p style={{ color: '#888', fontSize: '0.85rem', marginBottom: '1.5rem' }}>
           Inicia sesión para continuar
         </p>
@@ -75,7 +75,7 @@ function Login({ onLogin }: LoginProps) {
           </div>
 
           {error && (
-            <p style={{ color: '#dc3545', fontSize: '0.85rem', marginBottom: '1rem' }}>{error}</p>
+            <p style={{ color: '#c0443f', fontSize: '0.85rem', marginBottom: '1rem' }}>{error}</p>
           )}
 
           <button

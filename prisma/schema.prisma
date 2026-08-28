@@ -94,7 +94,7 @@ model Usuario {
   nombre    String
   correo    String   @unique
   password  String
-  rol       String   @default("usuario")
+  rol       String   @default("tecnico")
   createdAt DateTime @default(now())
   empleadoId    Int?     @unique
   empleado      Empleado? @relation("UsuarioEmpleado", fields: [empleadoId], references: [id])

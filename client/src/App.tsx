@@ -17,14 +17,17 @@ function App() {
   const [vista, setVista] = useState<Vista>('dashboard');
   const [token, setToken] = useState<string | null>(null);
   const [nombreUsuario, setNombreUsuario] = useState<string>('');
+  const [rol, setRol] = useState<string>('tecnico');
   const [errorConexion, setErrorConexion] = useState(false);
 
   useEffect(() => {
     const tokenGuardado = sessionStorage.getItem('token');
     const nombreGuardado = sessionStorage.getItem('nombreUsuario');
+    const rolGuardado = sessionStorage.getItem('rol');
     if (tokenGuardado) {
       setToken(tokenGuardado);
       setNombreUsuario(nombreGuardado ?? '');
+      setRol(rolGuardado ?? 'tecnico');
     }
   }, []);
 
@@ -35,19 +38,23 @@ function App() {
       .catch(() => setErrorConexion(true));
   }, [token]);
 
-  const manejarLogin = (nuevoToken: string, nombre: string) => {
+  const manejarLogin = (nuevoToken: string, nombre: string, nuevoRol: string) => {
     sessionStorage.setItem('token', nuevoToken);
     sessionStorage.setItem('nombreUsuario', nombre);
+    sessionStorage.setItem('rol', nuevoRol);
     setToken(nuevoToken);
     setNombreUsuario(nombre);
+    setRol(nuevoRol);
     setVista('dashboard');
   };
 
   const cerrarSesion = () => {
     sessionStorage.removeItem('token');
     sessionStorage.removeItem('nombreUsuario');
+    sessionStorage.removeItem('rol');
     setToken(null);
     setNombreUsuario('');
+    setRol('tecnico');
   };
 
   // Ruta pública: /equipo/CODIGO - no requiere login
@@ -58,6 +65,8 @@ function App() {
   if (!token) {
     return <Login onLogin={manejarLogin} />;
   }
+
+  const esAdmin = rol === 'admin';
 
   const tabStyle = (activa: boolean) => ({
     padding: '0.6rem 1.3rem',
@@ -95,7 +104,9 @@ function App() {
           </p>
         </div>
         <BusquedaGlobal onIrA={setVista} />
-        <span style={{ color: 'white', fontSize: '0.85rem' }}>👤 {nombreUsuario}</span>
+        <span style={{ color: 'white', fontSize: '0.85rem' }}>
+          👤 {nombreUsuario} {esAdmin && <span style={{ opacity: 0.7 }}>(Admin)</span>}
+        </span>
         <button onClick={cerrarSesion} className="btn-outline" style={{ backgroundColor: 'transparent', color: 'white', borderColor: 'white' }}>
           Cerrar sesión
         </button>
@@ -130,10 +141,10 @@ function App() {
           {vista === 'dashboard' && <Dashboard nombreUsuario={nombreUsuario} onNavegar={setVista} />}
           {vista === 'oficinas' && <Oficinas />}
           {vista === 'empleados' && <Empleados />}
-          {vista === 'activos' && <Activos />}
+          {vista === 'activos' && <Activos esAdmin={esAdmin} />}
           {vista === 'reportes' && <Reportes />}
           {vista === 'perfil' && <Perfil nombreUsuario={nombreUsuario} />}
-          {vista === 'papelera' && <Papelera />}
+          {vista === 'papelera' && <Papelera esAdmin={esAdmin} />}
         </div>
       </div>
     </div>
