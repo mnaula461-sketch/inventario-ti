@@ -149,7 +149,11 @@ function BadgeEstado({ estado }: { estado: string }) {
   );
 }
 
-function Activos() {
+interface ActivosProps {
+  esAdmin: boolean;
+}
+
+function Activos({ esAdmin }: ActivosProps) {
   const [activos, setActivos] = useState<Activo[]>([]);
   const [oficinas, setOficinas] = useState<Oficina[]>([]);
   const [empleados, setEmpleados] = useState<Empleado[]>([]);
@@ -684,9 +688,11 @@ function Activos() {
           </button>
         )}
 
-        <button className="btn-delete" onClick={eliminarTodos} style={{ marginLeft: 'auto' }}>
-          🗑️ Eliminar todos
-        </button>
+        {esAdmin && (
+          <button className="btn-delete" onClick={eliminarTodos} style={{ marginLeft: 'auto' }}>
+            🗑️ Eliminar todos
+          </button>
+        )}
       </div>
 
       <div className="no-imprimir" style={{ border: '1px solid #e2e0f0', borderRadius: '10px', padding: '1rem', marginBottom: '1.5rem', backgroundColor: '#fafaff' }}>
