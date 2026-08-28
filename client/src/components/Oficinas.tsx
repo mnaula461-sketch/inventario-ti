@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import api from '../api';
 
 interface Oficina {
@@ -10,6 +10,12 @@ interface Oficina {
 const inputStyle = { width: '100%', padding: '0.5rem', fontSize: '0.9rem' };
 const labelStyle = { fontSize: '0.8rem', color: '#555', display: 'block', marginBottom: '0.2rem' };
 
+const TODAS_LAS_COLUMNAS_OF = [
+  { campo: 'nombre', etiqueta: 'Nombre' },
+  { campo: 'direccion', etiqueta: 'Dirección' },
+];
+const COLUMNAS_OF_DEFECTO = ['nombre', 'direccion'];
+
 function Oficinas() {
   const [oficinas, setOficinas] = useState<Oficina[]>([]);
   const [nombre, setNombre] = useState('');
@@ -17,6 +23,31 @@ function Oficinas() {
   const [editandoId, setEditandoId] = useState<number | null>(null);
   const [mostrarFormulario, setMostrarFormulario] = useState(false);
   const [busqueda, setBusqueda] = useState('');
+
+  const [columnasVisibles, setColumnasVisibles] = useState<string[]>(() => {
+    const guardadas = localStorage.getItem('columnasOficinas');
+    return guardadas ? JSON.parse(guardadas) : COLUMNAS_OF_DEFECTO;
+  });
+  const [menuColumnasAbierto, setMenuColumnasAbierto] = useState(false);
+  const menuColumnasRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    function clickFuera(e: MouseEvent) {
+      if (menuColumnasRef.current && !menuColumnasRef.current.contains(e.target as Node)) {
+        setMenuColumnasAbierto(false);
+      }
+    }
+    document.addEventListener('mousedown', clickFuera);
+    return () => document.removeEventListener('mousedown', clickFuera);
+  }, []);
+
+  const alternarColumna = (campo: string) => {
+    setColumnasVisibles((prev) => {
+      const nuevo = prev.includes(campo) ? prev.filter((c) => c !== campo) : [...prev, campo];
+      localStorage.setItem('columnasOficinas', JSON.stringify(nuevo));
+      return nuevo;
+    });
+  };
 
   const cargarOficinas = () => {
     api.get('/oficinas')
@@ -71,7 +102,7 @@ function Oficinas() {
 
   return (
     <div>
-      <h2 style={{ color: '#2c2560' }}>Oficinas</h2>
+      <h2 style={{ color: '#1f1b3d' }}>Oficinas</h2>
 
       <div style={{ marginBottom: '1.2rem', display: 'flex', gap: '0.6rem' }}>
         {!mostrarFormulario && (
@@ -79,6 +110,30 @@ function Oficinas() {
             + Agregar oficina
           </button>
         )}
+        <div ref={menuColumnasRef} style={{ position: 'relative' }}>
+          <button className="btn-outline" onClick={() => setMenuColumnasAbierto(!menuColumnasAbierto)}>
+            ⚙️ Columnas ({columnasVisibles.length})
+          </button>
+          {menuColumnasAbierto && (
+            <div style={{
+              position: 'absolute', top: '110%', left: 0,
+              background: 'white', border: '1px solid #e3ddd0', borderRadius: '10px',
+              boxShadow: '0 8px 24px rgba(0,0,0,0.15)', padding: '0.7rem',
+              zIndex: 100, width: '180px',
+            }}>
+              {TODAS_LAS_COLUMNAS_OF.map((col) => (
+                <label key={col.campo} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0.35rem 0.2rem', fontSize: '0.85rem', cursor: 'pointer' }}>
+                  <input
+                    type="checkbox"
+                    checked={columnasVisibles.includes(col.campo)}
+                    onChange={() => alternarColumna(col.campo)}
+                  />
+                  {col.etiqueta}
+                </label>
+              ))}
+            </div>
+          )}
+        </div>
       </div>
 
       {mostrarFormulario && (
@@ -124,23 +179,25 @@ function Oficinas() {
       <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.9rem', boxShadow: '0 1px 3px rgba(0,0,0,0.06)' }}>
         <thead>
           <tr>
-            <th style={{ textAlign: 'left', padding: '0.5rem' }}>Nombre</th>
-            <th style={{ textAlign: 'left', padding: '0.5rem' }}>Dirección</th>
-            <th style={{ padding: '0.5rem' }}>Acciones</th>
+            {columnasVisibles.includes('nombre') && <th style={{ textAlign: 'left', padding: '0.5rem' }}>Nombre</th>}
+            {columnasVisibles.includes('direccion') && <th style={{ textAlign: 'left', padding: '0.5rem' }}>Dirección</th>}
+            <th style={{ padding: '0.5rem', width: '110px' }}>Acciones</th>
           </tr>
         </thead>
         <tbody>
           {oficinasFiltradas.map((oficina) => (
             <tr key={oficina.id}>
-              <td style={{ padding: '0.6rem 0.5rem', borderBottom: '1px solid #eee' }}>{oficina.nombre}</td>
-              <td style={{ padding: '0.6rem 0.5rem', borderBottom: '1px solid #eee' }}>{oficina.direccion}</td>
-              <td style={{ padding: '0.6rem 0.5rem', borderBottom: '1px solid #eee', textAlign: 'center' }}>
-                <button className="btn-edit" onClick={() => empezarEdicion(oficina)} style={{ marginRight: '0.4rem' }}>
-                  ✏️ Editar
-                </button>
-                <button className="btn-delete" onClick={() => eliminarOficina(oficina.id)}>
-                  🗑️ Eliminar
-                </button>
+              {columnasVisibles.includes('nombre') && <td style={{ padding: '0.6rem 0.5rem', borderBottom: '1px solid #eee' }}>{oficina.nombre}</td>}
+              {columnasVisibles.includes('direccion') && <td style={{ padding: '0.6rem 0.5rem', borderBottom: '1px solid #eee' }}>{oficina.direccion}</td>}
+              <td style={{ padding: '0.6rem 0.5rem', borderBottom: '1px solid #eee' }}>
+                <div style={{ display: 'flex', gap: '0.4rem', flexWrap: 'nowrap', justifyContent: 'flex-end' }}>
+                  <button className="btn-edit" onClick={() => empezarEdicion(oficina)} style={{ padding: '0.35rem 0.6rem', fontSize: '0.8rem', whiteSpace: 'nowrap' }} title="Editar">
+                    ✏️
+                  </button>
+                  <button className="btn-delete" onClick={() => eliminarOficina(oficina.id)} style={{ padding: '0.35rem 0.6rem', fontSize: '0.8rem', whiteSpace: 'nowrap' }} title="Eliminar">
+                    🗑️
+                  </button>
+                </div>
               </td>
             </tr>
           ))}
