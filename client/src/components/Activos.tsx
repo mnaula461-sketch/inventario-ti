@@ -207,9 +207,12 @@ function Activos({ esAdmin, filtroOficinaInicial, onFiltroOficinaAplicado }: Act
       const link = document.createElement('a');
       link.href = url;
       const fecha = new Date().toISOString().split('T')[0];
-      const nombreArchivo = seleccionados.length === 1
-        ? `acta-${nombreEntrega}-${fecha}.pdf`
-        : `actas-lote-${fecha}.pdf`;
+      let nombreArchivo = `actas-lote-${fecha}.pdf`;
+      if (seleccionados.length === 1) {
+        const equipoUnico = activos.find((a) => a.id === seleccionados[0]);
+        const nombreResponsable = equipoUnico?.responsable?.nombre ?? 'sin-responsable';
+        nombreArchivo = `acta-${nombreResponsable}-${fecha}.pdf`;
+      }
       link.setAttribute('download', nombreArchivo);
       document.body.appendChild(link);
       link.click();
