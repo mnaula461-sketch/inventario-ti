@@ -30,7 +30,7 @@ function BadgeEstadoMini({ estado }: { estado: string }) {
   );
 }
 
-function Dashboard({ nombreUsuario, onNavegar }: DashboardProps) {
+function Dashboard({ nombreUsuario, onNavegar, onVerEquipo }: DashboardProps) {
   const [totalOficinas, setTotalOficinas] = useState(0);
   const [totalEmpleados, setTotalEmpleados] = useState(0);
   const [totalActivos, setTotalActivos] = useState(0);
