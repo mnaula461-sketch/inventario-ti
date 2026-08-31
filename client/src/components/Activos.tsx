@@ -195,28 +195,45 @@ function Activos({ esAdmin, filtroOficinaInicial, onFiltroOficinaAplicado }: Act
     setSeleccionados((prev) => prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]);
   };
 
-  const generarActaLote = () => {
+  const generarActaLote = async () => {
     if (seleccionados.length === 0) return;
-    const ventana = window.open('', '_blank');
     const sugerido = sessionStorage.getItem('nombreUsuario') ?? '';
     const nombreEntrega = window.prompt('¿Quién entrega los equipos?', sugerido);
-    if (nombreEntrega === null) {
-      ventana?.close();
-      return;
+    if (nombreEntrega === null) return;
+    try {
+      const ids = seleccionados.join(',');
+      const res = await api.get(`/activos/actas-lote?ids=${ids}&entrega=${encodeURIComponent(nombreEntrega)}`, { responseType: 'blob' });
+      const url = window.URL.createObjectURL(new Blob([res.data]));
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', `actas-lote-${new Date().toISOString().split('T')[0]}.pdf`);
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      window.URL.revokeObjectURL(url);
+    } catch (err) {
+      alert('Error al generar las actas.');
     }
-    const token = sessionStorage.getItem('token');
-    const ids = seleccionados.join(',');
-    const url = `${import.meta.env.VITE_API_URL || 'http://localhost:3000'}/activos/actas-lote?ids=${ids}&entrega=${encodeURIComponent(nombreEntrega)}&token=${token}`;
-    if (ventana) ventana.location.href = url;
   };
 
   const [comparando, setComparando] = useState(false);
-    const generarEtiquetas = () => {
+    const generarEtiquetas = async () => {
     if (seleccionados.length === 0) return;
-    const token = sessionStorage.getItem('token');
-    const ids = seleccionados.join(',');
-    const urlBase = window.location.origin;
-    window.open(`${import.meta.env.VITE_API_URL || 'http://localhost:3000'}/activos/etiquetas-qr?ids=${ids}&urlBase=${encodeURIComponent(urlBase)}&token=${token}`, '_blank');
+    try {
+      const ids = seleccionados.join(',');
+      const urlBase = window.location.origin;
+      const res = await api.get(`/activos/etiquetas-qr?ids=${ids}&urlBase=${encodeURIComponent(urlBase)}`, { responseType: 'blob' });
+      const url = window.URL.createObjectURL(new Blob([res.data]));
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', 'etiquetas-qr.pdf');
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      window.URL.revokeObjectURL(url);
+    } catch (err) {
+      alert('Error al generar las etiquetas.');
+    }
   };
 
   const [notiVisible, setNotiVisible] = useState(false);
@@ -609,17 +626,23 @@ function Activos({ esAdmin, filtroOficinaInicial, onFiltroOficinaAplicado }: Act
           empezarEdicion(activoViendo);
           setActivoViendo(null);
         }}
-        onGenerarActa={() => {
-          const ventana = window.open('', '_blank');
+        onGenerarActa={async () => {
           const sugerido = sessionStorage.getItem('nombreUsuario') ?? '';
           const nombreEntrega = window.prompt('¿Quién entrega el equipo?', sugerido);
-          if (nombreEntrega === null) {
-            ventana?.close();
-            return;
+          if (nombreEntrega === null) return;
+          try {
+            const res = await api.get(`/activos/${activoViendo.id}/acta?entrega=${encodeURIComponent(nombreEntrega)}`, { responseType: 'blob' });
+            const url = window.URL.createObjectURL(new Blob([res.data]));
+            const link = document.createElement('a');
+            link.href = url;
+            link.setAttribute('download', `acta-${activoViendo.codigo}.pdf`);
+            document.body.appendChild(link);
+            link.click();
+            link.remove();
+            window.URL.revokeObjectURL(url);
+          } catch (err) {
+            alert('Error al generar el acta.');
           }
-          const token = sessionStorage.getItem('token');
-          const url = `${import.meta.env.VITE_API_URL || 'http://localhost:3000'}/activos/${activoViendo.id}/acta?token=${token}&entrega=${encodeURIComponent(nombreEntrega)}`;
-          if (ventana) ventana.location.href = url;
         }}
       />
     );
