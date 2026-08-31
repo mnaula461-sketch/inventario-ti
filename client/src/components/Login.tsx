@@ -17,7 +17,7 @@ function Login({ onLogin }: LoginProps) {
     setError('');
     setCargando(true);
     try {
-      const res = await axios.post('http://localhost:3000/auth/login', { correo, password });
+      const res = await axios.post(`${import.meta.env.VITE_API_URL || 'http://localhost:3000'}/auth/login`, { correo, password });
       onLogin(res.data.token, res.data.usuario.nombre, res.data.usuario.rol ?? 'tecnico');
     } catch (err) {
       setError('Correo o contraseña incorrectos');
@@ -89,7 +89,3 @@ function Login({ onLogin }: LoginProps) {
         </form>
       </div>
     </div>
-  );
-}
-
-export default Login;
