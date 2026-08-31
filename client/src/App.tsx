@@ -25,6 +25,30 @@ function App() {
   useEffect(() => {
     sessionStorage.setItem('ultimaVista', vista);
   }, [vista]);
+
+    useEffect(() => {
+    if (!token) return;
+
+    const TIEMPO_INACTIVIDAD = 30 * 60 * 1000; // 30 minutos
+    let temporizador: ReturnType<typeof setTimeout>;
+
+    const reiniciarTemporizador = () => {
+      clearTimeout(temporizador);
+      temporizador = setTimeout(() => {
+        cerrarSesion();
+        alert('Tu sesión se cerró por inactividad.');
+      }, TIEMPO_INACTIVIDAD);
+    };
+
+    const eventos = ['mousedown', 'keydown', 'scroll', 'touchstart'];
+    eventos.forEach((evento) => window.addEventListener(evento, reiniciarTemporizador));
+    reiniciarTemporizador();
+
+    return () => {
+      clearTimeout(temporizador);
+      eventos.forEach((evento) => window.removeEventListener(evento, reiniciarTemporizador));
+    };
+  }, [token]);
   const [token, setToken] = useState<string | null>(null);
   const [nombreUsuario, setNombreUsuario] = useState<string>('');
   const [rol, setRol] = useState<string>('tecnico');
