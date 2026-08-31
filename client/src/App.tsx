@@ -9,6 +9,7 @@ import BusquedaGlobal from './components/BusquedaGlobal';
 import Papelera from './components/Papelera';
 import Login from './components/Login';
 import EquipoPublico from './components/EquipoPublico';
+import Notificacion from './components/Notificacion';
 import logo from './assets/logo.png';
 
 type Vista = 'dashboard' | 'oficinas' | 'empleados' | 'activos' | 'reportes' | 'perfil' | 'papelera';
@@ -21,6 +22,20 @@ function App() {
   const [errorConexion, setErrorConexion] = useState(false);
   const [filtroOficinaInicial, setFiltroOficinaInicial] = useState<number | null>(null);
   const [equipoIdInicial, setEquipoIdInicial] = useState<number | null>(null);
+
+    const [errorGlobal, setErrorGlobal] = useState('');
+  const [errorGlobalVisible, setErrorGlobalVisible] = useState(false);
+
+  useEffect(() => {
+    function manejarErrorApi(e: Event) {
+      const mensaje = (e as CustomEvent).detail as string;
+      setErrorGlobal(mensaje);
+      setErrorGlobalVisible(true);
+      setTimeout(() => setErrorGlobalVisible(false), 4000);
+    }
+    window.addEventListener('api-error', manejarErrorApi);
+    return () => window.removeEventListener('api-error', manejarErrorApi);
+  }, []);
 
   useEffect(() => {
     const tokenGuardado = sessionStorage.getItem('token');
@@ -90,6 +105,7 @@ function App() {
 
   return (
     <div style={{ minHeight: '100vh' }}>
+      <Notificacion mensaje={errorGlobal} tipo="error" visible={errorGlobalVisible} />
       {errorConexion && (
         <div style={{ background: '#c0443f', color: 'white', padding: '0.7rem 1.5rem', textAlign: 'center', fontSize: '0.9rem' }}>
           ⚠️ No se puede conectar con el servidor. Verifica que Docker y el backend estén corriendo, luego recarga la página.
