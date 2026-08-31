@@ -197,12 +197,17 @@ function Activos({ esAdmin, filtroOficinaInicial, onFiltroOficinaAplicado }: Act
 
   const generarActaLote = () => {
     if (seleccionados.length === 0) return;
+    const ventana = window.open('', '_blank');
     const sugerido = sessionStorage.getItem('nombreUsuario') ?? '';
     const nombreEntrega = window.prompt('¿Quién entrega los equipos?', sugerido);
-    if (nombreEntrega === null) return;
+    if (nombreEntrega === null) {
+      ventana?.close();
+      return;
+    }
     const token = sessionStorage.getItem('token');
     const ids = seleccionados.join(',');
-    window.open(`${import.meta.env.VITE_API_URL || 'http://localhost:3000'}/activos/actas-lote?ids=${ids}&entrega=${encodeURIComponent(nombreEntrega)}&token=${token}`, '_blank');
+    const url = `${import.meta.env.VITE_API_URL || 'http://localhost:3000'}/activos/actas-lote?ids=${ids}&entrega=${encodeURIComponent(nombreEntrega)}&token=${token}`;
+    if (ventana) ventana.location.href = url;
   };
 
   const [comparando, setComparando] = useState(false);
@@ -605,11 +610,16 @@ function Activos({ esAdmin, filtroOficinaInicial, onFiltroOficinaAplicado }: Act
           setActivoViendo(null);
         }}
         onGenerarActa={() => {
+          const ventana = window.open('', '_blank');
           const sugerido = sessionStorage.getItem('nombreUsuario') ?? '';
           const nombreEntrega = window.prompt('¿Quién entrega el equipo?', sugerido);
-          if (nombreEntrega === null) return;
+          if (nombreEntrega === null) {
+            ventana?.close();
+            return;
+          }
           const token = sessionStorage.getItem('token');
-          window.open(`${import.meta.env.VITE_API_URL || 'http://localhost:3000'}/activos/${activoViendo.id}/acta?token=${token}&entrega=${encodeURIComponent(nombreEntrega)}`, '_blank');
+          const url = `${import.meta.env.VITE_API_URL || 'http://localhost:3000'}/activos/${activoViendo.id}/acta?token=${token}&entrega=${encodeURIComponent(nombreEntrega)}`;
+          if (ventana) ventana.location.href = url;
         }}
       />
     );
