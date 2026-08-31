@@ -26,29 +26,6 @@ function App() {
     sessionStorage.setItem('ultimaVista', vista);
   }, [vista]);
 
-    useEffect(() => {
-    if (!token) return;
-
-    const TIEMPO_INACTIVIDAD = 10 * 60 * 1000; // 10 minutos
-    let temporizador: ReturnType<typeof setTimeout>;
-
-    const reiniciarTemporizador = () => {
-      clearTimeout(temporizador);
-      temporizador = setTimeout(() => {
-        cerrarSesion();
-        alert('Tu sesión se cerró por inactividad.');
-      }, TIEMPO_INACTIVIDAD);
-    };
-
-    const eventos = ['mousedown', 'keydown', 'scroll', 'touchstart'];
-    eventos.forEach((evento) => window.addEventListener(evento, reiniciarTemporizador));
-    reiniciarTemporizador();
-
-    return () => {
-      clearTimeout(temporizador);
-      eventos.forEach((evento) => window.removeEventListener(evento, reiniciarTemporizador));
-    };
-  }, [token]);
   const [token, setToken] = useState<string | null>(null);
   const [nombreUsuario, setNombreUsuario] = useState<string>('');
   const [rol, setRol] = useState<string>('tecnico');
@@ -56,7 +33,7 @@ function App() {
   const [filtroOficinaInicial, setFiltroOficinaInicial] = useState<number | null>(null);
   const [equipoIdInicial, setEquipoIdInicial] = useState<number | null>(null);
 
-    const [errorGlobal, setErrorGlobal] = useState('');
+  const [errorGlobal, setErrorGlobal] = useState('');
   const [errorGlobalVisible, setErrorGlobalVisible] = useState(false);
 
   useEffect(() => {
@@ -110,12 +87,36 @@ function App() {
     setConfirmandoSalida(false);
   };
 
+  useEffect(() => {
+    if (!token) return;
+
+    const TIEMPO_INACTIVIDAD = 10 * 60 * 1000; // 10 minutos
+    let temporizador: ReturnType<typeof setTimeout>;
+
+    const reiniciarTemporizador = () => {
+      clearTimeout(temporizador);
+      temporizador = setTimeout(() => {
+        cerrarSesion();
+        alert('Tu sesión se cerró por inactividad.');
+      }, TIEMPO_INACTIVIDAD);
+    };
+
+    const eventos = ['mousedown', 'keydown', 'scroll', 'touchstart'];
+    eventos.forEach((evento) => window.addEventListener(evento, reiniciarTemporizador));
+    reiniciarTemporizador();
+
+    return () => {
+      clearTimeout(temporizador);
+      eventos.forEach((evento) => window.removeEventListener(evento, reiniciarTemporizador));
+    };
+  }, [token]);
+
   const irAActivosDeOficina = (oficinaId: number) => {
     setFiltroOficinaInicial(oficinaId);
     setVista('activos');
   };
 
-    const irAEquipo = (equipoId: number) => {
+  const irAEquipo = (equipoId: number) => {
     setEquipoIdInicial(equipoId);
     setVista('activos');
   };
