@@ -4,6 +4,7 @@ import api from '../api';
 interface DashboardProps {
   nombreUsuario: string;
   onNavegar: (vista: 'oficinas' | 'empleados' | 'activos') => void;
+  onVerEquipo: (equipoId: number) => void;
 }
 
 interface MiEquipo {
@@ -136,7 +137,13 @@ function Dashboard({ nombreUsuario, onNavegar }: DashboardProps) {
           ) : (
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))', gap: '0.7rem' }}>
               {misEquipos.map((eq) => (
-                <div key={eq.id} style={{ border: '1px solid #f0eee6', borderRadius: '10px', padding: '0.8rem' }}>
+                <div
+                  key={eq.id}
+                  onClick={() => onVerEquipo(eq.id)}
+                  style={{ border: '1px solid #f0eee6', borderRadius: '10px', padding: '0.8rem', cursor: 'pointer', transition: 'border-color 0.15s' }}
+                  onMouseEnter={(e) => (e.currentTarget.style.borderColor = '#b8842e')}
+                  onMouseLeave={(e) => (e.currentTarget.style.borderColor = '#f0eee6')}
+                >
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start' }}>
                     <strong style={{ fontSize: '0.88rem', color: '#1f1b3d' }}>{eq.codigo}</strong>
                     <BadgeEstadoMini estado={eq.estado} />

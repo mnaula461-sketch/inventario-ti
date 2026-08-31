@@ -154,9 +154,11 @@ interface ActivosProps {
   esAdmin: boolean;
   filtroOficinaInicial?: number | null;
   onFiltroOficinaAplicado?: () => void;
+  equipoIdInicial?: number | null;
+  onEquipoInicialAplicado?: () => void;
 }
 
-function Activos({ esAdmin, filtroOficinaInicial, onFiltroOficinaAplicado }: ActivosProps) {
+function Activos({ esAdmin, filtroOficinaInicial, onFiltroOficinaAplicado, equipoIdInicial, onEquipoInicialAplicado }: ActivosProps) {
   const [activos, setActivos] = useState<Activo[]>([]);
   const [oficinas, setOficinas] = useState<Oficina[]>([]);
   const [empleados, setEmpleados] = useState<Empleado[]>([]);
@@ -175,6 +177,16 @@ function Activos({ esAdmin, filtroOficinaInicial, onFiltroOficinaAplicado }: Act
       onFiltroOficinaAplicado?.();
     }
   }, [filtroOficinaInicial]);
+
+    useEffect(() => {
+    if (equipoIdInicial != null && activos.length > 0) {
+      const equipo = activos.find((a) => a.id === equipoIdInicial);
+      if (equipo) {
+        setActivoViendo(equipo);
+        onEquipoInicialAplicado?.();
+      }
+    }
+  }, [equipoIdInicial, activos]);
 
   const [porPagina, setPorPagina] = useState(20);
   const [paginaActual, setPaginaActual] = useState(1);

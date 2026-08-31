@@ -20,6 +20,7 @@ function App() {
   const [rol, setRol] = useState<string>('tecnico');
   const [errorConexion, setErrorConexion] = useState(false);
   const [filtroOficinaInicial, setFiltroOficinaInicial] = useState<number | null>(null);
+  const [equipoIdInicial, setEquipoIdInicial] = useState<number | null>(null);
 
   useEffect(() => {
     const tokenGuardado = sessionStorage.getItem('token');
@@ -60,6 +61,11 @@ function App() {
 
   const irAActivosDeOficina = (oficinaId: number) => {
     setFiltroOficinaInicial(oficinaId);
+    setVista('activos');
+  };
+
+    const irAEquipo = (equipoId: number) => {
+    setEquipoIdInicial(equipoId);
     setVista('activos');
   };
 
@@ -144,10 +150,10 @@ function App() {
         </nav>
 
         <div style={{ backgroundColor: vista === 'dashboard' ? 'transparent' : 'white', borderRadius: '12px', padding: vista === 'dashboard' ? '0' : '1.5rem', boxShadow: vista === 'dashboard' ? 'none' : '0 1px 4px rgba(0,0,0,0.08)' }}>
-          {vista === 'dashboard' && <Dashboard nombreUsuario={nombreUsuario} onNavegar={setVista} />}
+          {vista === 'dashboard' && <Dashboard nombreUsuario={nombreUsuario} onNavegar={setVista} onVerEquipo={irAEquipo} />}
           {vista === 'oficinas' && <Oficinas onVerEnActivos={irAActivosDeOficina} />}
           {vista === 'empleados' && <Empleados />}
-          {vista === 'activos' && <Activos esAdmin={esAdmin} filtroOficinaInicial={filtroOficinaInicial} onFiltroOficinaAplicado={() => setFiltroOficinaInicial(null)} />}
+          {vista === 'activos' && <Activos esAdmin={esAdmin} filtroOficinaInicial={filtroOficinaInicial} onFiltroOficinaAplicado={() => setFiltroOficinaInicial(null)} equipoIdInicial={equipoIdInicial} onEquipoInicialAplicado={() => setEquipoIdInicial(null)} />}
           {vista === 'reportes' && <Reportes />}
           {vista === 'perfil' && <Perfil nombreUsuario={nombreUsuario} esAdmin={esAdmin} />}
           {vista === 'papelera' && <Papelera esAdmin={esAdmin} />}
