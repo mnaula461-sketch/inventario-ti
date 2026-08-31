@@ -10,6 +10,7 @@ import Papelera from './components/Papelera';
 import Login from './components/Login';
 import EquipoPublico from './components/EquipoPublico';
 import Notificacion from './components/Notificacion';
+import ModalConfirmar from './components/ModalConfirmar';
 import logo from './assets/logo.png';
 
 type Vista = 'dashboard' | 'oficinas' | 'empleados' | 'activos' | 'reportes' | 'perfil' | 'papelera';
@@ -65,6 +66,8 @@ function App() {
     setVista('dashboard');
   };
 
+  const [confirmandoSalida, setConfirmandoSalida] = useState(false);
+
   const cerrarSesion = () => {
     sessionStorage.removeItem('token');
     sessionStorage.removeItem('nombreUsuario');
@@ -72,6 +75,7 @@ function App() {
     setToken(null);
     setNombreUsuario('');
     setRol('tecnico');
+    setConfirmandoSalida(false);
   };
 
   const irAActivosDeOficina = (oficinaId: number) => {
@@ -135,7 +139,7 @@ function App() {
         <span style={{ color: 'white', fontSize: '0.85rem' }}>
           👤 {nombreUsuario} {esAdmin && <span style={{ opacity: 0.7 }}>(Admin)</span>}
         </span>
-        <button onClick={cerrarSesion} className="btn-outline" style={{ backgroundColor: 'transparent', color: 'white', borderColor: 'white' }}>
+        <button onClick={() => setConfirmandoSalida(true)} className="btn-outline" style={{ backgroundColor: 'transparent', color: 'white', borderColor: 'white' }}>
           Cerrar sesión
         </button>
       </header>
@@ -175,6 +179,15 @@ function App() {
           {vista === 'papelera' && <Papelera esAdmin={esAdmin} />}
         </div>
       </div>
+
+      <ModalConfirmar
+        abierto={confirmandoSalida}
+        titulo="Cerrar sesión"
+        mensaje="¿Seguro que quieres cerrar sesión?"
+        textoConfirmar="Cerrar sesión"
+        onConfirmar={cerrarSesion}
+        onCancelar={() => setConfirmandoSalida(false)}
+      />
     </div>
   );
 }
