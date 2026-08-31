@@ -86,6 +86,10 @@ function Login({ onLogin }: LoginProps) {
           >
             {cargando ? 'Ingresando...' : 'Iniciar sesión'}
           </button>
-        </form>
+                </form>
       </div>
     </div>
+  );
+}
+
+export default Login;
