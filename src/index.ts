@@ -519,14 +519,19 @@ async function dibujarPaginaActa(
   // ===== HARDWARE =====
   sectionTitle('HARDWARE');
 
-  const tipoOpciones = ['ESCRITORIO', 'LAPTOP', 'AIO', 'NUC'];
   const tipoTexto = (activo.tipo ?? '').toUpperCase();
-  function tipoMarcado(op: string) {
+  function tipoMarcadoFijo(op: string) {
     if (op === 'ESCRITORIO') return tipoTexto.includes('ESCRITORIO') || tipoTexto.includes('DESKTOP') || tipoTexto.includes('PC') || tipoTexto.includes('SERVIDOR');
     if (op === 'LAPTOP') return tipoTexto.includes('LAPTOP');
-    if (op === 'AIO') return tipoTexto.includes('AIO');
     if (op === 'NUC') return tipoTexto.includes('NUC');
     return false;
+  }
+  const coincideConFijas = ['ESCRITORIO', 'LAPTOP', 'NUC'].some(tipoMarcadoFijo);
+  const etiquetaOtro = coincideConFijas ? 'AIO' : (activo.tipo?.toUpperCase() || 'OTRO');
+  const tipoOpciones = ['ESCRITORIO', 'LAPTOP', etiquetaOtro, 'NUC'];
+  function tipoMarcado(op: string) {
+    if (op === etiquetaOtro && !coincideConFijas) return true;
+    return tipoMarcadoFijo(op);
   }
 
   function drawHwGroup(headers: string[], values: string[], primeraColTipo = false) {
