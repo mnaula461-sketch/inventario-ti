@@ -206,7 +206,11 @@ function Activos({ esAdmin, filtroOficinaInicial, onFiltroOficinaAplicado }: Act
       const url = window.URL.createObjectURL(new Blob([res.data]));
       const link = document.createElement('a');
       link.href = url;
-      link.setAttribute('download', `actas-lote-${new Date().toISOString().split('T')[0]}.pdf`);
+      const fecha = new Date().toISOString().split('T')[0];
+      const nombreArchivo = seleccionados.length === 1
+        ? `acta-${nombreEntrega}-${fecha}.pdf`
+        : `actas-lote-${fecha}.pdf`;
+      link.setAttribute('download', nombreArchivo);
       document.body.appendChild(link);
       link.click();
       link.remove();
