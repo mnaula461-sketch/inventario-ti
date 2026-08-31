@@ -29,7 +29,7 @@ function App() {
     useEffect(() => {
     if (!token) return;
 
-    const TIEMPO_INACTIVIDAD = 30 * 60 * 1000; // 30 minutos
+    const TIEMPO_INACTIVIDAD = 10 * 60 * 1000; // 10 minutos
     let temporizador: ReturnType<typeof setTimeout>;
 
     const reiniciarTemporizador = () => {
