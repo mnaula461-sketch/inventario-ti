@@ -16,7 +16,15 @@ import logo from './assets/logo.png';
 type Vista = 'dashboard' | 'oficinas' | 'empleados' | 'activos' | 'reportes' | 'perfil' | 'papelera';
 
 function App() {
-  const [vista, setVista] = useState<Vista>('dashboard');
+  const [vista, setVista] = useState<Vista>(() => {
+    const guardada = sessionStorage.getItem('ultimaVista');
+    const vistasValidas: Vista[] = ['dashboard', 'oficinas', 'empleados', 'activos', 'reportes', 'perfil', 'papelera'];
+    return (guardada && vistasValidas.includes(guardada as Vista)) ? (guardada as Vista) : 'dashboard';
+  });
+
+  useEffect(() => {
+    sessionStorage.setItem('ultimaVista', vista);
+  }, [vista]);
   const [token, setToken] = useState<string | null>(null);
   const [nombreUsuario, setNombreUsuario] = useState<string>('');
   const [rol, setRol] = useState<string>('tecnico');
