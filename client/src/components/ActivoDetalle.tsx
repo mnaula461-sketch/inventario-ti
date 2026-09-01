@@ -77,7 +77,7 @@ function Fila({ label, valor }: { label: string; valor: string | null | undefine
 function Seccion({ titulo, children }: { titulo: string; children: React.ReactNode }) {
   return (
     <div style={{ background: 'white', borderRadius: '12px', padding: '1.2rem 1.5rem', marginBottom: '1.2rem', boxShadow: '0 1px 4px rgba(0,0,0,0.06)' }}>
-      <h3 style={{ color: '#2c2560', fontSize: '1rem', marginBottom: '0.8rem' }}>{titulo}</h3>
+      <h3 style={{ color: '#1f1b3d', fontSize: '1rem', marginBottom: '0.8rem' }}>{titulo}</h3>
       {children}
     </div>
   );
@@ -94,6 +94,58 @@ function BadgeEstado({ estado }: { estado: string }) {
     <span style={{ backgroundColor: c.bg, color: c.color, padding: '0.35rem 0.9rem', borderRadius: '20px', fontSize: '0.85rem', fontWeight: 600 }}>
       {c.texto}
     </span>
+  );
+}
+
+function iconoYColorAccion(accion: string) {
+  const a = accion.toLowerCase();
+  if (a.includes('creado')) return { icono: '✨', color: '#2f8f6b', bg: '#e7f6ee' };
+  if (a.includes('editado')) return { icono: '✏️', color: '#b8842e', bg: '#fdf3e2' };
+  if (a.includes('papelera')) return { icono: '🗑️', color: '#c0443f', bg: '#fdeaea' };
+  if (a.includes('restaurado')) return { icono: '♻️', color: '#2f8f6b', bg: '#e7f6ee' };
+  if (a.includes('eliminado')) return { icono: '❌', color: '#c0443f', bg: '#fdeaea' };
+  return { icono: '📌', color: '#1f1b3d', bg: '#eceafc' };
+}
+
+function LineaDeTiempo({ historial }: { historial: RegistroHistorial[] }) {
+  if (historial.length === 0) {
+    return <p style={{ color: '#888', fontSize: '0.85rem' }}>Sin registros todavía.</p>;
+  }
+
+  return (
+    <div style={{ position: 'relative', paddingLeft: '8px' }}>
+      {historial.map((h, i) => {
+        const { icono, color, bg } = iconoYColorAccion(h.accion);
+        const esUltimo = i === historial.length - 1;
+        return (
+          <div key={h.id} style={{ display: 'flex', gap: '1rem', position: 'relative' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+              <div style={{
+                width: '34px', height: '34px', borderRadius: '50%', background: bg,
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                fontSize: '1rem', flexShrink: 0, zIndex: 1,
+              }}>
+                {icono}
+              </div>
+              {!esUltimo && <div style={{ width: '2px', flex: 1, background: '#eee', minHeight: '24px' }} />}
+            </div>
+            <div style={{ paddingBottom: '1.3rem', paddingTop: '0.3rem' }}>
+              <div style={{ fontSize: '0.88rem', fontWeight: 600, color, textTransform: 'capitalize' }}>
+                {h.accion}
+              </div>
+              <div style={{ fontSize: '0.78rem', color: '#999', marginTop: '0.1rem' }}>
+                {h.usuario} · {new Date(h.fecha).toLocaleString('es-EC')}
+              </div>
+              {h.detalle && (
+                <div style={{ fontSize: '0.8rem', color: '#666', marginTop: '0.35rem', background: '#faf8f3', padding: '0.5rem 0.7rem', borderRadius: '8px' }}>
+                  {h.detalle}
+                </div>
+              )}
+            </div>
+          </div>
+        );
+      })}
+    </div>
   );
 }
 
@@ -114,7 +166,7 @@ function ActivoDetalle({ activo, onVolver, onEditar, onGenerarActa }: ActivoDeta
 
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
         <div>
-          <h2 style={{ color: '#2c2560', fontSize: '1.5rem', marginBottom: '0.3rem' }}>
+          <h2 style={{ color: '#1f1b3d', fontSize: '1.5rem', marginBottom: '0.3rem' }}>
             {activo.codigo} — {activo.tipo}
           </h2>
           <p style={{ color: '#888', fontSize: '0.9rem' }}>
@@ -180,17 +232,8 @@ function ActivoDetalle({ activo, onVolver, onEditar, onGenerarActa }: ActivoDeta
       </div>
 
       <div style={{ background: 'white', borderRadius: '12px', padding: '1.2rem 1.5rem', marginTop: '1.2rem', boxShadow: '0 1px 4px rgba(0,0,0,0.06)' }}>
-        <h3 style={{ color: '#2c2560', fontSize: '1rem', marginBottom: '0.8rem' }}>Historial de cambios</h3>
-        {historial.length === 0 ? (
-          <p style={{ color: '#888', fontSize: '0.85rem' }}>Sin registros todavía.</p>
-        ) : (
-          historial.map((h) => (
-            <div key={h.id} style={{ padding: '0.5rem 0', borderBottom: '1px solid #f0f0f5', fontSize: '0.85rem' }}>
-              <strong style={{ textTransform: 'capitalize' }}>{h.accion}</strong> por {h.usuario} — {new Date(h.fecha).toLocaleString('es-EC')}
-              {h.detalle && <div style={{ color: '#666', fontSize: '0.8rem' }}>{h.detalle}</div>}
-            </div>
-          ))
-        )}
+        <h3 style={{ color: '#1f1b3d', fontSize: '1rem', marginBottom: '1rem' }}>Historial de cambios</h3>
+        <LineaDeTiempo historial={historial} />
       </div>
     </div>
   );
