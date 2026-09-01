@@ -908,7 +908,8 @@ export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof
 export const OficinaScalarFieldEnum = {
   id: 'id',
   nombre: 'nombre',
-  direccion: 'direccion'
+  direccion: 'direccion',
+  color: 'color'
 } as const
 
 export type OficinaScalarFieldEnum = (typeof OficinaScalarFieldEnum)[keyof typeof OficinaScalarFieldEnum]

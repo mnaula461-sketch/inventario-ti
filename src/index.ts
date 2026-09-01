@@ -165,9 +165,9 @@ app.get('/activos/etiquetas-qr', verificarToken, async (req, res) => {
 
 // Crear una oficina
 app.post('/oficinas', verificarToken, async (req, res) => {
-  const { nombre, direccion } = req.body;
+  const { nombre, direccion, color } = req.body;
   const oficina = await prisma.oficina.create({
-    data: { nombre, direccion },
+    data: { nombre, direccion, color },
   });
   res.json(oficina);
 });
@@ -284,10 +284,10 @@ app.get('/auth/mis-equipos', verificarToken, async (req: any, res) => {
 // Actualizar una oficina
 app.put('/oficinas/:id', verificarToken, async (req, res) => {
   const { id } = req.params;
-  const { nombre, direccion } = req.body;
+  const { nombre, direccion, color } = req.body;
   const oficina = await prisma.oficina.update({
     where: { id: Number(id) },
-    data: { nombre, direccion },
+    data: { nombre, direccion, color },
   });
   res.json(oficina);
 });

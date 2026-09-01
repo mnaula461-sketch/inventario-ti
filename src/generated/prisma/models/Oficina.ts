@@ -38,18 +38,21 @@ export type OficinaMinAggregateOutputType = {
   id: number | null
   nombre: string | null
   direccion: string | null
+  color: string | null
 }
 
 export type OficinaMaxAggregateOutputType = {
   id: number | null
   nombre: string | null
   direccion: string | null
+  color: string | null
 }
 
 export type OficinaCountAggregateOutputType = {
   id: number
   nombre: number
   direccion: number
+  color: number
   _all: number
 }
 
@@ -66,18 +69,21 @@ export type OficinaMinAggregateInputType = {
   id?: true
   nombre?: true
   direccion?: true
+  color?: true
 }
 
 export type OficinaMaxAggregateInputType = {
   id?: true
   nombre?: true
   direccion?: true
+  color?: true
 }
 
 export type OficinaCountAggregateInputType = {
   id?: true
   nombre?: true
   direccion?: true
+  color?: true
   _all?: true
 }
 
@@ -171,6 +177,7 @@ export type OficinaGroupByOutputType = {
   id: number
   nombre: string
   direccion: string | null
+  color: string | null
   _count: OficinaCountAggregateOutputType | null
   _avg: OficinaAvgAggregateOutputType | null
   _sum: OficinaSumAggregateOutputType | null
@@ -200,6 +207,7 @@ export type OficinaWhereInput = {
   id?: Prisma.IntFilter<"Oficina"> | number
   nombre?: Prisma.StringFilter<"Oficina"> | string
   direccion?: Prisma.StringNullableFilter<"Oficina"> | string | null
+  color?: Prisma.StringNullableFilter<"Oficina"> | string | null
   empleados?: Prisma.EmpleadoListRelationFilter
   activos?: Prisma.ActivoListRelationFilter
 }
@@ -208,6 +216,7 @@ export type OficinaOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   nombre?: Prisma.SortOrder
   direccion?: Prisma.SortOrderInput | Prisma.SortOrder
+  color?: Prisma.SortOrderInput | Prisma.SortOrder
   empleados?: Prisma.EmpleadoOrderByRelationAggregateInput
   activos?: Prisma.ActivoOrderByRelationAggregateInput
 }
@@ -219,6 +228,7 @@ export type OficinaWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.OficinaWhereInput | Prisma.OficinaWhereInput[]
   nombre?: Prisma.StringFilter<"Oficina"> | string
   direccion?: Prisma.StringNullableFilter<"Oficina"> | string | null
+  color?: Prisma.StringNullableFilter<"Oficina"> | string | null
   empleados?: Prisma.EmpleadoListRelationFilter
   activos?: Prisma.ActivoListRelationFilter
 }, "id">
@@ -227,6 +237,7 @@ export type OficinaOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   nombre?: Prisma.SortOrder
   direccion?: Prisma.SortOrderInput | Prisma.SortOrder
+  color?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.OficinaCountOrderByAggregateInput
   _avg?: Prisma.OficinaAvgOrderByAggregateInput
   _max?: Prisma.OficinaMaxOrderByAggregateInput
@@ -241,11 +252,13 @@ export type OficinaScalarWhereWithAggregatesInput = {
   id?: Prisma.IntWithAggregatesFilter<"Oficina"> | number
   nombre?: Prisma.StringWithAggregatesFilter<"Oficina"> | string
   direccion?: Prisma.StringNullableWithAggregatesFilter<"Oficina"> | string | null
+  color?: Prisma.StringNullableWithAggregatesFilter<"Oficina"> | string | null
 }
 
 export type OficinaCreateInput = {
   nombre: string
   direccion?: string | null
+  color?: string | null
   empleados?: Prisma.EmpleadoCreateNestedManyWithoutOficinaInput
   activos?: Prisma.ActivoCreateNestedManyWithoutOficinaInput
 }
@@ -254,6 +267,7 @@ export type OficinaUncheckedCreateInput = {
   id?: number
   nombre: string
   direccion?: string | null
+  color?: string | null
   empleados?: Prisma.EmpleadoUncheckedCreateNestedManyWithoutOficinaInput
   activos?: Prisma.ActivoUncheckedCreateNestedManyWithoutOficinaInput
 }
@@ -261,6 +275,7 @@ export type OficinaUncheckedCreateInput = {
 export type OficinaUpdateInput = {
   nombre?: Prisma.StringFieldUpdateOperationsInput | string
   direccion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  color?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   empleados?: Prisma.EmpleadoUpdateManyWithoutOficinaNestedInput
   activos?: Prisma.ActivoUpdateManyWithoutOficinaNestedInput
 }
@@ -269,6 +284,7 @@ export type OficinaUncheckedUpdateInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   nombre?: Prisma.StringFieldUpdateOperationsInput | string
   direccion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  color?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   empleados?: Prisma.EmpleadoUncheckedUpdateManyWithoutOficinaNestedInput
   activos?: Prisma.ActivoUncheckedUpdateManyWithoutOficinaNestedInput
 }
@@ -277,23 +293,27 @@ export type OficinaCreateManyInput = {
   id?: number
   nombre: string
   direccion?: string | null
+  color?: string | null
 }
 
 export type OficinaUpdateManyMutationInput = {
   nombre?: Prisma.StringFieldUpdateOperationsInput | string
   direccion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  color?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type OficinaUncheckedUpdateManyInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   nombre?: Prisma.StringFieldUpdateOperationsInput | string
   direccion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  color?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type OficinaCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   nombre?: Prisma.SortOrder
   direccion?: Prisma.SortOrder
+  color?: Prisma.SortOrder
 }
 
 export type OficinaAvgOrderByAggregateInput = {
@@ -304,12 +324,14 @@ export type OficinaMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   nombre?: Prisma.SortOrder
   direccion?: Prisma.SortOrder
+  color?: Prisma.SortOrder
 }
 
 export type OficinaMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   nombre?: Prisma.SortOrder
   direccion?: Prisma.SortOrder
+  color?: Prisma.SortOrder
 }
 
 export type OficinaSumOrderByAggregateInput = {
@@ -368,6 +390,7 @@ export type OficinaUpdateOneRequiredWithoutActivosNestedInput = {
 export type OficinaCreateWithoutEmpleadosInput = {
   nombre: string
   direccion?: string | null
+  color?: string | null
   activos?: Prisma.ActivoCreateNestedManyWithoutOficinaInput
 }
 
@@ -375,6 +398,7 @@ export type OficinaUncheckedCreateWithoutEmpleadosInput = {
   id?: number
   nombre: string
   direccion?: string | null
+  color?: string | null
   activos?: Prisma.ActivoUncheckedCreateNestedManyWithoutOficinaInput
 }
 
@@ -397,6 +421,7 @@ export type OficinaUpdateToOneWithWhereWithoutEmpleadosInput = {
 export type OficinaUpdateWithoutEmpleadosInput = {
   nombre?: Prisma.StringFieldUpdateOperationsInput | string
   direccion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  color?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   activos?: Prisma.ActivoUpdateManyWithoutOficinaNestedInput
 }
 
@@ -404,12 +429,14 @@ export type OficinaUncheckedUpdateWithoutEmpleadosInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   nombre?: Prisma.StringFieldUpdateOperationsInput | string
   direccion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  color?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   activos?: Prisma.ActivoUncheckedUpdateManyWithoutOficinaNestedInput
 }
 
 export type OficinaCreateWithoutActivosInput = {
   nombre: string
   direccion?: string | null
+  color?: string | null
   empleados?: Prisma.EmpleadoCreateNestedManyWithoutOficinaInput
 }
 
@@ -417,6 +444,7 @@ export type OficinaUncheckedCreateWithoutActivosInput = {
   id?: number
   nombre: string
   direccion?: string | null
+  color?: string | null
   empleados?: Prisma.EmpleadoUncheckedCreateNestedManyWithoutOficinaInput
 }
 
@@ -439,6 +467,7 @@ export type OficinaUpdateToOneWithWhereWithoutActivosInput = {
 export type OficinaUpdateWithoutActivosInput = {
   nombre?: Prisma.StringFieldUpdateOperationsInput | string
   direccion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  color?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   empleados?: Prisma.EmpleadoUpdateManyWithoutOficinaNestedInput
 }
 
@@ -446,6 +475,7 @@ export type OficinaUncheckedUpdateWithoutActivosInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   nombre?: Prisma.StringFieldUpdateOperationsInput | string
   direccion?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  color?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   empleados?: Prisma.EmpleadoUncheckedUpdateManyWithoutOficinaNestedInput
 }
 
@@ -493,6 +523,7 @@ export type OficinaSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   id?: boolean
   nombre?: boolean
   direccion?: boolean
+  color?: boolean
   empleados?: boolean | Prisma.Oficina$empleadosArgs<ExtArgs>
   activos?: boolean | Prisma.Oficina$activosArgs<ExtArgs>
   _count?: boolean | Prisma.OficinaCountOutputTypeDefaultArgs<ExtArgs>
@@ -502,21 +533,24 @@ export type OficinaSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exten
   id?: boolean
   nombre?: boolean
   direccion?: boolean
+  color?: boolean
 }, ExtArgs["result"]["oficina"]>
 
 export type OficinaSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   nombre?: boolean
   direccion?: boolean
+  color?: boolean
 }, ExtArgs["result"]["oficina"]>
 
 export type OficinaSelectScalar = {
   id?: boolean
   nombre?: boolean
   direccion?: boolean
+  color?: boolean
 }
 
-export type OficinaOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "nombre" | "direccion", ExtArgs["result"]["oficina"]>
+export type OficinaOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "nombre" | "direccion" | "color", ExtArgs["result"]["oficina"]>
 export type OficinaInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   empleados?: boolean | Prisma.Oficina$empleadosArgs<ExtArgs>
   activos?: boolean | Prisma.Oficina$activosArgs<ExtArgs>
@@ -535,6 +569,7 @@ export type $OficinaPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     id: number
     nombre: string
     direccion: string | null
+    color: string | null
   }, ExtArgs["result"]["oficina"]>
   composites: {}
 }
@@ -963,6 +998,7 @@ export interface OficinaFieldRefs {
   readonly id: Prisma.FieldRef<"Oficina", 'Int'>
   readonly nombre: Prisma.FieldRef<"Oficina", 'String'>
   readonly direccion: Prisma.FieldRef<"Oficina", 'String'>
+  readonly color: Prisma.FieldRef<"Oficina", 'String'>
 }
     
 

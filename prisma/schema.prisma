@@ -18,6 +18,7 @@ model Oficina {
   direccion String?
   empleados Empleado[]
   activos   Activo[]
+  color     String?
 }
 
 model Empleado {
