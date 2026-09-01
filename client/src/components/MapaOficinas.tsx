@@ -5,6 +5,7 @@ interface Oficina {
   id: number;
   nombre: string;
   direccion: string | null;
+  color: string | null;
 }
 
 interface Activo {
@@ -49,6 +50,7 @@ function MapaOficinas({ onVerOficina }: MapaOficinasProps) {
         {oficinas.map((oficina) => {
           const r = resumenPorOficina(oficina.id);
           const porcentaje = Math.round((r.total / maxTotal) * 100);
+          const colorOficina = oficina.color || '#1f1b3d';
           return (
             <div
               key={oficina.id}
@@ -59,13 +61,16 @@ function MapaOficinas({ onVerOficina }: MapaOficinasProps) {
                 padding: '1.3rem',
                 boxShadow: '0 2px 10px rgba(0,0,0,0.07)',
                 cursor: 'pointer',
-                borderTop: '4px solid #1f1b3d',
+                borderTop: `4px solid ${colorOficina}`,
                 transition: 'transform 0.15s',
               }}
               onMouseEnter={(e) => (e.currentTarget.style.transform = 'translateY(-4px)')}
               onMouseLeave={(e) => (e.currentTarget.style.transform = 'translateY(0)')}
             >
-              <h3 style={{ color: '#1f1b3d', fontSize: '1.05rem', marginBottom: '0.2rem' }}>{oficina.nombre}</h3>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.2rem' }}>
+                <span style={{ width: '10px', height: '10px', borderRadius: '50%', backgroundColor: colorOficina, flexShrink: 0 }} />
+                <h3 style={{ color: '#1f1b3d', fontSize: '1.05rem', margin: 0 }}>{oficina.nombre}</h3>
+              </div>
               <p style={{ color: '#999', fontSize: '0.78rem', marginBottom: '1rem' }}>{oficina.direccion || 'Sin dirección registrada'}</p>
 
               <div style={{ fontSize: '2rem', fontWeight: 700, color: '#1f1b3d', lineHeight: 1 }}>
@@ -74,7 +79,7 @@ function MapaOficinas({ onVerOficina }: MapaOficinasProps) {
               <div style={{ fontSize: '0.78rem', color: '#888', marginBottom: '0.8rem' }}>equipos registrados</div>
 
               <div style={{ width: '100%', height: '6px', background: '#f0eee6', borderRadius: '4px', overflow: 'hidden', marginBottom: '0.9rem' }}>
-                <div style={{ width: `${porcentaje}%`, height: '100%', background: '#b8842e' }} />
+                <div style={{ width: `${porcentaje}%`, height: '100%', background: colorOficina }} />
               </div>
 
               <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
