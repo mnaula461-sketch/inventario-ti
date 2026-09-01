@@ -5,6 +5,7 @@ import { BarChart, Bar, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Toolti
 interface Oficina {
   id: number;
   nombre: string;
+  color: string | null;
 }
 
 interface Activo {
@@ -29,13 +30,15 @@ function Reportes() {
       .catch((error) => console.error('Error al cargar activos:', error));
   }, []);
 
-  // Equipos por oficina
-  const porOficina: Record<string, number> = {};
+  // Equipos por oficina (con su color real)
+  const porOficina: Record<string, { cantidad: number; color: string }> = {};
   activos.forEach((a) => {
     const nombre = a.oficina?.nombre ?? 'Sin oficina';
-    porOficina[nombre] = (porOficina[nombre] ?? 0) + 1;
+    const color = a.oficina?.color || '#1f1b3d';
+    if (!porOficina[nombre]) porOficina[nombre] = { cantidad: 0, color };
+    porOficina[nombre].cantidad += 1;
   });
-  const datosOficina = Object.entries(porOficina).map(([nombre, cantidad]) => ({ nombre, cantidad }));
+  const datosOficina = Object.entries(porOficina).map(([nombre, d]) => ({ nombre, cantidad: d.cantidad, color: d.color }));
 
   // Equipos por estado
   const porEstado: Record<string, number> = {};
@@ -64,14 +67,16 @@ function Reportes() {
     { nombre: 'Sin responsable', value: sinResponsable },
   ];
 
-  // Valor del inventario por oficina
-  const valorPorOficina: Record<string, number> = {};
+  // Valor del inventario por oficina (con su color real)
+  const valorPorOficina: Record<string, { valor: number; color: string }> = {};
   activos.forEach((a) => {
     const nombre = a.oficina?.nombre ?? 'Sin oficina';
-    valorPorOficina[nombre] = (valorPorOficina[nombre] ?? 0) + (a.costo ?? 0);
+    const color = a.oficina?.color || '#b8842e';
+    if (!valorPorOficina[nombre]) valorPorOficina[nombre] = { valor: 0, color };
+    valorPorOficina[nombre].valor += a.costo ?? 0;
   });
   const datosValorOficina = Object.entries(valorPorOficina)
-    .map(([nombre, valor]) => ({ nombre, valor: Number(valor.toFixed(2)) }))
+    .map(([nombre, d]) => ({ nombre, valor: Number(d.valor.toFixed(2)), color: d.color }))
     .filter((d) => d.valor > 0)
     .sort((a, b) => b.valor - a.valor);
 
@@ -105,7 +110,9 @@ function Reportes() {
             <XAxis dataKey="nombre" tick={{ fontSize: 11 }} />
             <YAxis allowDecimals={false} />
             <Tooltip />
-            <Bar dataKey="cantidad" fill="#1f1b3d" radius={[4, 4, 0, 0]} />
+            <Bar dataKey="cantidad" radius={[4, 4, 0, 0]}>
+              {datosOficina.map((d, i) => <Cell key={i} fill={d.color} />)}
+            </Bar>
           </BarChart>
         </ResponsiveContainer>
       </div>
@@ -119,7 +126,9 @@ function Reportes() {
               <XAxis dataKey="nombre" tick={{ fontSize: 11 }} />
               <YAxis tickFormatter={(v) => `$${v}`} />
               <Tooltip formatter={(value: any) => [`$${Number(value).toFixed(2)}`, 'Valor']} />
-              <Bar dataKey="valor" fill="#b8842e" radius={[4, 4, 0, 0]} />
+              <Bar dataKey="valor" radius={[4, 4, 0, 0]}>
+                {datosValorOficina.map((d, i) => <Cell key={i} fill={d.color} />)}
+              </Bar>
             </BarChart>
           </ResponsiveContainer>
         </div>
