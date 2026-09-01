@@ -30,12 +30,47 @@ function BadgeEstadoMini({ estado }: { estado: string }) {
   );
 }
 
+function MedidorSalud({ porcentaje }: { porcentaje: number }) {
+  let color = '#c0443f';
+  let etiqueta = 'Necesita atención';
+  let emoji = '🔴';
+  if (porcentaje >= 80) {
+    color = '#2f8f6b';
+    etiqueta = 'Muy saludable';
+    emoji = '🟢';
+  } else if (porcentaje >= 50) {
+    color = '#b8790a';
+    etiqueta = 'Aceptable';
+    emoji = '🟡';
+  }
+
+  return (
+    <div style={{ background: 'white', borderRadius: '12px', padding: '1.2rem 1.5rem', boxShadow: '0 1px 4px rgba(0,0,0,0.06)', marginBottom: '2rem' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.6rem' }}>
+        <h3 style={{ color: '#1f1b3d', fontSize: '1rem', margin: 0 }}>
+          Salud del inventario {emoji}
+        </h3>
+        <span style={{ fontSize: '1.4rem', fontWeight: 700, color }}>
+          {porcentaje}%
+        </span>
+      </div>
+      <div style={{ width: '100%', height: '10px', background: '#f0eee6', borderRadius: '6px', overflow: 'hidden' }}>
+        <div style={{ width: `${porcentaje}%`, height: '100%', background: color, transition: 'width 0.4s ease' }} />
+      </div>
+      <p style={{ fontSize: '0.78rem', color: '#888', marginTop: '0.5rem', marginBottom: 0 }}>
+        {etiqueta} — basado en responsables asignados, equipos activos y costos registrados.
+      </p>
+    </div>
+  );
+}
+
 function Dashboard({ nombreUsuario, onNavegar, onVerEquipo }: DashboardProps) {
   const [totalOficinas, setTotalOficinas] = useState(0);
   const [totalEmpleados, setTotalEmpleados] = useState(0);
   const [totalActivos, setTotalActivos] = useState(0);
   const [pendientes, setPendientes] = useState(0);
   const [valorTotal, setValorTotal] = useState(0);
+  const [salud, setSalud] = useState(0);
 
   const [misEquipos, setMisEquipos] = useState<MiEquipo[]>([]);
   const [vinculado, setVinculado] = useState(false);
@@ -44,10 +79,19 @@ function Dashboard({ nombreUsuario, onNavegar, onVerEquipo }: DashboardProps) {
     api.get('/oficinas').then((res) => setTotalOficinas(res.data.length)).catch(() => {});
     api.get('/empleados').then((res) => setTotalEmpleados(res.data.length)).catch(() => {});
     api.get('/activos').then((res) => {
-      setTotalActivos(res.data.length);
-      setPendientes(res.data.filter((a: any) => !a.responsableId).length);
-      const suma = res.data.reduce((acc: number, a: any) => acc + (a.costo ?? 0), 0);
+      const lista = res.data as any[];
+      setTotalActivos(lista.length);
+      setPendientes(lista.filter((a) => !a.responsableId).length);
+      const suma = lista.reduce((acc, a) => acc + (a.costo ?? 0), 0);
       setValorTotal(suma);
+
+      if (lista.length > 0) {
+        const conResponsable = lista.filter((a) => a.responsableId).length / lista.length;
+        const activosOk = lista.filter((a) => a.estado === 'activo').length / lista.length;
+        const conCosto = lista.filter((a) => a.costo != null).length / lista.length;
+        const promedio = ((conResponsable + activosOk + conCosto) / 3) * 100;
+        setSalud(Math.round(promedio));
+      }
     }).catch(() => {});
     api.get('/auth/mis-equipos').then((res) => {
       setVinculado(res.data.vinculado);
@@ -126,6 +170,8 @@ function Dashboard({ nombreUsuario, onNavegar, onVerEquipo }: DashboardProps) {
           <div style={{ fontSize: '0.78rem', color: '#888', marginTop: '0.2rem' }}>Valor total del inventario</div>
         </div>
       </div>
+
+      <MedidorSalud porcentaje={salud} />
 
       {vinculado && (
         <div style={{ background: 'white', borderRadius: '12px', padding: '1.2rem 1.5rem', boxShadow: '0 1px 4px rgba(0,0,0,0.06)', marginBottom: '2rem' }}>
