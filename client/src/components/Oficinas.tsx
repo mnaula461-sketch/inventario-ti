@@ -7,6 +7,7 @@ interface Oficina {
   id: number;
   nombre: string;
   direccion: string | null;
+  color: string | null;
 }
 
 interface OficinasProps {
@@ -28,6 +29,7 @@ function Oficinas({ onVerEnActivos }: OficinasProps) {
   const [oficinas, setOficinas] = useState<Oficina[]>([]);
   const [nombre, setNombre] = useState('');
   const [direccion, setDireccion] = useState('');
+  const [color, setColor] = useState('#1f1b3d');
   const [editandoId, setEditandoId] = useState<number | null>(null);
   const [mostrarFormulario, setMostrarFormulario] = useState(false);
   const [busqueda, setBusqueda] = useState('');
@@ -70,12 +72,13 @@ function Oficinas({ onVerEnActivos }: OficinasProps) {
   const guardarOficina = async (e: React.FormEvent) => {
     e.preventDefault();
     if (editandoId) {
-      await api.put(`/oficinas/${editandoId}`, { nombre, direccion });
+      await api.put(`/oficinas/${editandoId}`, { nombre, direccion, color });
     } else {
-      await api.post('/oficinas', { nombre, direccion });
+      await api.post('/oficinas', { nombre, direccion, color });
     }
     setNombre('');
     setDireccion('');
+    setColor('#1f1b3d');
     setEditandoId(null);
     setMostrarFormulario(false);
     cargarOficinas();
@@ -85,6 +88,7 @@ function Oficinas({ onVerEnActivos }: OficinasProps) {
     setEditandoId(oficina.id);
     setNombre(oficina.nombre);
     setDireccion(oficina.direccion ?? '');
+    setColor(oficina.color ?? '#1f1b3d');
     setMostrarFormulario(true);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -93,6 +97,7 @@ function Oficinas({ onVerEnActivos }: OficinasProps) {
     setEditandoId(null);
     setNombre('');
     setDireccion('');
+    setColor('#1f1b3d');
     setMostrarFormulario(false);
   };
 
@@ -176,7 +181,7 @@ function Oficinas({ onVerEnActivos }: OficinasProps) {
 
           {mostrarFormulario && (
             <form onSubmit={guardarOficina} style={{ marginBottom: '1.5rem', border: '1px solid #e2e0f0', padding: '1.2rem', borderRadius: '10px', backgroundColor: '#fafaff' }}>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.8rem', marginBottom: '1rem' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr auto', gap: '0.8rem', marginBottom: '1rem', alignItems: 'end' }}>
                 <div>
                   <label style={labelStyle}>Nombre de la oficina</label>
                   <input
@@ -194,6 +199,15 @@ function Oficinas({ onVerEnActivos }: OficinasProps) {
                     value={direccion}
                     onChange={(e) => setDireccion(e.target.value)}
                     style={inputStyle}
+                  />
+                </div>
+                <div>
+                  <label style={labelStyle}>Color</label>
+                  <input
+                    type="color"
+                    value={color}
+                    onChange={(e) => setColor(e.target.value)}
+                    style={{ width: '48px', height: '38px', padding: '2px', border: '1px solid #e3ddd0', borderRadius: '6px', cursor: 'pointer' }}
                   />
                 </div>
               </div>
@@ -225,7 +239,15 @@ function Oficinas({ onVerEnActivos }: OficinasProps) {
             <tbody>
               {oficinasFiltradas.map((oficina) => (
                 <tr key={oficina.id}>
-                  {columnasVisibles.includes('nombre') && <td style={{ padding: '0.6rem 0.5rem', borderBottom: '1px solid #eee' }}>{oficina.nombre}</td>}
+                  {columnasVisibles.includes('nombre') && (
+                    <td style={{ padding: '0.6rem 0.5rem', borderBottom: '1px solid #eee' }}>
+                      <span style={{
+                        display: 'inline-block', width: '10px', height: '10px', borderRadius: '50%',
+                        backgroundColor: oficina.color || '#ccc', marginRight: '0.5rem',
+                      }} />
+                      {oficina.nombre}
+                    </td>
+                  )}
                   {columnasVisibles.includes('direccion') && <td style={{ padding: '0.6rem 0.5rem', borderBottom: '1px solid #eee' }}>{oficina.direccion}</td>}
                   <td style={{ padding: '0.6rem 0.5rem', borderBottom: '1px solid #eee' }}>
                     <div style={{ display: 'flex', gap: '0.4rem', flexWrap: 'nowrap', justifyContent: 'flex-end' }}>
