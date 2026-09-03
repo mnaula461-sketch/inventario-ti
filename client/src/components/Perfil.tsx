@@ -68,6 +68,13 @@ function Perfil({ nombreUsuario, esAdmin }: PerfilProps) {
     }
   };
 
+  function agregarHojaConFiltro(libro: XLSX.WorkBook, datos: any[], nombreHoja: string) {
+    const hoja = XLSX.utils.json_to_sheet(datos);
+    const rango = XLSX.utils.decode_range(hoja['!ref'] || 'A1');
+    hoja['!autofilter'] = { ref: XLSX.utils.encode_range({ s: { r: 0, c: 0 }, e: { r: 0, c: rango.e.c } }) };
+    XLSX.utils.book_append_sheet(libro, hoja, nombreHoja);
+  }
+
   const descargarBackup = async () => {
     setGenerandoBackup(true);
     setMensajeBackup('');
@@ -77,30 +84,72 @@ function Perfil({ nombreUsuario, esAdmin }: PerfilProps) {
 
       const libro = XLSX.utils.book_new();
 
-      const hojaOficinas = XLSX.utils.json_to_sheet(
-        datos.oficinas.map((o: any) => ({ ID: o.id, Nombre: o.nombre, Dirección: o.direccion }))
-      );
-      XLSX.utils.book_append_sheet(libro, hojaOficinas, 'Oficinas');
+      agregarHojaConFiltro(libro, datos.oficinas.map((o: any) => ({
+        ID: o.id, Nombre: o.nombre, Dirección: o.direccion, Color: o.color,
+      })), 'Oficinas');
 
-      const hojaEmpleados = XLSX.utils.json_to_sheet(
-        datos.empleados.map((e: any) => ({ ID: e.id, Nombre: e.nombre, Cargo: e.cargo, Correo: e.correo, Oficina: e.oficina?.nombre }))
-      );
-      XLSX.utils.book_append_sheet(libro, hojaEmpleados, 'Empleados');
+      agregarHojaConFiltro(libro, datos.empleados.map((e: any) => ({
+        ID: e.id, Nombre: e.nombre, Cargo: e.cargo, Correo: e.correo, Oficina: e.oficina?.nombre,
+      })), 'Empleados');
 
-      const hojaActivos = XLSX.utils.json_to_sheet(
-        datos.activos.map((a: any) => ({
-          ID: a.id, Código: a.codigo, Tipo: a.tipo, Marca: a.marca, Modelo: a.claseEquipo,
-          Serie: a.numeroSerie, Estado: a.estado, Oficina: a.oficina?.nombre,
-          Responsable: a.responsable?.nombre ?? '', Costo: a.costo, Eliminado: a.eliminado ? 'Sí' : 'No',
-          'Creado el': a.createdAt,
-        }))
-      );
-      XLSX.utils.book_append_sheet(libro, hojaActivos, 'Activos');
+      agregarHojaConFiltro(libro, datos.activos.map((a: any) => ({
+        ID: a.id,
+        Código: a.codigo,
+        Tipo: a.tipo,
+        IP: a.ip,
+        'MAC Address': a.macAddress,
+        'Puerto de red': a.puertoRed,
+        Departamento: a.departamento,
+        Marca: a.marca,
+        'Clase de equipo': a.claseEquipo,
+        'Número de serie': a.numeroSerie,
+        Monitor: a.monitor,
+        'Serie monitor': a.serieMonitor,
+        'Código contable': a.codigoContable,
+        Parlantes: a.parlantes,
+        'Placa madre': a.placaMadre,
+        Procesador: a.procesador,
+        RAM: a.ram,
+        Disco: a.disco,
+        'Estado ratón': a.estadoRaton,
+        'Estado teclado': a.estadoTeclado,
+        'Estado disco': a.estadoDisco,
+        'Sistema operativo': a.sistemaOperativo,
+        Mantenimiento: a.mantenimiento,
+        Actualizable: a.actualizable,
+        Anydesk: a.anydesk,
+        Upgrade: a.upgrade,
+        Recomendación: a.recomendacion,
+        'Sale a': a.saleA,
+        'Entra a': a.entraA,
+        Estado: a.estado,
+        Antivirus: a.antivirus,
+        Criterio: a.criterio,
+        'Cargador/Adaptador': a.cargador,
+        'Teclado serial': a.tecladoSerial,
+        'Mouse serial': a.mouseSerial,
+        'Adaptador corriente': a.adaptadorCorriente,
+        'Impresora configurada': a.impresoraConfigurada,
+        'Serial impresora': a.serialImpresora,
+        'MAC computador': a.macComputador,
+        'Teléfono marca/modelo': a.telefonoMarcaModelo,
+        'IP teléfono': a.ipTelefono,
+        'MAC teléfono': a.macTelefono,
+        'Seguro laptop': a.seguroLaptop,
+        'Software S.O': a.softwareSO,
+        'Software corporativo': a.softwareCorporativo,
+        'Otro software': a.softwareOtros,
+        Costo: a.costo,
+        Oficina: a.oficina?.nombre,
+        Responsable: a.responsable?.nombre ?? '',
+        Eliminado: a.eliminado ? 'Sí' : 'No',
+        'Fecha eliminado': a.fechaEliminado,
+        'Creado el': a.createdAt,
+      })), 'Activos');
 
-      const hojaHistorial = XLSX.utils.json_to_sheet(
-        datos.historial.map((h: any) => ({ Fecha: h.fecha, Acción: h.accion, Detalle: h.detalle, Usuario: h.usuario, ActivoID: h.activoId }))
-      );
-      XLSX.utils.book_append_sheet(libro, hojaHistorial, 'Historial');
+      agregarHojaConFiltro(libro, datos.historial.map((h: any) => ({
+        ID: h.id, Fecha: h.fecha, Acción: h.accion, Detalle: h.detalle, Usuario: h.usuario, ActivoID: h.activoId,
+      })), 'Historial');
 
       const fecha = new Date().toISOString().split('T')[0];
       XLSX.writeFile(libro, `respaldo-completo-${fecha}.xlsx`);
@@ -172,7 +221,7 @@ function Perfil({ nombreUsuario, esAdmin }: PerfilProps) {
         <div style={{ background: 'white', borderRadius: '12px', padding: '1.5rem', maxWidth: '420px', boxShadow: '0 1px 4px rgba(0,0,0,0.06)' }}>
           <h3 style={{ color: '#1f1b3d', fontSize: '1rem', marginBottom: '0.5rem' }}>Respaldo completo (Admin)</h3>
           <p style={{ color: '#888', fontSize: '0.82rem', marginBottom: '1rem' }}>
-            Descarga un Excel con todas las oficinas, empleados, activos e historial de cambios como respaldo manual.
+            Descarga un Excel con todas las oficinas, empleados, activos (todos los campos) e historial, con filtros automáticos en cada hoja.
           </p>
           <button onClick={descargarBackup} className="btn-accent" disabled={generandoBackup}>
             {generandoBackup ? 'Generando...' : '📦 Descargar respaldo completo'}
