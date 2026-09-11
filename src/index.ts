@@ -221,9 +221,6 @@ app.post('/auth/login', async (req, res) => {
   res.json({ token, usuario: { id: usuario.id, nombre: usuario.nombre, correo: usuario.correo, rol: usuario.rol } });
 });
 
-app.listen(PORT, '0.0.0.0', () => {
-  console.log(`Servidor corriendo en http://localhost:${PORT}`);
-});
 // Cambiar la propia contraseña
 app.put('/auth/cambiar-password', verificarToken, async (req: any, res) => {
   const { passwordActual, passwordNueva } = req.body;
@@ -1045,5 +1042,10 @@ app.post('/activos/importar', verificarToken, upload.single('archivo'), async (r
   }
 
   res.json({ creados, saltados: saltados.length, codigosSaltados: saltados });
+});
+
+
+app.listen(PORT, '0.0.0.0', () => {
+  console.log(`Servidor corriendo en http://localhost:${PORT}`);
 });
 
