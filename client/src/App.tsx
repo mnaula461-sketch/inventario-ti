@@ -11,14 +11,15 @@ import Login from './components/Login';
 import EquipoPublico from './components/EquipoPublico';
 import Notificacion from './components/Notificacion';
 import ModalConfirmar from './components/ModalConfirmar';
+import PlantillaActaEditor from './components/PlantillaActa';
 import logo from './assets/logo.png';
 
-type Vista = 'dashboard' | 'oficinas' | 'empleados' | 'activos' | 'reportes' | 'perfil' | 'papelera';
+type Vista = 'dashboard' | 'oficinas' | 'empleados' | 'activos' | 'reportes' | 'perfil' | 'papelera' | 'plantillaActa';
 
 function App() {
   const [vista, setVista] = useState<Vista>(() => {
     const guardada = sessionStorage.getItem('ultimaVista');
-    const vistasValidas: Vista[] = ['dashboard', 'oficinas', 'empleados', 'activos', 'reportes', 'perfil', 'papelera'];
+    const vistasValidas: Vista[] = ['dashboard', 'oficinas', 'empleados', 'activos', 'reportes', 'perfil', 'papelera', 'plantillaActa'];
     return (guardada && vistasValidas.includes(guardada as Vista)) ? (guardada as Vista) : 'dashboard';
   });
 
@@ -178,7 +179,7 @@ function App() {
       </header>
 
       <div style={{ maxWidth: '1150px', margin: '0 auto', padding: '1.5rem 2rem' }}>
-        <nav style={{ marginBottom: '1.5rem', display: 'flex' }}>
+        <nav style={{ marginBottom: '1.5rem', display: 'flex', flexWrap: 'wrap' }}>
           <button style={tabStyle(vista === 'dashboard')} onClick={() => setVista('dashboard')}>
             🏠 Inicio
           </button>
@@ -200,6 +201,11 @@ function App() {
           <button style={tabStyle(vista === 'papelera')} onClick={() => setVista('papelera')}>
             🗑️ Papelera
           </button>
+          {esAdmin && (
+            <button style={tabStyle(vista === 'plantillaActa')} onClick={() => setVista('plantillaActa')}>
+              📄 Plantilla Acta
+            </button>
+          )}
         </nav>
 
         <div style={{ backgroundColor: vista === 'dashboard' ? 'transparent' : 'white', borderRadius: '12px', padding: vista === 'dashboard' ? '0' : '1.5rem', boxShadow: vista === 'dashboard' ? 'none' : '0 1px 4px rgba(0,0,0,0.08)' }}>
@@ -210,6 +216,7 @@ function App() {
           {vista === 'reportes' && <Reportes />}
           {vista === 'perfil' && <Perfil nombreUsuario={nombreUsuario} esAdmin={esAdmin} />}
           {vista === 'papelera' && <Papelera esAdmin={esAdmin} />}
+          {vista === 'plantillaActa' && esAdmin && <PlantillaActaEditor />}
         </div>
       </div>
 
