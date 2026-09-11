@@ -144,9 +144,14 @@ function PlantillaActaEditor() {
         {error && <p style={{ color: '#c0443f', fontSize: '0.85rem', marginBottom: '1rem' }}>{error}</p>}
         {mensaje && <p style={{ color: '#2f8f6b', fontSize: '0.85rem', marginBottom: '1rem' }}>{mensaje}</p>}
 
-        <button type="submit" className="btn-primary" disabled={guardando}>
-          {guardando ? 'Guardando...' : 'Guardar cambios'}
-        </button>
+        <div style={{ display: 'flex', gap: '0.6rem' }}>
+          <button type="submit" className="btn-primary" disabled={guardando}>
+            {guardando ? 'Guardando...' : 'Guardar cambios'}
+          </button>
+          <button type="button" className="btn-outline" onClick={verVistaPrevia} disabled={generandoPreview}>
+            {generandoPreview ? 'Generando...' : '👁️ Vista previa'}
+          </button>
+        </div>
       </form>
     </div>
   );
