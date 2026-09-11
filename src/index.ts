@@ -1048,4 +1048,3 @@ app.post('/activos/importar', verificarToken, upload.single('archivo'), async (r
 app.listen(PORT, '0.0.0.0', () => {
   console.log(`Servidor corriendo en http://localhost:${PORT}`);
 });
-
