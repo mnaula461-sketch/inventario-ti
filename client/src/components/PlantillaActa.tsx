@@ -36,6 +36,31 @@ function PlantillaActaEditor() {
     setPlantilla({ ...plantilla, [campo]: valor });
   };
 
+  const [generandoPreview, setGenerandoPreview] = useState(false);
+
+  const verVistaPrevia = async () => {
+    if (!plantilla) return;
+    setGenerandoPreview(true);
+    try {
+      const res = await api.post('/plantilla-acta/vista-previa', {
+        codigo: plantilla.codigo,
+        version: plantilla.version,
+        fechaAprobacion: plantilla.fechaAprobacion,
+        responsable: plantilla.responsable,
+        tituloDocumento: plantilla.tituloDocumento,
+        clausula: plantilla.clausula,
+        observaciones: plantilla.observaciones,
+        listaSoftware: plantilla.listaSoftware,
+      }, { responseType: 'blob' });
+      const url = window.URL.createObjectURL(new Blob([res.data], { type: 'application/pdf' }));
+      window.open(url, '_blank');
+    } catch (err) {
+      alert('Error al generar la vista previa.');
+    } finally {
+      setGenerandoPreview(false);
+    }
+  };
+
   const guardar = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!plantilla) return;
