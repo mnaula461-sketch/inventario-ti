@@ -445,6 +445,56 @@ async function dibujarPaginaActa(
     return lines;
   }
 
+  // Vista previa de la plantilla del acta con datos de ejemplo (no guarda nada)
+app.post('/plantilla-acta/vista-previa', verificarToken, soloAdmin, async (req, res) => {
+  const plantillaTemporal = req.body;
+
+  const activoEjemplo: any = {
+    codigo: 'ACT-EJEMPLO',
+    tipo: 'LAPTOP',
+    marca: 'HP',
+    claseEquipo: 'ProBook 450 G8',
+    numeroSerie: 'SN-EJEMPLO-123',
+    ip: '192.168.1.100',
+    departamento: 'Sistemas',
+    cargador: 'Sí',
+    procesador: 'Intel Core i5',
+    ram: '8',
+    disco: '256 SSD',
+    tecladoSerial: '—',
+    mouseSerial: '—',
+    monitor: 'Integrado',
+    serieMonitor: '—',
+    adaptadorCorriente: 'Sí',
+    impresoraConfigurada: 'No',
+    serialImpresora: '—',
+    macComputador: '00:1A:2B:3C:4D:5E',
+    telefonoMarcaModelo: '—',
+    ipTelefono: '—',
+    macTelefono: '—',
+    seguroLaptop: 'Sí',
+    softwareSO: 'Windows 11 PRO',
+    softwareCorporativo: 'Office 365, Anydesk',
+    softwareOtros: 'Zoom',
+    oficina: { nombre: 'Matriz' },
+    responsable: { nombre: 'Nombre de Ejemplo', cargo: 'Cargo de ejemplo', correo: 'ejemplo@ganansol.fin.ec' },
+  };
+
+  const pdfDoc = await PDFDocument.create();
+  const font = await pdfDoc.embedFont(StandardFonts.Helvetica);
+  const fontBold = await pdfDoc.embedFont(StandardFonts.HelveticaBold);
+  const logoPath = path.join(__dirname, '..', 'client', 'src', 'assets', 'logo.png');
+  const logoBytes = require('fs').readFileSync(logoPath);
+  const logoImage = await pdfDoc.embedPng(logoBytes);
+
+  await dibujarPaginaActa(pdfDoc, font, fontBold, logoImage, activoEjemplo, plantillaTemporal, 'Nombre de quien entrega');
+
+  const pdfBytes = await pdfDoc.save();
+  res.setHeader('Content-Type', 'application/pdf');
+  res.setHeader('Content-Disposition', 'inline; filename="vista-previa-acta.pdf"');
+  res.send(Buffer.from(pdfBytes));
+});
+
   // ===== ENCABEZADO =====
   const headerH = 70;
   const logoBoxW = 160;
